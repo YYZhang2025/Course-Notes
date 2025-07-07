@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "MyFont";
+  src: url("cmunrm.ttf");
+}
+
+p {
+  line-height: 1.4;
+}
+
+em,
+i {
+  color: #0066cc; /* or any color you'd like for italic text */
+}
+
+strong,
+b {
+  color: #cc0000; /* or any color you'd like for bold text */
+}

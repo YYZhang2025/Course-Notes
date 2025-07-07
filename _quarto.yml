@@ -1,0 +1,75 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  open-graph: true
+  page-navigation: true
+  title: "Learning Notes"
+
+  sidebar:
+    background: "#DFF6F0"
+    logo: "./images/logo.png"
+    favicon: "./images/icon.avif"
+    pinned: true
+    align: center
+    tools:
+      - icon: globe
+        href: https://yyzhang2000.github.io/Blog/
+      - icon: github
+        href: https://github.com/YYZhang2025
+      - icon: linkedin
+        href: https://www.linkedin.com/in/zhang-yuyang/
+      - icon: envelope
+        href: mailto:zhangyuyang1211@gmail.com
+    style: "docked"
+    collapse-level: 1
+    search: true
+    contents:
+      - text: "About"
+        href: index.qmd
+      - section: "Reinforcement Learning"
+        contents: "posts/Reinforcement Learning/*"
+      - section: "Others"
+        contents: "posts/Others/*"
+
+      - section: "Generative AI"
+        contents: "posts/Gen-AI/*"
+
+  page-footer:
+    right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
+    left: "&copy; CC-By Yuyang, 2025"
+    background: "#DFF6F0"
+
+format:
+  html:
+    theme:
+      light: [cosmo, ./style/theme.scss]
+      dark: [cosmo, ./style/theme-dark.scss]
+    css: [./style/style.css, ./style/callout.css]
+
+    link-external-newwindow: true
+
+    fontsize: 1.2em
+
+    code-copy: true
+    code-overflow: scroll
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+    highlight-style: github
+    code-line-numbers: true
+
+    toc: true
+    toc-title: "Table of Contents"
+    toc-depth: 4
+    toc-location: right
+
+    citations-hover: true
+
+    header-includes: <link href="https://fonts.cdnfonts.com/css/cmu-sans-serif" rel="stylesheet">
+    mainfont: MyFont
+
+execute:
+  echo: true # 可选，显示代码
+  eval: false # 关键：默认不执行代码
+freeze: true

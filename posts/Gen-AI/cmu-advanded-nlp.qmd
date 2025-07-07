@@ -1,0 +1,11 @@
+---
+title: "CMU: *Advanced Natural Language Processing*"
+---
+
+
+Course Website: [Link](https://cmu-l3.github.io/anlp-spring2025/)
+Course Video: [YouTube](https://www.youtube.com/playlist?list=PLqC25OT8ZpD3WxQ0FwWMGPS_BcWdcKyZy)
+
+
+
+There are several iteration of the course. This one is the latest version, mainly focus on the LLM. 

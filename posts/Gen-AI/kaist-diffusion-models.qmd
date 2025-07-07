@@ -1,0 +1,9 @@
+---
+title: "KAIST CS492(D): *Diffusion Models and Their Applications*"
+---
+
+
+Lecture Website: [Link](https://mhsung.github.io/kaist-cs492d-fall-2024/)
+Lecture Video: [YouTube](https://www.youtube.com/playlist?list=PLyi5FHzX7hBxtkKUZLRdiq5C01QimCno2)
+
+Total 17 Lectures and 7 Assignments in this course.

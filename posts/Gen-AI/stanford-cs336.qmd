@@ -1,0 +1,30 @@
+---
+title: "Stanford CS336: *Language Modeling from Scratch*"
+---
+
+Lecture Website: [Link](https://stanford-cs336.github.io/spring2025/)
+Lecture Video: [YouTube](https://www.youtube.com/playlist?list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_)
+
+This is a collection of notes and code for the [Stanford CS336: Language Modeling from Scratch](https://stanford-cs336.github.io/spring2025/) course. This is course is designed to teach students how to build a "large" language model (LLM) from scratch, covering from bottom to top, including the data collection, tokenization, model architecture, pre-training, post-training, inference and model evaluation. The course is designed to provide a comprehensive understanding of how LLMs work and how to build them from scratch.
+
+There are total 17 Lectures and 5 Assignments in this course. 
+
+:::{.callout-warning}
+It might take 100+ hours to finish the course, including the lectures and assignments. But hang in there, it will be worth it!!!
+:::
+
+
+## Lectures 
+
+
+## Assignments
+
+### Assignment 01: Basics 
+In this assignment, we will implement the Byte-Pair Encoding(BPE) algorithm for tokenization, and build a transformer model from scratch. And also define optimization and training loop for the model. 
+
+
+
+### Assignment 02: System 
+In this assignment, we will profile and benchmark the model we built in the assignment 01, and optimize the attention mechanism using Triton by implementing the FlashAttention2[@FlashAttention2FasterAttention2023dao]. 
+
+
