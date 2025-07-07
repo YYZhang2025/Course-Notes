@@ -6,11 +6,12 @@ website:
   open-graph: true
   page-navigation: true
   title: "Learning Notes"
+  favicon: "./images/icon.avif"
 
   sidebar:
     background: "#DFF6F0"
     logo: "./images/logo.png"
-    favicon: "./images/icon.avif"
+
     pinned: true
     align: center
     tools:
@@ -22,6 +23,8 @@ website:
         href: https://www.linkedin.com/in/zhang-yuyang/
       - icon: envelope
         href: mailto:zhangyuyang1211@gmail.com
+      - icon: file-person
+        href: https://noblecatt-1304922865.cos.ap-singapore.myqcloud.com/Yuyang_CV_General.pdf
     style: "docked"
     collapse-level: 1
     search: true
@@ -30,11 +33,10 @@ website:
         href: index.qmd
       - section: "Reinforcement Learning"
         contents: "posts/Reinforcement Learning/*"
-      - section: "Others"
-        contents: "posts/Others/*"
-
       - section: "Generative AI"
         contents: "posts/Gen-AI/*"
+      - section: "Others"
+        contents: "posts/Others/*"
 
   page-footer:
     right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
