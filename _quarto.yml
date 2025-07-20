@@ -48,7 +48,7 @@ format:
     theme:
       light: [cosmo, ./style/theme.scss]
       dark: [cosmo, ./style/theme-dark.scss]
-    css: [./style/style.css, ./style/callout.css]
+    css: [./style/style.css]
 
     link-external-newwindow: true
 
@@ -63,8 +63,9 @@ format:
 
     toc: true
     toc-title: "Table of Contents"
-    toc-depth: 4
+    toc-depth: 6
     toc-location: right
+    toc-expand: 1
 
     citations-hover: true
 

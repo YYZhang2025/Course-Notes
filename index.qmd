@@ -3,13 +3,15 @@ title: "Course Notes"
 toc: false 
 ---
 
-当今互联网以及人工智能最伟大的特点之一就是它的开源特性。历史上有很少的关键技术，尤其是像如今这些强大模型这样的技术，能够如此全面的向公众开放。除此之外，一些高校的课程的开放和分享，也让我们这些，没能进入Dream School的学生们，能够学习到最前沿的知识。几年前的我，无意中在网上看到了 [CS自学指南](https://csdiy.wiki/)。从此打开了自学的大门。不过苦于的时间和精力有限，很多课程都是囫囵吞枣。现在研究生毕业了，趁现在找工作的间隙，将所学的课程及内容重新梳理，总结。不过，自学的过程是痛苦的，全靠自制力来驱动，并且许多课程的内容都需要有一定的基础才能理解。为了更好地学习，利用这些宝贵的资源，我决定将这些课程的内容进行整理和总结。希望能帮助到更多的自学者。
+当今互联网以及人工智能最伟大的特点之一就是它的开源特性。历史上有很少的关键技术，尤其是像如今这些强大模型这样的技术，能够如此全面的向公众开放。除此之外，一些高校的课程的开放和分享，也让我们这些，没能进入Dream School的学生们，能够学习到最前沿的知识。几年前的我，无意中在网上看到了 [CS自学指南](https://csdiy.wiki/)。从此打开了自学的大门。不过苦于的时间和精力有限，很多课程都是囫囵吞枣。现在研究生毕业了，趁现在找工作的间隙，将所学的课程及内容重新梳理，总结。
+
+自学的过程是痛苦的，全靠自制力来驱动。请大家不要放弃，毕竟坚持下去就会有收获。希望这个博客能帮助到你们。
 
 ## 关于本站
 本站是一个学习笔记的集合，主要内容包括*计算机科学*、*人工智能*、*机器学习*、*深度学习*等领域的课程笔记和代码实现。所有内容均为个人学习过程中整理的笔记，旨在帮助自己更好地理解和掌握相关知识，同时也希望能对其他自学者有所帮助。对于笔记中的错误和不足之处，欢迎大家提出意见和建议。
 
 :::{.callout-note}
-本站的笔记内容，主要是由英文编写。由于时间问题，暂时没有翻译成中文的计划。如果有小伙伴愿意参与翻译工作，欢迎联系我。也欢迎大家提出意见和建议，共同完善笔记内容，为更多的自学者提供帮助。
+本站的笔记内容，主要是由英文编写。由于时间问题，暂时没有翻译成中文。如果有小伙伴愿意参与翻译工作，欢迎联系我。也欢迎大家提出意见和建议，共同完善笔记内容，为更多的自学者提供帮助。
 :::
 
 ### 如何阅读笔记
@@ -39,6 +41,20 @@ toc: false
 :::{.callout-caution} 
 用于数学推导的过程。
 :::
+
+## 课程列表
+以下是我整理的课程列表，包含了课程名称、讲座数量、作业数量、预计学习时间和课程描述等信息。每个课程的链接都指向了相应的课程笔记页面，方便大家查看详细内容。
+
+:::{.column-page}
+| School       | Course Name             | # of Lectures | # of Assignments | Time Assumed | Description                                                  |
+|--------------|-------------------------|----------------|------------------|---------------|--------------------------------------------------------------|
+|Stanford         | [CS336: Language Modeling from Scratch](https://yuyang.info/Course-Notes/posts/Gen-AI/stanford-cs336.html)      | 17             | 5               | 200 hours    | Stanford CS336 is an implementation‑heavy course that leads students through building, optimizing, scaling, and aligning Transformer language models entirely from scratch—from dataset creation to distributed GPU training and safety alignment.   |
+|UCB         | [CS285: Deep Reinforcement Learning](https://yuyang.info/Course-Notes/posts/RL/ucb-cs285.html)      | 23            | 5               | 100 hours    | This course is an advanced course that systematically explores the foundations, algorithms, and cutting-edge research in deep reinforcement learning, covering topics from imitation learning and policy gradients to model-based RL, offline RL, and meta-learning.  |
+
+:
+{.hover}
+:::
+
 
 
 

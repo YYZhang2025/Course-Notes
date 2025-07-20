@@ -2,4 +2,4 @@ author: "Yuyang Zhang"
 
 bibliography: ../references/zotero.bib
 biblio-style: "apa"
-cap-location: "margin"
+tbl-cap-location: "bottom"

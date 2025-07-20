@@ -1,30 +1,274 @@
 ---
-title: "Stanford CS336: *Language Modeling from Scratch*"
+title: "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+lof: false 
 ---
 
-Lecture Website: [Link](https://stanford-cs336.github.io/spring2025/)
-Lecture Video: [YouTube](https://www.youtube.com/playlist?list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_)
+Lecture Website: [Link](https://stanford-cs336.github.io/spring2025/) Lecture Video: [YouTube](https://www.youtube.com/playlist?list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_)
 
 This is a collection of notes and code for the [Stanford CS336: Language Modeling from Scratch](https://stanford-cs336.github.io/spring2025/) course. This is course is designed to teach students how to build a "large" language model (LLM) from scratch, covering from bottom to top, including the data collection, tokenization, model architecture, pre-training, post-training, inference and model evaluation. The course is designed to provide a comprehensive understanding of how LLMs work and how to build them from scratch.
 
-There are total 17 Lectures and 5 Assignments in this course. 
+There are total 17 Lectures and 5 Assignments in this course.
 
-:::{.callout-warning}
-It might take 100+ hours to finish the course, including the lectures and assignments. But hang in there, it will be worth it!!!
+::: callout-warning
+It might takes 200+ hours to finish the course, including the lectures and assignments. But hang in there, it will be worth it!!!
+:::
+
+## Lectures
+
+### Lecture 01: Overview & Tokenization
+
+#### Tokenization
+
+Tokenization is the process of converting *raw text* into a *sequence of tokens*(usually is represented by *integer indices*), which are the basic units of meaning in a language model.
+
+In this lecture, we will cover the basics of tokenization, including the different types of tokenization, such as character-level, word-level, and subword-level tokenization. We will also discuss the importance of tokenization in language modeling and how it affects the performance of the model.
+
+A `Tokenizer` is a class that implements the encode and decode methods for tokenization: - `encode` method takes a string of text and converts it into a sequence of integer indices, which are the tokens. - `decode` method takes a sequence of integer indices and converts it back into a string of text. The `Tokenizer` will generate a list of tokens from the input text, the number of the tokens is called the **vocabulary size**.
+
+An interactive demo of the tokenization process can be found [here](https://tiktokenizer.vercel.app/?model=cl100k_base)
+
+There are several tokenization algorithms, such as:
+
+One of the good quantity to measure the tokenization algorithm is the **compression ratio**, which is defined as the ratio of the number of bytes of the input text to the number of tokens. A higher compression ratio indicates that the tokenization algorithm is more efficient in representing the input text.
+
+``` python
+def get_compression_ratio(string: str, indices: list[int]) -> float:
+    """
+    Calculate the compression ratio of a string and its tokenized indices.
+    
+    Args:
+        string (str): The input string.
+        indices (list[int]): The tokenized indices.
+        
+    Returns:
+        float: The compression ratio.
+    """
+    return len(string.encode('utf-8')) / len(indices)
+```
+
+There are different types of the tokenization:
+
+-   Character-based tokenization: A Unicode string is a sequence of Unicode code points, which can be represented as a sequence of integers. Each character in the string is treated as a separate token.
+
+``` python
+ord('a')   # 97 
+chr(97)   # 'a'
+
+ord('🌍') # 127757
+chr(127757) # '🌍'
+```
+
+One of the main drawbacks of character-based tokenization is that it can lead to a large vocabulary size, which can make the model more difficult to train and less efficient in terms of memory usage. And some character are not commonly used in the text, which is inefficient use of the vocabulary.
+
+-   Byte-Based Tokenization: Unicode strings can be encoded as a sequence of bytes using UTF-8 encoding. Each byte can be represented by integers in the range of 0 to 255. Some Unicode characters may be represented by multiple bytes.
+
+``` python
+bytes('a', 'utf-8')  # b'a'
+bytes('🌍', 'utf-8')  # b'\xf0\x9f\x8c\x8d'
+```
+
+As we can expected, the compression ratio is 1, which is terrible.
+
+The vocabulary size is 256, which is a nice property because it is fixed and covers all possible bytes. However, the main drawback is that it can lead to long sequences, since each character (even multi-byte Unicode characters) is split into multiple tokens. This can make training less efficient and increase the computational cost for language models, given that the context length of a Transformer model is limited.
+
+##### Word-Based Tokenization
+
+Another common approach is to tokenize the text into words, where each word is treated as a separate token. We can use regular expression to split the text into words.
+
+::: callout-tip
+`\w+` matches any word character, which includes:
+
+-   Letters: A–Z, a–z
+-   Digits: 0–9
+-   Underscore: \_
+
+`+` is a quantifier meaning “one or more times”
+:::
+
+A more fancy expression is :
+
+``` python
+GPT2_TOKENIZER_REGEX = r"""'(?:[sdmt]|ll|ve|re)| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
+segments = re.findall(GPT2_TOKENIZER_REGEX, string)
+```
+
+After we get the segments, we can assign each segment to a unique integer index, which is the token. One of the main drawbacks of word-based tokenization is that the vocabulary size is not fixed and can grow very large, especially with rare or out-of-vocabulary words. This can make the model harder to train and require more memory. Additionally, it struggles with handling misspellings, new words, or languages with rich morphology. New words we haven't seen during training will be treated as `UNK` tokens, which can lead to a loss of information and context.
+
+##### Byte Pair Encoding (BPE)
+
+The basic idea of BPE is to iteratively merge the most frequent pairs of characters or subwords in the text until a desired vocabulary size is reached. This allows for a more efficient representation of the text, as it can capture common subwords and reduce the overall vocabulary size. (In the info encoding)
+
+> The GPT-2 paper used word-based tokenization to break up the text into initial segments and run the original BPE algorithm on each segment.
+
+Below are the summary of four different tokenization algorithms:
+
+:::{.column-page}
+
+| Tokenization Type | Description | Compression Ratio | Vocabulary Size | Pros | Cons |
+|------------|------------|------------|------------|------------|------------|
+| Character-Based | Each character is a token (Unicode code point). | Low | Large (all characters) | Simple; handles any language | Inefficient; large vocab; rare chars waste tokens |
+| Byte-Based | Each byte from UTF-8 encoding is a token (0–255). | \~1 | Fixed (256) | Fixed vocab; language-agnostic | Long sequences for Unicode; inefficient for modeling semantics |
+| Word-Based | Words (or regex-matched units) are tokens. | Medium | Large and dynamic | Intuitive; better compression than char/byte | Poor generalization; large vocab; OOV issues with `UNK` |
+| Byte Pair Encoding (BPE) | Iteratively merges frequent subword pairs to form subword tokens. | High | Medium (tunable) | Efficient; balances granularity and vocab size | Merge rules are corpus-dependent; needs initial segmentation |
+
+: Summary of 4 Tokenization Algorithms {#tbl-tokenization-summary} {.hover }
+:::
+
+### Lecture 02: Pytorch, Resource Accounting
+
+h100_bytes = 80e9
+
+Bytes_per_parameter = 4 + 4 + ( 4+ 4) =\> Parameters, gradient, optimizer state
+
+Num Paramter = (h100_byes \* 8) / Bytes_per_parameter 4e10
+
+```python
+x = torch.tensor([
+    [1, 2, 3],
+])
+```
+
+#### Memory Account 
+`float32` is the most common data type used in deep learning, which uses 4 bytes per element.
+
+![The representation of float32 in memory](./images/fp32.png){#fig-fp32-representation}
+
+:::{.callout-note}
+The `exponent` used to represent the dynamic range of the number, for `float32`, it uses 8 bits for the exponent, which allows for a dynamic range of approximately 1.18e-38 to 3.4e+38.
+The `fraction` is used to represent the precision of the number, which is also known as resolution. For `float32`, it uses 23 bits for the fraction, which allows for a precision of approximately 7 decimal digits.
+To represent a number in `float32`, it uses the following formula:
+$$
+\begin{aligned}
+\text{value} 
+&= (-1)^{b_{31}} \times 2^{(b_{30}b_{29} \dots b_{23})_2 - 127} \times (1.b_{22}b_{21} \dots b_{0})_2 \\
+&= (-1)^{\text{sign}} \times 2^{(E - 127)} \times \left( 1 + \sum_{i=1}^{23} b_{23 - i} \cdot 2^{-i} \right)
+\end{aligned}
+$$
+where `sign` is the sign bit, `exponent` is the exponent value, and `fraction` is the fraction value. The exponent is biased by 127, which means that the exponent value is stored as the actual exponent plus 127. This allows for both positive and negative exponents to be represented.
 :::
 
 
-## Lectures 
+Memory is determined by the number of values in the tensor and the data type of the tensor. The memory usage can be calculated as:
+$$
+\text{Memory} = \text{Number of Values} \times \text{Bytes per Value}
+$$ {#eq-memory-account-tensor}
+which can be calculated as:
+
+```{.python}
+def get_memory_usage(x: torch.Tensor):
+    return x.numel() * x.element_size()
+```
+
+The `float32` takes 4 bytes per element, for the LLM, this is a lot of memory. We are use `float16` to reduce the memory usage by half, which is 2 bytes per element. This is a common practice in deep learning to save memory and speed up training.
+
+![The representation of float16 in memory](./images/fp16.png){#fig-fp16-representation}
+
+The `float16` cuts down the memory usage by half, but it has a smaller dynamic range and precision compared to `float32`. This can lead to numerical instability and loss of precision in some cases, especially when dealing with very large or very small numbers. 
+```{.python}
+x = torch.tensor([1e-8], dtype=torch.float16)  
+assert x == 0
+```
+when the underflow or overflow happens, the value will be rounded to 0 or infinity, which might cause the instability in the training process.
+
+
+Another data type is `bfloat16`, which is a 16-bit floating point format that has the same dynamic range as `float32`, but with less precision. It uses 8 bits for the exponent and 7 bits for the fraction, which allows for a dynamic range of approximately 3.4e-38 to 3.4e+38, but with a precision of only 2 decimal digits.   
+![The representation of bfloat16 in memory](./images/bf16.png){#fig-bf16-representation}
+
+
+
+In conclusion, the choice of data type can have a significant impact on the memory usage and performance of the model. The `float32` is the most common data type used in deep learning, but it can be memory-intensive. The `float16` and `bfloat16` are commonly used to reduce the memory usage, but they can lead to numerical instability and loss of precision in some cases. One of the common practice to combine `float16` and `float32` is to use `float16` for the model parameters and gradients, and `float32` for the optimizer state. This is known as mixed precision training, which can save memory and speed up training without sacrificing too much performance.
+
+
+
+#### Compute Account 
+By defaults, all the tensors are stored in the CPU memory, which is not efficient for training deep learning models. We can move the tensors to the GPU memory by calling the `to` method on the tensor, which will move the tensor to the specified device.
+
+```python
+x = torch.tensor([1, 2, 3])
+x = x.to('cuda')  # Move tensor to GPU
+``` 
+
+
+One way to check the memory usage of the GPU in PyTorch is to use the `torch.cuda.memory_allocated()` and `torch.cuda.memory_reserved()` functions. The `memory_allocated()` function returns the total memory allocated by the tensors, while the `memory_reserved()` function returns the total memory reserved by the CUDA allocator.
+
+The PyTorch `tensor` are pointers to the memory allocated on the GPU, with metadata such as the shape, data type, and device. There are several commom operations that can be performed on the tensors:
+```{.Python}
+x = torch.tensor([[1., 2, 3], [4, 5, 6]]) 
+y = x[0] # Get the first row of the tensor
+z = x[:, 1] # Get the second column of the tensor
+w = x[0, 1] # Get the element at the first row and second
+
+y = x.view(3, 2) # Reshape the tensor to 3 rows and 2 columns
+z = x.reshape(3, 2) # Reshape the tensor to 3 rows
+w = x.transpose(0, 1) # Transpose the tensor 
+```
+
+One of the most important operations in deep learning is the matrix multiplication, which can be performed using the `torch.matmul()` function. Also, besides that, the `einops` library provides a powerful way to manipulate tensors, allowing for more complex operations
+
+
+Now, let's talk about the compute account, which is the number of floating point operations (FLOPs) required to perform a certain operation. The FLOPs can be calculated as the number of floating point operations divided by the time taken to perform the operation.
+
+:::{.callout-note}
+The FLOPs is a measure of the computational complexity of an operation, and it is often used to compare the performance of different algorithms.
+The FLOP/s (FLOPs per second) is a measure of the performance of a hardware, which is the number of floating point operations that can be performed in one second. It is often used to compare the performance of different hardware, such as CPUs and GPUs.
+:::
+
+Support we have a Linear layer with `B` batch size, `D` input dimension, and `K` output dimension. The number of floating point operations required to perform the forward pass of the linear layer can be calculated as:
+```python
+FLOPs = 2 * B * D * K
+```
+where `2` is the number of floating point operations required to perform the matrix multiplication and addition
+(1 for multiplication and 1 for addition) of (i, j, k) triple. 
+
+Beside the matrix multiplication, the element-wise operations such as activation functions (e.g., ReLU, sigmoid) also contribute to the FLOPs. For example, if we apply a ReLU activation function after the linear layer, it will add `B * K` additional floating point operations, since it applies the function to each element in the output tensor. 
+Addition of two $m \times n$ matrices requires $mn$ FLOPs, where $m$ is the number of rows and $n$ is the number of columns.
+
+
+FLOPs is measure in terms of the number of the floating point operations required to perform a certain operation, which is a common way to measure the computational complexity of an algorithm. In theory, how to map those FLOPs to the wall clock time is not straightforward, since it depends on the hardware and the implementation of the algorithm. However, we can use the following formula to estimate the wall clock time:
+```python
+Wall Clock Time = FLOPs / FLOP/s
+```
+
+One of the criterion is the MFU(Model FLOPs Utilization).Usually, MFU of >= 0.5 is quite good (and will be higher if matmuls dominate)
+
+
+
+Floating point operation is a basic operation like addition or multiplication.
+
+Forward: 2 \* B \* D \* K (#tokens) (#parameters)
+
+FLOPs =\> Wall Clock time.
+
+
+### Lecture 03: Architectures & Hyperparameters 
+
+### Lecture 04: Mixture of Experts 
+
+
+### Lecture 05 & 06: GPU, Kernels, Triton
+
+### Lecture 07 & 08: Parallelism 
+
+### Lecture 10: Inference 
+
+### Lecture 09 & 11: Scaling Laws 
+
+### Lecture 12: Evaluation 
+
+
+### Lecture 13 & 14: Data 
+
+
+### Lecture 15, 16 & 17: Alignment: SFT/ RLHF
+
 
 
 ## Assignments
 
-### Assignment 01: Basics 
-In this assignment, we will implement the Byte-Pair Encoding(BPE) algorithm for tokenization, and build a transformer model from scratch. And also define optimization and training loop for the model. 
+### Assignment 01: Basics
 
+In this assignment, we will implement the Byte-Pair Encoding(BPE) algorithm for tokenization, and build a transformer model from scratch. And also define optimization and training loop for the model.
 
+### Assignment 02: System
 
-### Assignment 02: System 
-In this assignment, we will profile and benchmark the model we built in the assignment 01, and optimize the attention mechanism using Triton by implementing the FlashAttention2[@FlashAttention2FasterAttention2023dao]. 
-
-
+In this assignment, we will profile and benchmark the model we built in the assignment 01, and optimize the attention mechanism using Triton by implementing the FlashAttention2[@FlashAttention2FasterAttention2023dao].

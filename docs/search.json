@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Course Notes",
     "section": "",
-    "text": "当今互联网以及人工智能最伟大的特点之一就是它的开源特性。历史上有很少的关键技术，尤其是像如今这些强大模型这样的技术，能够如此全面的向公众开放。除此之外，一些高校的课程的开放和分享，也让我们这些，没能进入Dream School的学生们，能够学习到最前沿的知识。几年前的我，无意中在网上看到了 CS自学指南。从此打开了自学的大门。不过苦于的时间和精力有限，很多课程都是囫囵吞枣。现在研究生毕业了，趁现在找工作的间隙，将所学的课程及内容重新梳理，总结。不过，自学的过程是痛苦的，全靠自制力来驱动，并且许多课程的内容都需要有一定的基础才能理解。为了更好地学习，利用这些宝贵的资源，我决定将这些课程的内容进行整理和总结。希望能帮助到更多的自学者。",
+    "text": "当今互联网以及人工智能最伟大的特点之一就是它的开源特性。历史上有很少的关键技术，尤其是像如今这些强大模型这样的技术，能够如此全面的向公众开放。除此之外，一些高校的课程的开放和分享，也让我们这些，没能进入Dream School的学生们，能够学习到最前沿的知识。几年前的我，无意中在网上看到了 CS自学指南。从此打开了自学的大门。不过苦于的时间和精力有限，很多课程都是囫囵吞枣。现在研究生毕业了，趁现在找工作的间隙，将所学的课程及内容重新梳理，总结。\n自学的过程是痛苦的，全靠自制力来驱动。请大家不要放弃，毕竟坚持下去就会有收获。希望这个博客能帮助到你们。",
     "crumbs": [
       "About"
     ]
@@ -14,20 +14,30 @@
     "href": "index.html#关于本站",
     "title": "Course Notes",
     "section": "关于本站",
-    "text": "关于本站\n本站是一个学习笔记的集合，主要内容包括计算机科学、人工智能、机器学习、深度学习等领域的课程笔记和代码实现。所有内容均为个人学习过程中整理的笔记，旨在帮助自己更好地理解和掌握相关知识，同时也希望能对其他自学者有所帮助。对于笔记中的错误和不足之处，欢迎大家提出意见和建议。\n\n\n\n\n\n\nNote\n\n\n\n本站的笔记内容，主要是由英文编写。由于时间问题，暂时没有翻译成中文的计划。如果有小伙伴愿意参与翻译工作，欢迎联系我。也欢迎大家提出意见和建议，共同完善笔记内容，为更多的自学者提供帮助。\n\n\n\n如何阅读笔记\n在学习的过程中，由于每个人的背景知识不同，对有些知识点的理解，可能有差异。为了更好地理解笔记内容，建议大家在阅读笔记时，结合自己的实际情况，进行适当的调整和补充。我会在笔记中尽量提供相关的背景知识和参考资料，以帮助大家更好地理解和掌握相关内容。同时，笔记中，不同的Callout类型，表示不同的内容和提示，具体如下：\n\n\n\n\n\n\n\nTip\n\n\n\n用于补充扩展知识或背景信息，帮助加深理解。\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\n用于总结内容或提示学习方法，提升学习效率。\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\n用于提醒易错点或细节陷阱，避免理解偏差。\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\n用于标记课程重点、核心公式等需要特别掌握的内容。\n\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\n用于数学推导的过程。",
+    "text": "关于本站\n本站是一个学习笔记的集合，主要内容包括计算机科学、人工智能、机器学习、深度学习等领域的课程笔记和代码实现。所有内容均为个人学习过程中整理的笔记，旨在帮助自己更好地理解和掌握相关知识，同时也希望能对其他自学者有所帮助。对于笔记中的错误和不足之处，欢迎大家提出意见和建议。\n\n\n\n\n\n\nNote\n\n\n\n本站的笔记内容，主要是由英文编写。由于时间问题，暂时没有翻译成中文。如果有小伙伴愿意参与翻译工作，欢迎联系我。也欢迎大家提出意见和建议，共同完善笔记内容，为更多的自学者提供帮助。\n\n\n\n如何阅读笔记\n在学习的过程中，由于每个人的背景知识不同，对有些知识点的理解，可能有差异。为了更好地理解笔记内容，建议大家在阅读笔记时，结合自己的实际情况，进行适当的调整和补充。我会在笔记中尽量提供相关的背景知识和参考资料，以帮助大家更好地理解和掌握相关内容。同时，笔记中，不同的Callout类型，表示不同的内容和提示，具体如下：\n\n\n\n\n\n\n\nTip\n\n\n\n用于补充扩展知识或背景信息，帮助加深理解。\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\n用于总结内容或提示学习方法，提升学习效率。\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\n用于提醒易错点或细节陷阱，避免理解偏差。\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\n用于标记课程重点、核心公式等需要特别掌握的内容。\n\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\n用于数学推导的过程。",
     "crumbs": [
       "About"
     ]
   },
   {
-    "objectID": "posts/Gen-AI/cmu-advanded-nlp.html",
-    "href": "posts/Gen-AI/cmu-advanded-nlp.html",
-    "title": "CMU: Advanced Natural Language Processing",
+    "objectID": "index.html#课程列表",
+    "href": "index.html#课程列表",
+    "title": "Course Notes",
+    "section": "课程列表",
+    "text": "课程列表\n以下是我整理的课程列表，包含了课程名称、讲座数量、作业数量、预计学习时间和课程描述等信息。每个课程的链接都指向了相应的课程笔记页面，方便大家查看详细内容。\n\n\n\n\nSchool\nCourse Name\n# of Lectures\n# of Assignments\nTime Assumed\nDescription\n\n\n\n\nStanford\nCS336: Language Modeling from Scratch\n17\n5\n200 hours\nStanford CS336 is an implementation‑heavy course that leads students through building, optimizing, scaling, and aligning Transformer language models entirely from scratch—from dataset creation to distributed GPU training and safety alignment.\n\n\nUCB\nCS285: Deep Reinforcement Learning\n23\n5\n100 hours\nThis course is an advanced course that systematically explores the foundations, algorithms, and cutting-edge research in deep reinforcement learning, covering topics from imitation learning and policy gradients to model-based RL, offline RL, and meta-learning.",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/kaist-diffusion-models.html",
+    "href": "posts/Gen-AI/kaist-diffusion-models.html",
+    "title": "KAIST CS492(D): Diffusion Models and Their Applications",
     "section": "",
-    "text": "Course Website: Link Course Video: YouTube\nThere are several iteration of the course. This one is the latest version, mainly focus on the LLM.",
+    "text": "Lecture Website: Link Lecture Video: YouTube\nTotal 17 Lectures and 7 Assignments in this course.",
     "crumbs": [
       "Generative AI",
-      "CMU: *Advanced Natural Language Processing*"
+      "KAIST CS492(D): *Diffusion Models and Their Applications*"
     ]
   },
   {
@@ -39,61 +49,6 @@
     "crumbs": [
       "Generative AI",
       "CS294-158: *Deep Unsupervised Learning*"
-    ]
-  },
-  {
-    "objectID": "posts/Reinforcement Learning/ucb-cs285.html",
-    "href": "posts/Reinforcement Learning/ucb-cs285.html",
-    "title": "UCB CS285: Deep Reinforcement Learning",
-    "section": "",
-    "text": "This is a collection of notes and code for the UCB CS285: Deep Reinforcement Learning course. The course covers various topics in reinforcement learning, including policy gradients, actor-critic methods, deep Q-learning, and different exploration strategies. The course is designed to provide a comprehensive understanding of deep reinforcement learning and its applications.\nThere are total 23 lectures and 5 assignments in this course. It might 100 hours to finish the course, including the lectures and assignments.",
-    "crumbs": [
-      "Reinforcement Learning",
-      "UCB CS285: Deep Reinforcement Learning"
-    ]
-  },
-  {
-    "objectID": "posts/Reinforcement Learning/ucb-cs285.html#lecture-01-introduction-overview",
-    "href": "posts/Reinforcement Learning/ucb-cs285.html#lecture-01-introduction-overview",
-    "title": "UCB CS285: Deep Reinforcement Learning",
-    "section": "Lecture 01: Introduction & Overview",
-    "text": "Lecture 01: Introduction & Overview\nLecture 01 introduces the course and provides an overview of reinforcement learning. It covers the basic concepts of reinforcement learning, including the agent-environment interaction, rewards, and policies. The lecture also discusses the different types of reinforcement learning algorithms, such as model-free and model-based methods.\nThe difference between Reinforcement Learning and Supervised Learning Algorithms is that: Reinforcement Learning not just trying to copy everything from data, but use the reward to figure out what should do in order to maximize the cumulative reward, and learned the policy.\n\nIn the Supervised Learning, the data points are assumed i.i.d., while in the reinforcement learning, the data is not i.i.d., previous output might effect the future inputs.\nIn the Supervised Learning, the ground truth outputs is known, and the algorithms is trained on the known ground truth, in the RL, the group truth is un-known, we only know the succeeded or failed (rewards)\nIn the Supervised Learning, the algorithms is trained on the fixed dataset, while in the RL, the algorithms is trained on the online data (the data is generated by the agent itself).\n\n\nWhat the different between RL and supervised learning?",
-    "crumbs": [
-      "Reinforcement Learning",
-      "UCB CS285: Deep Reinforcement Learning"
-    ]
-  },
-  {
-    "objectID": "posts/Reinforcement Learning/ucb-cs285.html#lecture-02-supervised-learning-of-behaviors",
-    "href": "posts/Reinforcement Learning/ucb-cs285.html#lecture-02-supervised-learning-of-behaviors",
-    "title": "UCB CS285: Deep Reinforcement Learning",
-    "section": "Lecture 02: Supervised Learning of Behaviors",
-    "text": "Lecture 02: Supervised Learning of Behaviors\nLecture 02 covers the basics of supervised learning and how it can be used to learn behaviors in reinforcement learning. It discusses the concept of imitation learning, where an agent learns to mimic the behavior of an expert by observing its actions. The lecture also introduces the concept of behavioral cloning, where the agent learns a policy directly from the expert’s actions.",
-    "crumbs": [
-      "Reinforcement Learning",
-      "UCB CS285: Deep Reinforcement Learning"
-    ]
-  },
-  {
-    "objectID": "posts/Reinforcement Learning/ucb-cs285.html#assignment-01-imitation-learning",
-    "href": "posts/Reinforcement Learning/ucb-cs285.html#assignment-01-imitation-learning",
-    "title": "UCB CS285: Deep Reinforcement Learning",
-    "section": "Assignment 01: Imitation Learning",
-    "text": "Assignment 01: Imitation Learning",
-    "crumbs": [
-      "Reinforcement Learning",
-      "UCB CS285: Deep Reinforcement Learning"
-    ]
-  },
-  {
-    "objectID": "posts/Reinforcement Learning/ucb-cs285.html#assignment-02-policy-gradients",
-    "href": "posts/Reinforcement Learning/ucb-cs285.html#assignment-02-policy-gradients",
-    "title": "UCB CS285: Deep Reinforcement Learning",
-    "section": "Assignment 02: Policy Gradients",
-    "text": "Assignment 02: Policy Gradients",
-    "crumbs": [
-      "Reinforcement Learning",
-      "UCB CS285: Deep Reinforcement Learning"
     ]
   },
   {
@@ -126,7 +81,7 @@
     "text": "Lecture Website: Link Lecture Video: YouTube\nThis is a collection of notes and code for the Stanford CS336: Language Modeling from Scratch course. This is course is designed to teach students how to build a “large” language model (LLM) from scratch, covering from bottom to top, including the data collection, tokenization, model architecture, pre-training, post-training, inference and model evaluation. The course is designed to provide a comprehensive understanding of how LLMs work and how to build them from scratch.\nThere are total 17 Lectures and 5 Assignments in this course.",
     "crumbs": [
       "Generative AI",
-      "Stanford CS336: *Language Modeling from Scratch*"
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
     ]
   },
   {
@@ -134,10 +89,10 @@
     "href": "posts/Gen-AI/stanford-cs336.html#lectures",
     "title": "Stanford CS336: Language Modeling from Scratch",
     "section": "Lectures",
-    "text": "Lectures",
+    "text": "Lectures\n\nLecture 01: Overview & Tokenization\n\nTokenization\nTokenization is the process of converting raw text into a sequence of tokens(usually is represented by integer indices), which are the basic units of meaning in a language model.\nIn this lecture, we will cover the basics of tokenization, including the different types of tokenization, such as character-level, word-level, and subword-level tokenization. We will also discuss the importance of tokenization in language modeling and how it affects the performance of the model.\nA Tokenizer is a class that implements the encode and decode methods for tokenization: - encode method takes a string of text and converts it into a sequence of integer indices, which are the tokens. - decode method takes a sequence of integer indices and converts it back into a string of text. The Tokenizer will generate a list of tokens from the input text, the number of the tokens is called the vocabulary size.\nAn interactive demo of the tokenization process can be found here\nThere are several tokenization algorithms, such as:\nOne of the good quantity to measure the tokenization algorithm is the compression ratio, which is defined as the ratio of the number of bytes of the input text to the number of tokens. A higher compression ratio indicates that the tokenization algorithm is more efficient in representing the input text.\ndef get_compression_ratio(string: str, indices: list[int]) -&gt; float:\n    \"\"\"\n    Calculate the compression ratio of a string and its tokenized indices.\n    \n    Args:\n        string (str): The input string.\n        indices (list[int]): The tokenized indices.\n        \n    Returns:\n        float: The compression ratio.\n    \"\"\"\n    return len(string.encode('utf-8')) / len(indices)\nThere are different types of the tokenization:\n\nCharacter-based tokenization: A Unicode string is a sequence of Unicode code points, which can be represented as a sequence of integers. Each character in the string is treated as a separate token.\n\nord('a')   # 97 \nchr(97)   # 'a'\n\nord('🌍') # 127757\nchr(127757) # '🌍'\nOne of the main drawbacks of character-based tokenization is that it can lead to a large vocabulary size, which can make the model more difficult to train and less efficient in terms of memory usage. And some character are not commonly used in the text, which is inefficient use of the vocabulary.\n\nByte-Based Tokenization: Unicode strings can be encoded as a sequence of bytes using UTF-8 encoding. Each byte can be represented by integers in the range of 0 to 255. Some Unicode characters may be represented by multiple bytes.\n\nbytes('a', 'utf-8')  # b'a'\nbytes('🌍', 'utf-8')  # b'\\xf0\\x9f\\x8c\\x8d'\nAs we can expected, the compression ratio is 1, which is terrible.\nThe vocabulary size is 256, which is a nice property because it is fixed and covers all possible bytes. However, the main drawback is that it can lead to long sequences, since each character (even multi-byte Unicode characters) is split into multiple tokens. This can make training less efficient and increase the computational cost for language models, given that the context length of a Transformer model is limited.\n\nWord-Based Tokenization\nAnother common approach is to tokenize the text into words, where each word is treated as a separate token. We can use regular expression to split the text into words.\n\n\n\n\n\n\nTip\n\n\n\n\\w+ matches any word character, which includes:\n\nLetters: A–Z, a–z\nDigits: 0–9\nUnderscore: _\n\n+ is a quantifier meaning “one or more times”\n\n\nA more fancy expression is :\nGPT2_TOKENIZER_REGEX = r\"\"\"'(?:[sdmt]|ll|ve|re)| ?\\p{L}+| ?\\p{N}+| ?[^\\s\\p{L}\\p{N}]+|\\s+(?!\\S)|\\s+\"\"\"\nsegments = re.findall(GPT2_TOKENIZER_REGEX, string)\nAfter we get the segments, we can assign each segment to a unique integer index, which is the token. One of the main drawbacks of word-based tokenization is that the vocabulary size is not fixed and can grow very large, especially with rare or out-of-vocabulary words. This can make the model harder to train and require more memory. Additionally, it struggles with handling misspellings, new words, or languages with rich morphology. New words we haven’t seen during training will be treated as UNK tokens, which can lead to a loss of information and context.\n\n\nByte Pair Encoding (BPE)\nThe basic idea of BPE is to iteratively merge the most frequent pairs of characters or subwords in the text until a desired vocabulary size is reached. This allows for a more efficient representation of the text, as it can capture common subwords and reduce the overall vocabulary size. (In the info encoding)\n\nThe GPT-2 paper used word-based tokenization to break up the text into initial segments and run the original BPE algorithm on each segment.\n\nBelow are the summary of four different tokenization algorithms:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTokenization Type\nDescription\nCompression Ratio\nVocabulary Size\nPros\nCons\n\n\n\n\nCharacter-Based\nEach character is a token (Unicode code point).\nLow\nLarge (all characters)\nSimple; handles any language\nInefficient; large vocab; rare chars waste tokens\n\n\nByte-Based\nEach byte from UTF-8 encoding is a token (0–255).\n~1\nFixed (256)\nFixed vocab; language-agnostic\nLong sequences for Unicode; inefficient for modeling semantics\n\n\nWord-Based\nWords (or regex-matched units) are tokens.\nMedium\nLarge and dynamic\nIntuitive; better compression than char/byte\nPoor generalization; large vocab; OOV issues with UNK\n\n\nByte Pair Encoding (BPE)\nIteratively merges frequent subword pairs to form subword tokens.\nHigh\nMedium (tunable)\nEfficient; balances granularity and vocab size\nMerge rules are corpus-dependent; needs initial segmentation\n\n\n\n\n\nTable 1: Summary of 4 Tokenization Algorithms\n\n\n\n\n\n\n\n\nLecture 02: Pytorch, Resource Accounting\nh100_bytes = 80e9\nBytes_per_parameter = 4 + 4 + ( 4+ 4) =&gt; Parameters, gradient, optimizer state\nNum Paramter = (h100_byes * 8) / Bytes_per_parameter 4e10\nx = torch.tensor([\n    [1, 2, 3],\n])\n\nMemory Account\nfloat32 is the most common data type used in deep learning, which uses 4 bytes per element.\n\n\n\n\n\n\nFigure 1: The representation of float32 in memory\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe exponent used to represent the dynamic range of the number, for float32, it uses 8 bits for the exponent, which allows for a dynamic range of approximately 1.18e-38 to 3.4e+38. The fraction is used to represent the precision of the number, which is also known as resolution. For float32, it uses 23 bits for the fraction, which allows for a precision of approximately 7 decimal digits. To represent a number in float32, it uses the following formula: \\[\n\\begin{aligned}\n\\text{value}\n&= (-1)^{b_{31}} \\times 2^{(b_{30}b_{29} \\dots b_{23})_2 - 127} \\times (1.b_{22}b_{21} \\dots b_{0})_2 \\\\\n&= (-1)^{\\text{sign}} \\times 2^{(E - 127)} \\times \\left( 1 + \\sum_{i=1}^{23} b_{23 - i} \\cdot 2^{-i} \\right)\n\\end{aligned}\n\\] where sign is the sign bit, exponent is the exponent value, and fraction is the fraction value. The exponent is biased by 127, which means that the exponent value is stored as the actual exponent plus 127. This allows for both positive and negative exponents to be represented.\n\n\nMemory is determined by the number of values in the tensor and the data type of the tensor. The memory usage can be calculated as: \\[\n\\text{Memory} = \\text{Number of Values} \\times \\text{Bytes per Value}\n\\tag{1}\\] which can be calculated as:\ndef get_memory_usage(x: torch.Tensor):\n    return x.numel() * x.element_size()\nThe float32 takes 4 bytes per element, for the LLM, this is a lot of memory. We are use float16 to reduce the memory usage by half, which is 2 bytes per element. This is a common practice in deep learning to save memory and speed up training.\n\n\n\n\n\n\nFigure 2: The representation of float16 in memory\n\n\n\nThe float16 cuts down the memory usage by half, but it has a smaller dynamic range and precision compared to float32. This can lead to numerical instability and loss of precision in some cases, especially when dealing with very large or very small numbers.\nx = torch.tensor([1e-8], dtype=torch.float16)  \nassert x == 0\nwhen the underflow or overflow happens, the value will be rounded to 0 or infinity, which might cause the instability in the training process.\nAnother data type is bfloat16, which is a 16-bit floating point format that has the same dynamic range as float32, but with less precision. It uses 8 bits for the exponent and 7 bits for the fraction, which allows for a dynamic range of approximately 3.4e-38 to 3.4e+38, but with a precision of only 2 decimal digits.\n\nIn conclusion, the choice of data type can have a significant impact on the memory usage and performance of the model. The float32 is the most common data type used in deep learning, but it can be memory-intensive. The float16 and bfloat16 are commonly used to reduce the memory usage, but they can lead to numerical instability and loss of precision in some cases. One of the common practice to combine float16 and float32 is to use float16 for the model parameters and gradients, and float32 for the optimizer state. This is known as mixed precision training, which can save memory and speed up training without sacrificing too much performance.\n\n\nCompute Account\nBy defaults, all the tensors are stored in the CPU memory, which is not efficient for training deep learning models. We can move the tensors to the GPU memory by calling the to method on the tensor, which will move the tensor to the specified device.\nx = torch.tensor([1, 2, 3])\nx = x.to('cuda')  # Move tensor to GPU\nOne way to check the memory usage of the GPU in PyTorch is to use the torch.cuda.memory_allocated() and torch.cuda.memory_reserved() functions. The memory_allocated() function returns the total memory allocated by the tensors, while the memory_reserved() function returns the total memory reserved by the CUDA allocator.\nThe PyTorch tensor are pointers to the memory allocated on the GPU, with metadata such as the shape, data type, and device. There are several commom operations that can be performed on the tensors:\nx = torch.tensor([[1., 2, 3], [4, 5, 6]]) \ny = x[0] # Get the first row of the tensor\nz = x[:, 1] # Get the second column of the tensor\nw = x[0, 1] # Get the element at the first row and second\n\ny = x.view(3, 2) # Reshape the tensor to 3 rows and 2 columns\nz = x.reshape(3, 2) # Reshape the tensor to 3 rows\nw = x.transpose(0, 1) # Transpose the tensor \nOne of the most important operations in deep learning is the matrix multiplication, which can be performed using the torch.matmul() function. Also, besides that, the einops library provides a powerful way to manipulate tensors, allowing for more complex operations\nNow, let’s talk about the compute account, which is the number of floating point operations (FLOPs) required to perform a certain operation. The FLOPs can be calculated as the number of floating point operations divided by the time taken to perform the operation.\n\n\n\n\n\n\nNote\n\n\n\nThe FLOPs is a measure of the computational complexity of an operation, and it is often used to compare the performance of different algorithms. The FLOP/s (FLOPs per second) is a measure of the performance of a hardware, which is the number of floating point operations that can be performed in one second. It is often used to compare the performance of different hardware, such as CPUs and GPUs.\n\n\nSupport we have a Linear layer with B batch size, D input dimension, and K output dimension. The number of floating point operations required to perform the forward pass of the linear layer can be calculated as:\nFLOPs = 2 * B * D * K\nwhere 2 is the number of floating point operations required to perform the matrix multiplication and addition (1 for multiplication and 1 for addition) of (i, j, k) triple.\nBeside the matrix multiplication, the element-wise operations such as activation functions (e.g., ReLU, sigmoid) also contribute to the FLOPs. For example, if we apply a ReLU activation function after the linear layer, it will add B * K additional floating point operations, since it applies the function to each element in the output tensor. Addition of two \\(m \\times n\\) matrices requires \\(mn\\) FLOPs, where \\(m\\) is the number of rows and \\(n\\) is the number of columns.\nFLOPs is measure in terms of the number of the floating point operations required to perform a certain operation, which is a common way to measure the computational complexity of an algorithm. In theory, how to map those FLOPs to the wall clock time is not straightforward, since it depends on the hardware and the implementation of the algorithm. However, we can use the following formula to estimate the wall clock time:\nWall Clock Time = FLOPs / FLOP/s\nOne of the criterion is the MFU(Model FLOPs Utilization).Usually, MFU of &gt;= 0.5 is quite good (and will be higher if matmuls dominate)\nFloating point operation is a basic operation like addition or multiplication.\nForward: 2 * B * D * K (#tokens) (#parameters)\nFLOPs =&gt; Wall Clock time.\n\n\n\nLecture 03: Architectures & Hyperparameters\n\n\nLecture 04: Mixture of Experts\n\n\nLecture 05 & 06: GPU, Kernels, Triton\n\n\nLecture 07 & 08: Parallelism\n\n\nLecture 10: Inference\n\n\nLecture 09 & 11: Scaling Laws\n\n\nLecture 12: Evaluation\n\n\nLecture 13 & 14: Data\n\n\nLecture 15, 16 & 17: Alignment: SFT/ RLHF",
     "crumbs": [
       "Generative AI",
-      "Stanford CS336: *Language Modeling from Scratch*"
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
     ]
   },
   {
@@ -148,18 +103,28 @@
     "text": "Assignments\n\nAssignment 01: Basics\nIn this assignment, we will implement the Byte-Pair Encoding(BPE) algorithm for tokenization, and build a transformer model from scratch. And also define optimization and training loop for the model.\n\n\nAssignment 02: System\nIn this assignment, we will profile and benchmark the model we built in the assignment 01, and optimize the attention mechanism using Triton by implementing the FlashAttention2(Dao 2023).",
     "crumbs": [
       "Generative AI",
-      "Stanford CS336: *Language Modeling from Scratch*"
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
     ]
   },
   {
-    "objectID": "posts/Gen-AI/kaist-diffusion-models.html",
-    "href": "posts/Gen-AI/kaist-diffusion-models.html",
-    "title": "KAIST CS492(D): Diffusion Models and Their Applications",
+    "objectID": "posts/RL/ucb-cs285.html",
+    "href": "posts/RL/ucb-cs285.html",
+    "title": "UCB CS285: Deep Reinforcement Learning",
     "section": "",
-    "text": "Lecture Website: Link Lecture Video: YouTube\nTotal 17 Lectures and 7 Assignments in this course.",
-    "crumbs": [
-      "Generative AI",
-      "KAIST CS492(D): *Diffusion Models and Their Applications*"
-    ]
+    "text": "This is a collection of notes and code for the UCB CS285: Deep Reinforcement Learning course. The course covers various topics in reinforcement learning, including policy gradients, actor-critic methods, deep Q-learning, and different exploration strategies. The course is designed to provide a comprehensive understanding of deep reinforcement learning and its applications.\nThere are total 23 lectures and 5 assignments in this course. It might 100 hours to finish the course, including the lectures and assignments."
+  },
+  {
+    "objectID": "posts/RL/ucb-cs285.html#lectures",
+    "href": "posts/RL/ucb-cs285.html#lectures",
+    "title": "UCB CS285: Deep Reinforcement Learning",
+    "section": "Lectures",
+    "text": "Lectures\n\nLecture 01: Introduction & Overview\nLecture 01 introduces the course and provides an overview of reinforcement learning. It covers the basic concepts of reinforcement learning, including the agent-environment interaction, rewards, and policies. The lecture also discusses the different types of reinforcement learning algorithms, such as model-free and model-based methods.\nThe difference between Reinforcement Learning and Supervised Learning Algorithms is that: Reinforcement Learning not just trying to copy everything from data, but use the reward to figure out what should do in order to maximize the cumulative reward, and learned the policy.\n\nIn the Supervised Learning, the data points are assumed i.i.d., while in the reinforcement learning, the data is not i.i.d., previous output might effect the future inputs.\nIn the Supervised Learning, the ground truth outputs is known, and the algorithms is trained on the known ground truth, in the RL, the group truth is un-known, we only know the succeeded or failed (rewards)\nIn the Supervised Learning, the algorithms is trained on the fixed dataset, while in the RL, the algorithms is trained on the online data (the data is generated by the agent itself).\n\n\n\nLecture 02: Supervised Learning of Behaviors\nLecture 02 covers the basics of supervised learning and how it can be used to learn behaviors in reinforcement learning. It discusses the concept of imitation learning, where an agent learns to mimic the behavior of an expert by observing its actions. The lecture also introduces the concept of behavioral cloning, where the agent learns a policy directly from the expert’s actions."
+  },
+  {
+    "objectID": "posts/RL/ucb-cs285.html#assignments",
+    "href": "posts/RL/ucb-cs285.html#assignments",
+    "title": "UCB CS285: Deep Reinforcement Learning",
+    "section": "Assignments",
+    "text": "Assignments\nThere are total of 5 assignments in this course, from imitation learning to deep Q-Learning. The assignments are designed to help you understand the concepts and algorithms in reinforcement learning, and to implement them in code.\n\nAssignment 01: Imitation Learning\n\n\nAssignment 02: Policy Gradients"
   }
 ]
