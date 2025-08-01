@@ -99,9 +99,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-2384d81d06d6c56c41b1acb0446adb0d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-cc542ae9cbb2dc3da5b9f84cb8966572.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-0fd53820e9cb11da4fdcad6c7683cbd0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-2384d81d06d6c56c41b1acb0446adb0d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-cc542ae9cbb2dc3da5b9f84cb8966572.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -130,6 +130,30 @@ div.csl-indent {
   }
 }</script>
 <link href="https://fonts.cdnfonts.com/css/cmu-sans-serif" rel="stylesheet">
+<style>
+div.callout-summary.callout {
+  border-left-color: #4b8bbe;
+}
+div.callout-summary.callout-style-default > .callout-header {
+  background-color: rgba(75, 139, 190, 0.13);
+}
+div.callout-summary .callout-toggle::before {  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(33, 37, 41)" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');}
+div.callout-summary.callout-style-default .callout-icon::before, div.callout-summary.callout-titled .callout-icon::before {
+  content: '📖';
+  background-image: none;
+}
+div.callout-QA.callout {
+  border-left-color: #e7f3ff;
+}
+div.callout-QA.callout-style-default > .callout-header {
+  background-color: rgba(231, 243, 255, 0.13);
+}
+div.callout-QA .callout-toggle::before {  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(33, 37, 41)" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');}
+div.callout-QA.callout-style-default .callout-icon::before, div.callout-QA.callout-titled .callout-icon::before {
+  content: '🗨️';
+  background-image: none;
+}
+</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -164,7 +188,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../../style/style.css">
 <meta property="og:title" content="Stanford CS336: Language Modeling from Scratch – Learning Notes">
 <meta property="og:description" content="">
-<meta property="og:image" content="./images/fp32.png">
+<meta property="og:image" content="./cs336.assets/lec01-tokenization.png">
 <meta property="og:site_name" content="Learning Notes">
 </head>
 
@@ -379,8 +403,21 @@ window.Quarto = {
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">Reinforcement Learning</span></span>
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Reinforcement Learning</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../posts/RL/ucb-cs285.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">UCB CS285: <tag style="font-weight: bold">Deep Reinforcement Learning</tag></span></a>
+  </div>
+</li>
+      </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
@@ -444,9 +481,12 @@ window.Quarto = {
   <ul>
   <li><a href="#tokenization" id="toc-tokenization" class="nav-link" data-scroll-target="#tokenization">Tokenization</a>
   <ul>
+  <li><a href="#character-based-tokenization" id="toc-character-based-tokenization" class="nav-link" data-scroll-target="#character-based-tokenization">Character-Based Tokenization</a></li>
+  <li><a href="#byte-based-tokenization" id="toc-byte-based-tokenization" class="nav-link" data-scroll-target="#byte-based-tokenization">Byte-Based Tokenization</a></li>
   <li><a href="#word-based-tokenization" id="toc-word-based-tokenization" class="nav-link" data-scroll-target="#word-based-tokenization">Word-Based Tokenization</a></li>
   <li><a href="#byte-pair-encoding-bpe" id="toc-byte-pair-encoding-bpe" class="nav-link" data-scroll-target="#byte-pair-encoding-bpe">Byte Pair Encoding (BPE)</a></li>
   </ul></li>
+  <li><a href="#summary-of-lecture-01" id="toc-summary-of-lecture-01" class="nav-link" data-scroll-target="#summary-of-lecture-01">Summary of Lecture 01</a></li>
   </ul></li>
   <li><a href="#lecture-02-pytorch-resource-accounting" id="toc-lecture-02-pytorch-resource-accounting" class="nav-link" data-scroll-target="#lecture-02-pytorch-resource-accounting">Lecture 02: Pytorch, Resource Accounting</a>
   <ul>
@@ -457,15 +497,29 @@ window.Quarto = {
   <li><a href="#lecture-04-mixture-of-experts" id="toc-lecture-04-mixture-of-experts" class="nav-link" data-scroll-target="#lecture-04-mixture-of-experts">Lecture 04: Mixture of Experts</a></li>
   <li><a href="#lecture-05-06-gpu-kernels-triton" id="toc-lecture-05-06-gpu-kernels-triton" class="nav-link" data-scroll-target="#lecture-05-06-gpu-kernels-triton">Lecture 05 &amp; 06: GPU, Kernels, Triton</a></li>
   <li><a href="#lecture-07-08-parallelism" id="toc-lecture-07-08-parallelism" class="nav-link" data-scroll-target="#lecture-07-08-parallelism">Lecture 07 &amp; 08: Parallelism</a></li>
-  <li><a href="#lecture-10-inference" id="toc-lecture-10-inference" class="nav-link" data-scroll-target="#lecture-10-inference">Lecture 10: Inference</a></li>
   <li><a href="#lecture-09-11-scaling-laws" id="toc-lecture-09-11-scaling-laws" class="nav-link" data-scroll-target="#lecture-09-11-scaling-laws">Lecture 09 &amp; 11: Scaling Laws</a></li>
+  <li><a href="#lecture-10-inference" id="toc-lecture-10-inference" class="nav-link" data-scroll-target="#lecture-10-inference">Lecture 10: Inference</a></li>
   <li><a href="#lecture-12-evaluation" id="toc-lecture-12-evaluation" class="nav-link" data-scroll-target="#lecture-12-evaluation">Lecture 12: Evaluation</a></li>
   <li><a href="#lecture-13-14-data" id="toc-lecture-13-14-data" class="nav-link" data-scroll-target="#lecture-13-14-data">Lecture 13 &amp; 14: Data</a></li>
   <li><a href="#lecture-15-16-17-alignment-sft-rlhf" id="toc-lecture-15-16-17-alignment-sft-rlhf" class="nav-link" data-scroll-target="#lecture-15-16-17-alignment-sft-rlhf">Lecture 15, 16 &amp; 17: Alignment: SFT/ RLHF</a></li>
   </ul></li>
   <li><a href="#assignments" id="toc-assignments" class="nav-link" data-scroll-target="#assignments">Assignments</a>
   <ul>
-  <li><a href="#assignment-01-basics" id="toc-assignment-01-basics" class="nav-link" data-scroll-target="#assignment-01-basics">Assignment 01: Basics</a></li>
+  <li><a href="#assignment-01-basics" id="toc-assignment-01-basics" class="nav-link" data-scroll-target="#assignment-01-basics">Assignment 01: Basics</a>
+  <ul>
+  <li><a href="#preparation" id="toc-preparation" class="nav-link" data-scroll-target="#preparation">Preparation</a>
+  <ul>
+  <li><a href="#clone-assignment-repository" id="toc-clone-assignment-repository" class="nav-link" data-scroll-target="#clone-assignment-repository">Clone Assignment Repository</a></li>
+  <li><a href="#download-dataset" id="toc-download-dataset" class="nav-link" data-scroll-target="#download-dataset">Download Dataset</a></li>
+  <li><a href="#install-dependencies" id="toc-install-dependencies" class="nav-link" data-scroll-target="#install-dependencies">Install Dependencies</a></li>
+  </ul></li>
+  <li><a href="#byte-pair-encoding-bpe-tokenizer" id="toc-byte-pair-encoding-bpe-tokenizer" class="nav-link" data-scroll-target="#byte-pair-encoding-bpe-tokenizer">Byte-Pair Encoding (BPE) Tokenizer</a>
+  <ul>
+  <li><a href="#the-unicode-standard" id="toc-the-unicode-standard" class="nav-link" data-scroll-target="#the-unicode-standard">The Unicode Standard</a></li>
+  <li><a href="#unicode-encoding" id="toc-unicode-encoding" class="nav-link" data-scroll-target="#unicode-encoding">Unicode Encoding</a></li>
+  <li><a href="#bpe-tokenizer-training" id="toc-bpe-tokenizer-training" class="nav-link" data-scroll-target="#bpe-tokenizer-training">BPE Tokenizer Training</a></li>
+  </ul></li>
+  </ul></li>
   <li><a href="#assignment-02-system" id="toc-assignment-02-system" class="nav-link" data-scroll-target="#assignment-02-system">Assignment 02: System</a></li>
   </ul></li>
   </ul>
@@ -500,9 +554,22 @@ window.Quarto = {
 </header>
 
 
-<p>Lecture Website: <a href="https://stanford-cs336.github.io/spring2025/">Link</a> Lecture Video: <a href="https://www.youtube.com/playlist?list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_">YouTube</a></p>
-<p>This is a collection of notes and code for the <a href="https://stanford-cs336.github.io/spring2025/">Stanford CS336: Language Modeling from Scratch</a> course. This is course is designed to teach students how to build a “large” language model (LLM) from scratch, covering from bottom to top, including the data collection, tokenization, model architecture, pre-training, post-training, inference and model evaluation. The course is designed to provide a comprehensive understanding of how LLMs work and how to build them from scratch.</p>
-<p>There are total 17 Lectures and 5 Assignments in this course.</p>
+<hr>
+<p>Lecture Website: <a href="https://stanford-cs336.github.io/spring2025/">Link</a></p>
+<p>Lecture Video: <a href="https://www.youtube.com/playlist?list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_">YouTube</a></p>
+<hr>
+<p>This is a collection of notes and code for the <a href="https://stanford-cs336.github.io/spring2025/">Stanford CS336: Language Modeling from Scratch</a> course. This is course is designed to teach students how to build a “large” language model (LLM) from scratch, covering from bottom to top, including the:</p>
+<ul>
+<li>data collection and preprocessing,</li>
+<li>tokenization,</li>
+<li>model architecture and variations,</li>
+<li>pre-training,</li>
+<li>post-training,</li>
+<li>inference</li>
+<li>model evaluation.</li>
+</ul>
+<p>The course is designed to provide a comprehensive understanding of how LLMs work and how to build them from scratch.</p>
+<p>There are total <tag style="color:orange">17 Lectures</tag> and <tag style="color:orange">5 Assignments</tag> in this course.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -513,83 +580,222 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>It might takes 200+ hours to finish the course, including the lectures and assignments. But hang in there, it will be worth it!!!</p>
+<p>It might takes <tag style="color:red">200+</tag> hours to finish the course, including the lectures and assignments. But hang in there, it will be worth it!!!</p>
 </div>
 </div>
-<section id="lectures" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="lectures">Lectures</h2>
-<section id="lecture-01-overview-tokenization" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="lecture-01-overview-tokenization">Lecture 01: Overview &amp; Tokenization</h3>
-<section id="tokenization" class="level4 page-columns page-full">
-<h4 class="anchored" data-anchor-id="tokenization">Tokenization</h4>
-<p>Tokenization is the process of converting <em>raw text</em> into a <em>sequence of tokens</em>(usually is represented by <em>integer indices</em>), which are the basic units of meaning in a language model.</p>
-<p>In this lecture, we will cover the basics of tokenization, including the different types of tokenization, such as character-level, word-level, and subword-level tokenization. We will also discuss the importance of tokenization in language modeling and how it affects the performance of the model.</p>
-<p>A <code>Tokenizer</code> is a class that implements the encode and decode methods for tokenization: - <code>encode</code> method takes a string of text and converts it into a sequence of integer indices, which are the tokens. - <code>decode</code> method takes a sequence of integer indices and converts it back into a string of text. The <code>Tokenizer</code> will generate a list of tokens from the input text, the number of the tokens is called the <strong>vocabulary size</strong>.</p>
-<p>An interactive demo of the tokenization process can be found <a href="https://tiktokenizer.vercel.app/?model=cl100k_base">here</a></p>
-<p>There are several tokenization algorithms, such as:</p>
-<p>One of the good quantity to measure the tokenization algorithm is the <strong>compression ratio</strong>, which is defined as the ratio of the number of bytes of the input text to the number of tokens. A higher compression ratio indicates that the tokenization algorithm is more efficient in representing the input text.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> get_compression_ratio(string: <span class="bu">str</span>, indices: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
-<span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">    Calculate the compression ratio of a string and its tokenized indices.</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">    </span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">    Args:</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">        string (str): The input string.</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co">        indices (list[int]): The tokenized indices.</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">        </span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">    Returns:</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">        float: The compression ratio.</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">    """</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a>    <span class="cf">return</span> <span class="bu">len</span>(string.encode(<span class="st">'utf-8'</span>)) <span class="op">/</span> <span class="bu">len</span>(indices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>There are different types of the tokenization:</p>
-<ul>
-<li>Character-based tokenization: A Unicode string is a sequence of Unicode code points, which can be represented as a sequence of integers. Each character in the string is treated as a separate token.</li>
-</ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="bu">ord</span>(<span class="st">'a'</span>)   <span class="co"># 97 </span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="bu">chr</span>(<span class="dv">97</span>)   <span class="co"># 'a'</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="bu">ord</span>(<span class="st">'🌍'</span>) <span class="co"># 127757</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="bu">chr</span>(<span class="dv">127757</span>) <span class="co"># '🌍'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>One of the main drawbacks of character-based tokenization is that it can lead to a large vocabulary size, which can make the model more difficult to train and less efficient in terms of memory usage. And some character are not commonly used in the text, which is inefficient use of the vocabulary.</p>
-<ul>
-<li>Byte-Based Tokenization: Unicode strings can be encoded as a sequence of bytes using UTF-8 encoding. Each byte can be represented by integers in the range of 0 to 255. Some Unicode characters may be represented by multiple bytes.</li>
-</ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="bu">bytes</span>(<span class="st">'a'</span>, <span class="st">'utf-8'</span>)  <span class="co"># b'a'</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="bu">bytes</span>(<span class="st">'🌍'</span>, <span class="st">'utf-8'</span>)  <span class="co"># b'\xf0\x9f\x8c\x8d'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>As we can expected, the compression ratio is 1, which is terrible.</p>
-<p>The vocabulary size is 256, which is a nice property because it is fixed and covers all possible bytes. However, the main drawback is that it can lead to long sequences, since each character (even multi-byte Unicode characters) is split into multiple tokens. This can make training less efficient and increase the computational cost for language models, given that the context length of a Transformer model is limited.</p>
-<section id="word-based-tokenization" class="level5">
-<h5 class="anchored" data-anchor-id="word-based-tokenization">Word-Based Tokenization</h5>
-<p>Another common approach is to tokenize the text into words, where each word is treated as a separate token. We can use regular expression to split the text into words.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<section id="lectures" class="level1 page-columns page-full">
+<h1>Lectures</h1>
+<section id="lecture-01-overview-tokenization" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="lecture-01-overview-tokenization">Lecture 01: Overview &amp; Tokenization</h2>
+<div class="callout callout-style-default callout-summary callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip
+Summary of Lecture 01
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>\w+</code> matches any word character, which includes:</p>
+<p>Byte Pair Encoding (BPE) is a simple yet effective <strong>tokenization algorithm</strong> that adaptively merges frequent character pairs to create a compact vocabulary, balancing compression efficiency and reversibility for language modeling.</p>
+</div>
+</div>
+<section id="tokenization" class="level3">
+<h3 class="anchored" data-anchor-id="tokenization">Tokenization</h3>
+<p>Tokenization is <u>the process of converting <em>raw text</em> into a <em>sequence of tokens</em>(usually is represented by <em>integer indices</em>)</u>, which are the basic units of meaning in a language model.</p>
+<p>There are different level of tokenization, such as:</p>
 <ul>
-<li>Letters: A–Z, a–z</li>
-<li>Digits: 0–9</li>
-<li>Underscore: _</li>
+<li><strong>Character-level</strong>: Each character is treated as a separate token.</li>
+<li><strong>Word-level</strong>: Each word is treated as a separate token.</li>
+<li><strong>Subword-level</strong>: Words are split into smaller units, such as prefixes, suffixes, or common subwords, to handle rare or out-of-vocabulary words more effectively.</li>
+<li><strong>Byte-level</strong>: Each byte of the text is treated as a separate token, which can handle any character in the Unicode standard.</li>
 </ul>
-<p><code>+</code> is a quantifier meaning “one or more times”</p>
+<div id="fig-tokenization-example" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="./cs336.assets/lec01-tokenization.png" class="img-fluid figure-img">
 </div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: An example of tokenization, the interactive demo of the tokenization process can be found <a href="https://tiktokenizer.vercel.app/">here</a>
+</figcaption>
+</figure>
 </div>
-<p>A more fancy expression is :</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>GPT2_TOKENIZER_REGEX <span class="op">=</span> <span class="vs">r"""'</span>(?:<span class="pp">[sdmt]</span><span class="cf">|</span><span class="vs">ll</span><span class="cf">|</span><span class="vs">ve</span><span class="cf">|</span><span class="vs">re</span>)<span class="cf">|</span><span class="vs"> </span><span class="op">?</span><span class="ch">\p{L}</span><span class="op">+</span><span class="cf">|</span><span class="vs"> </span><span class="op">?</span><span class="ch">\p{N}</span><span class="op">+</span><span class="cf">|</span><span class="vs"> </span><span class="op">?</span><span class="pp">[^</span><span class="dv">\s</span><span class="ch">\p{L}\p{N}</span><span class="pp">]</span><span class="op">+</span><span class="cf">|</span><span class="dv">\s</span><span class="op">+</span><span class="ex">(</span><span class="fu">?!</span><span class="dv">\S</span><span class="ex">)</span><span class="cf">|</span><span class="dv">\s</span><span class="op">+</span><span class="vs">"""</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>segments <span class="op">=</span> re.findall(GPT2_TOKENIZER_REGEX, string)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>After we get the segments, we can assign each segment to a unique integer index, which is the token. One of the main drawbacks of word-based tokenization is that the vocabulary size is not fixed and can grow very large, especially with rare or out-of-vocabulary words. This can make the model harder to train and require more memory. Additionally, it struggles with handling misspellings, new words, or languages with rich morphology. New words we haven’t seen during training will be treated as <code>UNK</code> tokens, which can lead to a loss of information and context.</p>
+<p>Before diving into the details of each tokenization algorithms , let’s first define a framework for tokenization in Python code: A <code>Tokenizer</code> is a class that implements the encode and decode methods for tokenization:</p>
+<ul>
+<li><code>encode(string)</code> method <u>takes a string of text and converts it into a sequence of integer indices</u>, which are the <strong>tokens</strong>.</li>
+<li><code>decode(indices)</code> method <u>takes a sequence of integer indices and converts it back into a string of text</u>.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">class</span> Tokenizer:</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, config):</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, string: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">int</span>]:</span>
+<span id="cb1-5"><a href="#cb1-5"></a>        <span class="cf">pass</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>    <span class="kw">def</span> decode(<span class="va">self</span>, indices: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb1-8"><a href="#cb1-8"></a>        <span class="cf">pass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>Tokenizer</code> will generate a list of tokens from the input text, the number of the tokens is called the <strong>vocabulary size</strong>.</p>
+<p>One of the good quantity to measure the tokenization algorithm is the <strong>compression ratio</strong>, which is defined as the <em>ratio of the number of bytes of the input text to the number of tokens</em>. <u>A higher compression ratio indicates that the tokenization algorithm is more efficient in representing the input text</u>. The compression ratio can be calculated as:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">def</span> get_compression_ratio(string: <span class="bu">str</span>, indices: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb2-2"><a href="#cb2-2"></a>    <span class="co"># Calculate the compression ratio of the tokenization algorithm</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>    <span class="cf">return</span> <span class="bu">len</span>(<span class="bu">bytes</span>(string, <span class="st">'utf-8'</span>)) <span class="op">/</span> <span class="bu">len</span>(indices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, let’s discuss those four tokenization algorithms in detail:</p>
+<section id="character-based-tokenization" class="level4">
+<h4 class="anchored" data-anchor-id="character-based-tokenization">Character-Based Tokenization</h4>
+<p>A Unicode string is a sequence of Unicode code points, which can be represented as a sequence of integers. Each character in the string is treated as a separate token, for example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="bu">ord</span>(<span class="st">'a'</span>)   <span class="co"># 97 </span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="bu">chr</span>(<span class="dv">97</span>)   <span class="co"># 'a'</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="bu">ord</span>(<span class="st">'🌍'</span>) <span class="co"># 127757</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="bu">chr</span>(<span class="dv">127757</span>) <span class="co"># '🌍'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can implement a simple character-based tokenizer as follows:</p>
+<div id="63847b98" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">class</span> CharacterTokenizer(Tokenizer):</span>
+<span id="cb4-2"><a href="#cb4-2"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, string: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">int</span>]:</span>
+<span id="cb4-3"><a href="#cb4-3"></a>        <span class="cf">return</span> [<span class="bu">ord</span>(c) <span class="cf">for</span> c <span class="kw">in</span> string]</span>
+<span id="cb4-4"><a href="#cb4-4"></a>    <span class="kw">def</span> decode(<span class="va">self</span>, indices: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb4-5"><a href="#cb4-5"></a>        <span class="cf">return</span> <span class="st">''</span>.join(<span class="bu">chr</span>(i) <span class="cf">for</span> i <span class="kw">in</span> indices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>One of the main drawbacks of character-based tokenization is that it can lead to a large vocabulary size (there are approximately <a href="https://en.wikipedia.org/wiki/List_of_Unicode_characters">150K unicode characters</a>), which can make the model more difficult to train and less efficient in terms of memory usage. And some character are not commonly used in the text(e.g.&nbsp;‘🌍’), which is inefficient use of the vocabulary.</p>
 </section>
-<section id="byte-pair-encoding-bpe" class="level5 page-columns page-full">
-<h5 class="anchored" data-anchor-id="byte-pair-encoding-bpe">Byte Pair Encoding (BPE)</h5>
-<p>The basic idea of BPE is to iteratively merge the most frequent pairs of characters or subwords in the text until a desired vocabulary size is reached. This allows for a more efficient representation of the text, as it can capture common subwords and reduce the overall vocabulary size. (In the info encoding)</p>
+<section id="byte-based-tokenization" class="level4">
+<h4 class="anchored" data-anchor-id="byte-based-tokenization">Byte-Based Tokenization</h4>
+<p>Unicode strings can be encoded as a sequence of bytes using UTF-8 encoding. Each byte can be represented by integers in the range of 0 to 255. Some Unicode characters are represented by one byte, others take multiple bytes:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="bu">bytes</span>(<span class="st">'a'</span>, <span class="st">'utf-8'</span>)  <span class="co"># b'a'</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="bu">bytes</span>(<span class="st">'🌍'</span>, <span class="st">'utf-8'</span>)  <span class="co"># b'\xf0\x9f\x8c\x8d'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can implement a simple byte-based tokenizer as follows:</p>
+<div id="7a1cedb2" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">class</span> ByteTokenizer(Tokenizer):</span>
+<span id="cb6-2"><a href="#cb6-2"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, string: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">int</span>]:</span>
+<span id="cb6-3"><a href="#cb6-3"></a>        <span class="cf">return</span> <span class="bu">list</span>(<span class="bu">bytes</span>(string, <span class="st">'utf-8'</span>))</span>
+<span id="cb6-4"><a href="#cb6-4"></a>    <span class="kw">def</span> decode(<span class="va">self</span>, indices: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb6-5"><a href="#cb6-5"></a>        <span class="cf">return</span> <span class="bu">bytes</span>(indices).decode(<span class="st">'utf-8'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As we can expected, the compression ratio is 1, which is terrible.</p>
+<p>The <strong>vocabulary size</strong> is 256, which is a nice property because it is fixed and covers all possible bytes, which means we will not get out-of-vocabulary (OOV) tokens. However, the main drawback is that it can lead to long sequences, since each character (even multi-byte Unicode characters) is split into multiple tokens. This can make training less efficient and increase the computational cost for language models, given that the context length of a Transformer model is limited.</p>
+</section>
+<section id="word-based-tokenization" class="level4">
+<h4 class="anchored" data-anchor-id="word-based-tokenization">Word-Based Tokenization</h4>
+<p>Another common approach is to tokenize the text into words, where each word is treated as a separate token. We can use <a href="https://en.wikipedia.org/wiki/Regular_expression">regular expression</a> to <u>split the text into words</u>.</p>
+<p>for example the GPT-2 regular expression is :</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>GPT2_TOKENIZER_REGEX <span class="op">=</span> <span class="vs">r"""'</span>(?:<span class="pp">[sdmt]</span><span class="cf">|</span><span class="vs">ll</span><span class="cf">|</span><span class="vs">ve</span><span class="cf">|</span><span class="vs">re</span>)<span class="cf">|</span><span class="vs"> </span><span class="op">?</span><span class="ch">\p{L}</span><span class="op">+</span><span class="cf">|</span><span class="vs"> </span><span class="op">?</span><span class="ch">\p{N}</span><span class="op">+</span><span class="cf">|</span><span class="vs"> </span><span class="op">?</span><span class="pp">[^</span><span class="dv">\s</span><span class="ch">\p{L}\p{N}</span><span class="pp">]</span><span class="op">+</span><span class="cf">|</span><span class="dv">\s</span><span class="op">+</span><span class="ex">(</span><span class="fu">?!</span><span class="dv">\S</span><span class="ex">)</span><span class="cf">|</span><span class="dv">\s</span><span class="op">+</span><span class="vs">"""</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>segments <span class="op">=</span> re.findall(GPT2_TOKENIZER_REGEX, string)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After we get the segments, we can assign each segment to a unique integer index, which is the token. However there are several problem with this word-level tokenization:</p>
+<ul>
+<li>The number of words is huge.</li>
+<li>Many words are rare and the model won’t learn much about them.</li>
+<li>The vocabulary size is not fixed, which can lead to out-of-vocabulary (OOV) tokens. New words we haven’t seen during training will be treated as <code>UNK</code> tokens, which can lead to a loss of information and context.</li>
+</ul>
+</section>
+<section id="byte-pair-encoding-bpe" class="level4">
+<h4 class="anchored" data-anchor-id="byte-pair-encoding-bpe">Byte Pair Encoding (BPE)</h4>
+<p>The basic idea of BPE is to <u>iteratively merge the most frequent pairs of characters or subwords in the text until a desired vocabulary size is reached</u>. This allows for a more efficient representation of the text, as it can capture common subwords and reduce the overall vocabulary size. The intuition behind BPE is that common sequences of characters are represented by a single token, rare sequences are represented by many tokens.</p>
 <blockquote class="blockquote">
 <p>The GPT-2 paper used word-based tokenization to break up the text into initial segments and run the original BPE algorithm on each segment.</p>
 </blockquote>
+<p>Here are the steps to implement BPE:</p>
+<ol type="1">
+<li><strong>Initialize</strong>: Start with a vocabulary that contains all unique characters in the text, usually start with 0-255</li>
+<li><strong>Count Pairs</strong>: Count all adjacent character pairs in the text.</li>
+<li><strong>Merge</strong>: Find the most frequent pair and merge it into a new token.</li>
+<li><strong>Update</strong>: Replace all occurrences of the merged pair in the text with the new token.</li>
+<li><strong>Repeat</strong>: Repeat steps 2-4 until the desired vocabulary size is reached.</li>
+</ol>
+<div id="15508955" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="at">@dataclass</span>(frozen<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">class</span> BPETokenizerParams:</span>
+<span id="cb8-3"><a href="#cb8-3"></a>    vocab: <span class="bu">dict</span>[<span class="bu">int</span>, <span class="bu">bytes</span>]   <span class="co"># Mapping of token indices to byte sequences</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>    merges: <span class="bu">dict</span>[<span class="bu">tuple</span>[<span class="bu">int</span>, <span class="bu">int</span>], <span class="bu">int</span>]  <span class="co"># Mapping of pairs to their frequency</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="kw">def</span> merge(indices: <span class="bu">list</span>[<span class="bu">int</span>], pair: <span class="bu">tuple</span>[<span class="bu">int</span>, <span class="bu">int</span>], new_index:<span class="bu">int</span>)  <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">int</span>]:</span>
+<span id="cb8-7"><a href="#cb8-7"></a>    new_indices <span class="op">=</span> []</span>
+<span id="cb8-8"><a href="#cb8-8"></a>    i <span class="op">=</span> <span class="dv">0</span> </span>
+<span id="cb8-9"><a href="#cb8-9"></a>    <span class="cf">while</span> i<span class="op">&lt;</span> <span class="bu">len</span>(indices):</span>
+<span id="cb8-10"><a href="#cb8-10"></a>        <span class="cf">if</span> i <span class="op">+</span> <span class="dv">1</span> <span class="op">&lt;</span> <span class="bu">len</span>(indices) <span class="kw">and</span> indices[i] <span class="op">==</span> pair[<span class="dv">0</span>] <span class="kw">and</span> indices[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">==</span> pair[<span class="dv">1</span>]:</span>
+<span id="cb8-11"><a href="#cb8-11"></a>            new_indices.append(new_index)  <span class="co"># Replace the pair with the new index</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a>            i <span class="op">+=</span> <span class="dv">2</span>  <span class="co"># Skip the next index since it's part of the pair</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a>        <span class="cf">else</span>:</span>
+<span id="cb8-14"><a href="#cb8-14"></a>            new_indices.append(indices[i])  <span class="co"># Keep the current index</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a>            i <span class="op">+=</span> <span class="dv">1</span>  <span class="co"># Move to the next index</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a>    <span class="cf">return</span> new_indices</span>
+<span id="cb8-17"><a href="#cb8-17"></a></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="kw">class</span> BPETokenizer(Tokenizer):</span>
+<span id="cb8-19"><a href="#cb8-19"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, params: BPETokenizerParams):</span>
+<span id="cb8-20"><a href="#cb8-20"></a>        <span class="va">self</span>.params <span class="op">=</span> params </span>
+<span id="cb8-21"><a href="#cb8-21"></a>    </span>
+<span id="cb8-22"><a href="#cb8-22"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, string: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">int</span>]:</span>
+<span id="cb8-23"><a href="#cb8-23"></a>        indices <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, string.encode(<span class="st">'utf-8'</span>))) <span class="co"># Convert string to byte indices</span></span>
+<span id="cb8-24"><a href="#cb8-24"></a>        <span class="cf">for</span> pair, new_index <span class="kw">in</span> <span class="va">self</span>.params.merges.items():</span>
+<span id="cb8-25"><a href="#cb8-25"></a>            indices <span class="op">=</span> merge(indices, pair, new_index)  </span>
+<span id="cb8-26"><a href="#cb8-26"></a>        <span class="cf">return</span> indices</span>
+<span id="cb8-27"><a href="#cb8-27"></a>    </span>
+<span id="cb8-28"><a href="#cb8-28"></a>    <span class="kw">def</span> decode(<span class="va">self</span>, indices: <span class="bu">list</span>[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">str</span>: </span>
+<span id="cb8-29"><a href="#cb8-29"></a>        byte_list <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="va">self</span>.params.vocab.get, indices))  <span class="co"># Convert indices to bytes</span></span>
+<span id="cb8-30"><a href="#cb8-30"></a>        string <span class="op">=</span> <span class="st">b''</span>.join(byte_list)  <span class="co"># Join bytes into a single byte string</span></span>
+<span id="cb8-31"><a href="#cb8-31"></a>        <span class="cf">return</span> string.decode(<span class="st">'utf-8'</span>)  <span class="co"># Decode byte string to UTF-8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To train an BPE tokenizer, we need to count the frequency of pairs in the text and merge them iteratively. The <code>BPETokenizerParams</code> class holds the vocabulary and merge rules, which can be generated from a training corpus.</p>
+<div id="a3a2c961" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> train_bpe_tokenizer(string: <span class="bu">str</span>, num_merges: <span class="bu">int</span>) <span class="op">-&gt;</span> BPETokenizerParams:</span>
+<span id="cb9-2"><a href="#cb9-2"></a>    <span class="co"># Initialize vocabulary with single characters</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>    vocab: <span class="bu">dict</span>[<span class="bu">int</span>, <span class="bu">bytes</span>] <span class="op">=</span> {x: <span class="bu">bytes</span>([x]) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">256</span>)}  <span class="co"># index -&gt; bytes, 256 unique bytes for UTF-8</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>    merges: <span class="bu">dict</span>[<span class="bu">tuple</span>[<span class="bu">int</span>, <span class="bu">int</span>], <span class="bu">int</span>] <span class="op">=</span> {}  <span class="co"># index1, index2 =&gt; merged index</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a>    </span>
+<span id="cb9-6"><a href="#cb9-6"></a>    <span class="co"># Convert string to byte indices</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>    indices <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, string.encode(<span class="st">'utf-8'</span>)))</span>
+<span id="cb9-8"><a href="#cb9-8"></a>    </span>
+<span id="cb9-9"><a href="#cb9-9"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_merges):</span>
+<span id="cb9-10"><a href="#cb9-10"></a>        <span class="co"># Count pairs</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a>        counts <span class="op">=</span> defaultdict(<span class="bu">int</span>)</span>
+<span id="cb9-12"><a href="#cb9-12"></a>        <span class="cf">for</span> index1, index2 <span class="kw">in</span> <span class="bu">zip</span>(indices[:<span class="op">-</span><span class="dv">1</span>], indices[<span class="dv">1</span>:]):</span>
+<span id="cb9-13"><a href="#cb9-13"></a>            counts[(index1, index2)] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a></span>
+<span id="cb9-15"><a href="#cb9-15"></a>        <span class="co"># Find the most frequent pair</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a></span>
+<span id="cb9-17"><a href="#cb9-17"></a>        most_frequent_pair <span class="op">=</span> <span class="bu">max</span>(counts, key<span class="op">=</span>counts.get)</span>
+<span id="cb9-18"><a href="#cb9-18"></a>        </span>
+<span id="cb9-19"><a href="#cb9-19"></a>        <span class="co"># Create a new token for the merged pair</span></span>
+<span id="cb9-20"><a href="#cb9-20"></a>        new_index <span class="op">=</span> <span class="dv">256</span> <span class="op">+</span> i </span>
+<span id="cb9-21"><a href="#cb9-21"></a>        merges[most_frequent_pair] <span class="op">=</span> new_index</span>
+<span id="cb9-22"><a href="#cb9-22"></a>        vocab[new_index] <span class="op">=</span> vocab[index1] <span class="op">+</span> vocab[index2]  <span class="co"># Merge the byte sequences</span></span>
+<span id="cb9-23"><a href="#cb9-23"></a>        </span>
+<span id="cb9-24"><a href="#cb9-24"></a>        <span class="co"># Merge the pair in the indices</span></span>
+<span id="cb9-25"><a href="#cb9-25"></a>        indices <span class="op">=</span> merge(indices, most_frequent_pair, new_index)</span>
+<span id="cb9-26"><a href="#cb9-26"></a>    </span>
+<span id="cb9-27"><a href="#cb9-27"></a>    <span class="cf">return</span> BPETokenizerParams(vocab<span class="op">=</span>vocab, merges<span class="op">=</span>merges)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can save the <code>BPETokenizerParams</code> to a file and load it later to use the tokenizer. The BPE algorithm is efficient in terms of compression ratio, as it can adaptively merge frequent subwords to form a compact vocabulary, while still being reversible.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This implementation of BPE is a simplified version, and there are many optimizations and variations that can be applied to improve the efficiency and performance of the algorithm. For example, we can use a <a href="https://en.wikipedia.org/wiki/Priority_queue">priority queue</a> to efficiently find the most frequent pair. And we can also use more advanced techniques to speed up the merging process, such as caching and batching.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Further Reading">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Further Reading
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For those are more interested in the BPE, I highly recommend this video by <a href="https://www.youtube.com/@AndrejKarpathy">Andrej Karpathy</a>, which provides a detailed explanation of the BPE algorithm.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/zduSFxRajkE?si=hQlXUYOgclHVA4je" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary-of-lecture-01" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="summary-of-lecture-01">Summary of Lecture 01</h3>
+<p>In this lecture, we learned about the concept of the tokenization, which is the process of converting raw text into a sequence of tokens. We discussed four different tokenization algorithms: character-based, byte-based, word-based, and byte pair encoding (BPE). Each algorithm has its own advantages and disadvantages. We also learned how to measure the efficiency of a tokenization algorithm using the compression ratio. We will implemented more fancy version of the BPE algorithm in the assignment 01, which will be used to build a transformer model from scratch.</p>
 <p>Below are the summary of four different tokenization algorithms:</p>
 <div class="column-page">
 <div id="tbl-tokenization-summary" class="hover quarto-float quarto-figure quarto-figure-center anchored">
@@ -651,22 +857,21 @@ Tip
 </table>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-tbl" id="tbl-tokenization-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Summary of 4 Tokenization Algorithms
+Table&nbsp;1: Summary of 4 different tokenization algorithms
 </figcaption>
 </figure>
 </div>
 </div>
 </section>
 </section>
-</section>
-<section id="lecture-02-pytorch-resource-accounting" class="level3">
-<h3 class="anchored" data-anchor-id="lecture-02-pytorch-resource-accounting">Lecture 02: Pytorch, Resource Accounting</h3>
+<section id="lecture-02-pytorch-resource-accounting" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-02-pytorch-resource-accounting">Lecture 02: Pytorch, Resource Accounting</h2>
 <p>h100_bytes = 80e9</p>
 <p>Bytes_per_parameter = 4 + 4 + ( 4+ 4) =&gt; Parameters, gradient, optimizer state</p>
 <p>Num Paramter = (h100_byes * 8) / Bytes_per_parameter 4e10</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>x <span class="op">=</span> torch.tensor([</span>
-<span id="cb5-2"><a href="#cb5-2"></a>    [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
-<span id="cb5-3"><a href="#cb5-3"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>x <span class="op">=</span> torch.tensor([</span>
+<span id="cb10-2"><a href="#cb10-2"></a>    [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb10-3"><a href="#cb10-3"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="memory-account" class="level4">
 <h4 class="anchored" data-anchor-id="memory-account">Memory Account</h4>
 <p><code>float32</code> is the most common data type used in deep learning, which uses 4 bytes per element.</p>
@@ -676,7 +881,7 @@ Table&nbsp;1: Summary of 4 Tokenization Algorithms
 <img src="./images/fp32.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fp32-representation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: The representation of float32 in memory
+Figure&nbsp;2: The representation of float32 in memory
 </figcaption>
 </figure>
 </div>
@@ -702,8 +907,8 @@ Note
 <p>Memory is determined by the number of values in the tensor and the data type of the tensor. The memory usage can be calculated as: <span id="eq-memory-account-tensor"><span class="math display">\[
 \text{Memory} = \text{Number of Values} \times \text{Bytes per Value}
 \tag{1}\]</span></span> which can be calculated as:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">def</span> get_memory_usage(x: torch.Tensor):</span>
-<span id="cb6-2"><a href="#cb6-2"></a>    <span class="cf">return</span> x.numel() <span class="op">*</span> x.element_size()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">def</span> get_memory_usage(x: torch.Tensor):</span>
+<span id="cb11-2"><a href="#cb11-2"></a>    <span class="cf">return</span> x.numel() <span class="op">*</span> x.element_size()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>float32</code> takes 4 bytes per element, for the LLM, this is a lot of memory. We are use <code>float16</code> to reduce the memory usage by half, which is 2 bytes per element. This is a common practice in deep learning to save memory and speed up training.</p>
 <div id="fig-fp16-representation" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -711,13 +916,13 @@ Note
 <img src="./images/fp16.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fp16-representation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: The representation of float16 in memory
+Figure&nbsp;3: The representation of float16 in memory
 </figcaption>
 </figure>
 </div>
 <p>The <code>float16</code> cuts down the memory usage by half, but it has a smaller dynamic range and precision compared to <code>float32</code>. This can lead to numerical instability and loss of precision in some cases, especially when dealing with very large or very small numbers.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>x <span class="op">=</span> torch.tensor([<span class="fl">1e-8</span>], dtype<span class="op">=</span>torch.float16)  </span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="cf">assert</span> x <span class="op">==</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>x <span class="op">=</span> torch.tensor([<span class="fl">1e-8</span>], dtype<span class="op">=</span>torch.float16)  </span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="cf">assert</span> x <span class="op">==</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>when the underflow or overflow happens, the value will be rounded to 0 or infinity, which might cause the instability in the training process.</p>
 <p>Another data type is <code>bfloat16</code>, which is a 16-bit floating point format that has the same dynamic range as <code>float32</code>, but with less precision. It uses 8 bits for the exponent and 7 bits for the fraction, which allows for a dynamic range of approximately 3.4e-38 to 3.4e+38, but with a precision of only 2 decimal digits.<br>
 <img src="./images/bf16.png" id="fig-bf16-representation" class="img-fluid" alt="The representation of bfloat16 in memory"></p>
@@ -726,18 +931,18 @@ Figure&nbsp;2: The representation of float16 in memory
 <section id="compute-account" class="level4">
 <h4 class="anchored" data-anchor-id="compute-account">Compute Account</h4>
 <p>By defaults, all the tensors are stored in the CPU memory, which is not efficient for training deep learning models. We can move the tensors to the GPU memory by calling the <code>to</code> method on the tensor, which will move the tensor to the specified device.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>x <span class="op">=</span> torch.tensor([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
-<span id="cb8-2"><a href="#cb8-2"></a>x <span class="op">=</span> x.to(<span class="st">'cuda'</span>)  <span class="co"># Move tensor to GPU</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>x <span class="op">=</span> torch.tensor([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
+<span id="cb13-2"><a href="#cb13-2"></a>x <span class="op">=</span> x.to(<span class="st">'cuda'</span>)  <span class="co"># Move tensor to GPU</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>One way to check the memory usage of the GPU in PyTorch is to use the <code>torch.cuda.memory_allocated()</code> and <code>torch.cuda.memory_reserved()</code> functions. The <code>memory_allocated()</code> function returns the total memory allocated by the tensors, while the <code>memory_reserved()</code> function returns the total memory reserved by the CUDA allocator.</p>
 <p>The PyTorch <code>tensor</code> are pointers to the memory allocated on the GPU, with metadata such as the shape, data type, and device. There are several commom operations that can be performed on the tensors:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource Python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>x <span class="op">=</span> torch.tensor([[<span class="fl">1.</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]]) </span>
-<span id="cb9-2"><a href="#cb9-2"></a>y <span class="op">=</span> x[<span class="dv">0</span>] <span class="co"># Get the first row of the tensor</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a>z <span class="op">=</span> x[:, <span class="dv">1</span>] <span class="co"># Get the second column of the tensor</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a>w <span class="op">=</span> x[<span class="dv">0</span>, <span class="dv">1</span>] <span class="co"># Get the element at the first row and second</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a></span>
-<span id="cb9-6"><a href="#cb9-6"></a>y <span class="op">=</span> x.view(<span class="dv">3</span>, <span class="dv">2</span>) <span class="co"># Reshape the tensor to 3 rows and 2 columns</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a>z <span class="op">=</span> x.reshape(<span class="dv">3</span>, <span class="dv">2</span>) <span class="co"># Reshape the tensor to 3 rows</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a>w <span class="op">=</span> x.transpose(<span class="dv">0</span>, <span class="dv">1</span>) <span class="co"># Transpose the tensor </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource Python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>x <span class="op">=</span> torch.tensor([[<span class="fl">1.</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]]) </span>
+<span id="cb14-2"><a href="#cb14-2"></a>y <span class="op">=</span> x[<span class="dv">0</span>] <span class="co"># Get the first row of the tensor</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a>z <span class="op">=</span> x[:, <span class="dv">1</span>] <span class="co"># Get the second column of the tensor</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>w <span class="op">=</span> x[<span class="dv">0</span>, <span class="dv">1</span>] <span class="co"># Get the element at the first row and second</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a></span>
+<span id="cb14-6"><a href="#cb14-6"></a>y <span class="op">=</span> x.view(<span class="dv">3</span>, <span class="dv">2</span>) <span class="co"># Reshape the tensor to 3 rows and 2 columns</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a>z <span class="op">=</span> x.reshape(<span class="dv">3</span>, <span class="dv">2</span>) <span class="co"># Reshape the tensor to 3 rows</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>w <span class="op">=</span> x.transpose(<span class="dv">0</span>, <span class="dv">1</span>) <span class="co"># Transpose the tensor </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>One of the most important operations in deep learning is the matrix multiplication, which can be performed using the <code>torch.matmul()</code> function. Also, besides that, the <code>einops</code> library provides a powerful way to manipulate tensors, allowing for more complex operations</p>
 <p>Now, let’s talk about the compute account, which is the number of floating point operations (FLOPs) required to perform a certain operation. The FLOPs can be calculated as the number of floating point operations divided by the time taken to perform the operation.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -754,53 +959,154 @@ Note
 </div>
 </div>
 <p>Support we have a Linear layer with <code>B</code> batch size, <code>D</code> input dimension, and <code>K</code> output dimension. The number of floating point operations required to perform the forward pass of the linear layer can be calculated as:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>FLOPs <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> B <span class="op">*</span> D <span class="op">*</span> K</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>FLOPs <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> B <span class="op">*</span> D <span class="op">*</span> K</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>where <code>2</code> is the number of floating point operations required to perform the matrix multiplication and addition (1 for multiplication and 1 for addition) of (i, j, k) triple.</p>
 <p>Beside the matrix multiplication, the element-wise operations such as activation functions (e.g., ReLU, sigmoid) also contribute to the FLOPs. For example, if we apply a ReLU activation function after the linear layer, it will add <code>B * K</code> additional floating point operations, since it applies the function to each element in the output tensor. Addition of two <span class="math inline">\(m \times n\)</span> matrices requires <span class="math inline">\(mn\)</span> FLOPs, where <span class="math inline">\(m\)</span> is the number of rows and <span class="math inline">\(n\)</span> is the number of columns.</p>
 <p>FLOPs is measure in terms of the number of the floating point operations required to perform a certain operation, which is a common way to measure the computational complexity of an algorithm. In theory, how to map those FLOPs to the wall clock time is not straightforward, since it depends on the hardware and the implementation of the algorithm. However, we can use the following formula to estimate the wall clock time:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>Wall Clock Time <span class="op">=</span> FLOPs <span class="op">/</span> FLOP<span class="op">/</span>s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>Wall Clock Time <span class="op">=</span> FLOPs <span class="op">/</span> FLOP<span class="op">/</span>s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>One of the criterion is the MFU(Model FLOPs Utilization).Usually, MFU of &gt;= 0.5 is quite good (and will be higher if matmuls dominate)</p>
 <p>Floating point operation is a basic operation like addition or multiplication.</p>
 <p>Forward: 2 * B * D * K (#tokens) (#parameters)</p>
 <p>FLOPs =&gt; Wall Clock time.</p>
 </section>
 </section>
-<section id="lecture-03-architectures-hyperparameters" class="level3">
-<h3 class="anchored" data-anchor-id="lecture-03-architectures-hyperparameters">Lecture 03: Architectures &amp; Hyperparameters</h3>
+<section id="lecture-03-architectures-hyperparameters" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-03-architectures-hyperparameters">Lecture 03: Architectures &amp; Hyperparameters</h2>
 </section>
-<section id="lecture-04-mixture-of-experts" class="level3">
-<h3 class="anchored" data-anchor-id="lecture-04-mixture-of-experts">Lecture 04: Mixture of Experts</h3>
+<section id="lecture-04-mixture-of-experts" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-04-mixture-of-experts">Lecture 04: Mixture of Experts</h2>
 </section>
-<section id="lecture-05-06-gpu-kernels-triton" class="level3">
-<h3 class="anchored" data-anchor-id="lecture-05-06-gpu-kernels-triton">Lecture 05 &amp; 06: GPU, Kernels, Triton</h3>
+<section id="lecture-05-06-gpu-kernels-triton" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-05-06-gpu-kernels-triton">Lecture 05 &amp; 06: GPU, Kernels, Triton</h2>
 </section>
-<section id="lecture-07-08-parallelism" class="level3">
-<h3 class="anchored" data-anchor-id="lecture-07-08-parallelism">Lecture 07 &amp; 08: Parallelism</h3>
+<section id="lecture-07-08-parallelism" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-07-08-parallelism">Lecture 07 &amp; 08: Parallelism</h2>
 </section>
-<section id="lecture-10-inference" class="level3">
-<h3 class="anchored" data-anchor-id="lecture-10-inference">Lecture 10: Inference</h3>
+<section id="lecture-09-11-scaling-laws" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-09-11-scaling-laws">Lecture 09 &amp; 11: Scaling Laws</h2>
 </section>
-<section id="lecture-09-11-scaling-laws" class="level3">
-<h3 class="anchored" data-anchor-id="lecture-09-11-scaling-laws">Lecture 09 &amp; 11: Scaling Laws</h3>
+<section id="lecture-10-inference" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-10-inference">Lecture 10: Inference</h2>
 </section>
-<section id="lecture-12-evaluation" class="level3">
-<h3 class="anchored" data-anchor-id="lecture-12-evaluation">Lecture 12: Evaluation</h3>
+<section id="lecture-12-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-12-evaluation">Lecture 12: Evaluation</h2>
 </section>
-<section id="lecture-13-14-data" class="level3">
-<h3 class="anchored" data-anchor-id="lecture-13-14-data">Lecture 13 &amp; 14: Data</h3>
+<section id="lecture-13-14-data" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-13-14-data">Lecture 13 &amp; 14: Data</h2>
 </section>
-<section id="lecture-15-16-17-alignment-sft-rlhf" class="level3">
-<h3 class="anchored" data-anchor-id="lecture-15-16-17-alignment-sft-rlhf">Lecture 15, 16 &amp; 17: Alignment: SFT/ RLHF</h3>
+<section id="lecture-15-16-17-alignment-sft-rlhf" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-15-16-17-alignment-sft-rlhf">Lecture 15, 16 &amp; 17: Alignment: SFT/ RLHF</h2>
 </section>
 </section>
-<section id="assignments" class="level2">
-<h2 class="anchored" data-anchor-id="assignments">Assignments</h2>
-<section id="assignment-01-basics" class="level3">
-<h3 class="anchored" data-anchor-id="assignment-01-basics">Assignment 01: Basics</h3>
-<p>In this assignment, we will implement the Byte-Pair Encoding(BPE) algorithm for tokenization, and build a transformer model from scratch. And also define optimization and training loop for the model.</p>
+<section id="assignments" class="level1">
+<h1>Assignments</h1>
+<section id="assignment-01-basics" class="level2">
+<h2 class="anchored" data-anchor-id="assignment-01-basics">Assignment 01: Basics</h2>
+<section id="preparation" class="level3">
+<h3 class="anchored" data-anchor-id="preparation">Preparation</h3>
+<section id="clone-assignment-repository" class="level4">
+<h4 class="anchored" data-anchor-id="clone-assignment-repository">Clone Assignment Repository</h4>
+<p>First, we need clone the assignment repository from GitHub:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/stanford-cs336/assignment1-basics/tree/main</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> assignment1-basics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="assignment-02-system" class="level3">
-<h3 class="anchored" data-anchor-id="assignment-02-system">Assignment 02: System</h3>
+<section id="download-dataset" class="level4">
+<h4 class="anchored" data-anchor-id="download-dataset">Download Dataset</h4>
+<p>Then, we need download the dataset, the dataset used are <a href="https://huggingface.co/datasets/roneneldan/TinyStories">TinyStories</a> and <a href="https://github.com/jcpeterson/openwebtext">OpenWebText</a></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://huggingface.co/datasets/roneneldan/TinyStories/resolve/main/TinyStoriesV2-GPT4-train.txt</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://huggingface.co/datasets/roneneldan/TinyStories/resolve/main/TinyStoriesV2-GPT4-valid.txt</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://huggingface.co/datasets/stanford-cs336/owt-sample/resolve/main/owt_train.txt.gz</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> owt_train.txt.gz</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://huggingface.co/datasets/stanford-cs336/owt-sample/resolve/main/owt_valid.txt.gz</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> owt_valid.txt.gz</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After downloading the dataset, we can check the size of the dataset:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ./data             </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 13G    ./data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>There are 13GB of data in total, which is a small dataset for training a language model.</p>
+</section>
+<section id="install-dependencies" class="level4">
+<h4 class="anchored" data-anchor-id="install-dependencies">Install Dependencies</h4>
+<p>To run code, and install the dependencies, we can just run the following command:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It will automatically create a virtual environment and install the dependencies.</p>
+</section>
+</section>
+<section id="byte-pair-encoding-bpe-tokenizer" class="level3">
+<h3 class="anchored" data-anchor-id="byte-pair-encoding-bpe-tokenizer">Byte-Pair Encoding (BPE) Tokenizer</h3>
+<section id="the-unicode-standard" class="level4">
+<h4 class="anchored" data-anchor-id="the-unicode-standard">The Unicode Standard</h4>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="bu">ord</span>() <span class="co"># convert a single Unicode character into its integer representation</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="bu">chr</span>() <span class="co"># convert a single integer representation into its Unicode character</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The Unicode character <code>chr(0)</code> return <code>'\x00'</code>, which is the null character. While use <code>repr(chr(0))</code> will return <code>"'\\x00'"</code>, which is the string representation of the null character. When use <code>print</code> function, it will not print anything, since the null character is not printable. So, when add the <code>chr(0)</code> to the string, it will not change the string, but it will add a null character to string.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="co">"this is a test"</span> <span class="op">+</span> <span class="bu">chr</span>(<span class="dv">0</span>) <span class="op">+</span> <span class="st">"string"</span> <span class="co"># 'this is a test\x00string'</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="bu">print</span>(<span class="st">"this is a test"</span> <span class="op">+</span> <span class="bu">chr</span>(<span class="dv">0</span>) <span class="op">+</span> <span class="st">"string"</span>) <span class="co"># # this is a teststring</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="unicode-encoding" class="level4">
+<h4 class="anchored" data-anchor-id="unicode-encoding">Unicode Encoding</h4>
+<p>Unicode Encoding is the process of converting a Unicode character into a sequence of bytes. The most common encoding is UTF-8, which uses 1 to 4 bytes to represent a Unicode character.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Unicode Standard VS. Unicode Encoding">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Unicode Standard VS. Unicode Encoding
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Unicode Standard</strong> is a character encoding standard that <u>defines a unique number for every character</u>, no matter the platform, program, or language. <strong>Unicode Encoding</strong> is the <u>actual implementation of the Unicode Standard</u> in a specific encoding format, such as UTF-8 or UTF-16. It will convert the Unicode character into a sequence of bytes.</p>
+</div>
+</div>
+<p>To encode the Unicode string into UTF-8, we can use the <code>encode()</code> method in Python to convert the string into a byte sequence, and then use the <code>decode()</code> method to convert the byte sequence back into a string. The <code>encode()</code> method takes an optional argument that specifies the encoding format, which is UTF-8 by default.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>original_string <span class="op">=</span> <span class="st">"Hello World! 🌍 你好, 世界!"</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>utf8_encode <span class="op">=</span> original_string.encode(<span class="st">"utf-8"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3"></a>utf8_bytes <span class="op">=</span> <span class="bu">list</span>(utf8_encode) <span class="co"># Get the byte values of the encoded string</span></span>
+<span id="cb23-4"><a href="#cb23-4"></a>original_string <span class="op">=</span> utf8_encode.decode(<span class="st">"utf-8"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5"></a><span class="bu">len</span>(original_string) <span class="co"># 22</span></span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="bu">len</span>(utf8_bytes) <span class="co"># 33</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>UTF-8 is variable-length and uses 1 byte for ASCII (common in English), making it more compact for most real-world text. UTF-16 uses 2 or 4 bytes per character, and UTF-32 always uses 4 bytes, even for ASCII.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>s <span class="op">=</span> <span class="st">"hello"</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="bu">print</span>(<span class="bu">len</span>(s.encode(<span class="st">"utf-8"</span>)))   <span class="co"># 5 bytes</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="bu">print</span>(<span class="bu">len</span>(s.encode(<span class="st">"utf-16"</span>)))  <span class="co"># 12 bytes (includes BOM)</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="bu">print</span>(<span class="bu">len</span>(s.encode(<span class="st">"utf-32"</span>)))  <span class="co"># 20 bytes (includes BOM)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>UTF-8 produces a byte range of 0–255, making the vocabulary size small and fixed (ideal for BPE training).
+•   UTF-16/32 would increase the vocabulary size dramatically (≥65,536 for UTF-16 and ~4 billion for UTF-32), requiring larger models and memory.</code></pre>
+<p>bytes() creates an immutable sequence of bytes — that is, a sequence of integers in the range 0–255.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>s <span class="op">=</span> <span class="st">"hello 🌍"</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>b <span class="op">=</span> <span class="bu">bytes</span>(s, <span class="st">"utf-8"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="bu">print</span>(b)  <span class="co"># b'hello \xf0\x9f\x8c\x8d'</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a>b <span class="op">=</span> s.encode(<span class="st">"utf-8"</span>)</span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a>b <span class="op">=</span> <span class="bu">bytes</span>([<span class="dv">104</span>, <span class="dv">101</span>, <span class="dv">108</span>, <span class="dv">108</span>, <span class="dv">111</span>])  <span class="co"># equivalent to 'hello'</span></span>
+<span id="cb26-7"><a href="#cb26-7"></a><span class="bu">print</span>(b)  <span class="co"># b'hello'</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a></span>
+<span id="cb26-9"><a href="#cb26-9"></a>b <span class="op">=</span> <span class="bu">bytes</span>(<span class="dv">5</span>)</span>
+<span id="cb26-10"><a href="#cb26-10"></a><span class="bu">print</span>(b)  <span class="co"># b'\x00\x00\x00\x00\x00'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>decode_utf8_bytes_to_str_wrong(<span class="st">"🌍"</span>.encode(<span class="st">"utf-8"</span>))</span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="co"># Raises: UnicodeDecodeError</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The function is incorrect because it decodes each byte individually, but multi-byte UTF-8 characters (like ‘🌍’) must be decoded as a whole sequence, not byte-by-byte.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a><span class="bu">bytes</span>([<span class="bn">0xc0</span>, <span class="bn">0x20</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="bpe-tokenizer-training" class="level4">
+<h4 class="anchored" data-anchor-id="bpe-tokenizer-training">BPE Tokenizer Training</h4>
+<p>Three steps:</p>
+<ol type="1">
+<li>Vocabulary Initialization</li>
+<li>Pre-Tokenization</li>
+<li>Compute BPE merges</li>
+<li>Handle Special Tokens</li>
+</ol>
+</section>
+</section>
+</section>
+<section id="assignment-02-system" class="level2">
+<h2 class="anchored" data-anchor-id="assignment-02-system">Assignment 02: System</h2>
 <p>In this assignment, we will profile and benchmark the model we built in the assignment 01, and optimize the attention mechanism using Triton by implementing the FlashAttention2<span class="citation" data-cites="FlashAttention2FasterAttention2023dao">(<a href="#ref-FlashAttention2FasterAttention2023dao" role="doc-biblioref">Dao 2023</a>)</span>.</p>
 
 

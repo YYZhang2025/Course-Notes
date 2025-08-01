@@ -32,7 +32,7 @@ website:
       - text: "About"
         href: index.qmd
       - section: "Reinforcement Learning"
-        contents: "posts/Reinforcement Learning/*"
+        contents: "posts/RL/*"
       - section: "Generative AI"
         contents: "posts/Gen-AI/*"
       - section: "Others"
@@ -45,6 +45,7 @@ website:
 
 format:
   html:
+    # include-in-header: "./style/tikzjax.html"
     theme:
       light: [cosmo, ./style/theme.scss]
       dark: [cosmo, ./style/theme-dark.scss]
@@ -76,3 +77,27 @@ execute:
   echo: true # 可选，显示代码
   eval: false # 关键：默认不执行代码
 freeze: true
+
+crossref:
+  custom:
+    - kind: float
+      reference-prefix: Video
+      key: vid
+
+custom-callout:
+  summary:
+    title: "一句话总结："
+    icon-symbol: "📖"
+    color: "#4b8bbe"
+    appearance: "default"
+    collapse: false
+
+  QA:
+    title: "Q&A"
+    icon-symbol: "🗨️"
+    color: "#e7f3ff"
+    appearance: "default"
+    collapse: true
+
+filters:
+  - custom-callout

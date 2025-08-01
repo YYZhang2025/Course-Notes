@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Course Notes – Learning Notes</title>
+<title>readme – Learning Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -29,7 +29,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./posts/RL/ucb-cs285.html" rel="next">
 <link href="././images/icon.avif" rel="icon">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -100,12 +99,12 @@ div.callout-summary.callout-style-default .callout-icon::before, div.callout-sum
 
 
 <link rel="stylesheet" href="style/style.css">
-<meta property="og:title" content="Course Notes – Learning Notes">
+<meta property="og:title" content="Learning Notes">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Learning Notes">
 </head>
 
-<body class="nav-sidebar docked fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -276,7 +275,7 @@ div.callout-summary.callout-style-default .callout-icon::before, div.callout-sum
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">About</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -311,7 +310,7 @@ div.callout-summary.callout-style-default .callout-icon::before, div.callout-sum
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
@@ -383,165 +382,47 @@ div.callout-summary.callout-style-default .callout-icon::before, div.callout-sum
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="1">
+    <h2 id="toc-title">Table of Contents</h2>
+   
+  <ul>
+  <li><a href="#about-this-repository" id="toc-about-this-repository" class="nav-link active" data-scroll-target="#about-this-repository">About this Repository</a>
+  <ul>
+  <li><a href="#stanford-cs336-language-modeling-from-scratch" id="toc-stanford-cs336-language-modeling-from-scratch" class="nav-link" data-scroll-target="#stanford-cs336-language-modeling-from-scratch">Stanford CS336: Language Modeling from Scratch</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Course Notes</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
+<section id="about-this-repository" class="level2">
+<h2 class="anchored" data-anchor-id="about-this-repository">About this Repository</h2>
+<p>This repository contains the introduction and solution to the courses available on the Internet.</p>
+<section id="stanford-cs336-language-modeling-from-scratch" class="level3">
+<h3 class="anchored" data-anchor-id="stanford-cs336-language-modeling-from-scratch">Stanford CS336: Language Modeling from Scratch</h3>
+<p><a href="http://web.stanford.edu/class/cs336/">Course Link</a> | <a href="https://yuyang.info/Course-Notes/posts/Gen-AI/stanford-cs336.html">My Notes</a> | <a href="https://github.com/YYZhang2025/Stanford-CS336">My Solutions</a></p>
+<p>In this course, we will learn how to build large language models from scratch. It includes the topics of, from bottom to top:</p>
+<ul>
+<li>Data Collection and Preprocessing (Lecture 14 &amp; 14)</li>
+<li>Model Architecture and Variants (Lecture 3 &amp; 4)</li>
+<li>GPU Training and Optimization (Lecture 5 &amp; 6)</li>
+<li>Parallel and Distributed Training (Lecture 7 &amp; 8)</li>
+<li>Speed up Inference (Lecture 10)</li>
+<li>Scaling Laws (Lecture 9 &amp; 11)</li>
+<li>Evaluation and Benchmarking (Lecture 12)</li>
+<li>LLM Alignment (Lecture 15, 16 &amp; 17)</li>
+</ul>
+<p>But I think the most valuable part of this course is the assignments, which are designed to help you build a language model from scratch. The assignments include:</p>
+<p>Which is time-consuming but very rewarding. You will learn how to:</p>
 
 
-<p>当今互联网以及人工智能最伟大的特点之一就是它的开源特性。历史上有很少的关键技术，尤其是像如今这些强大模型这样的技术，能够如此全面的向公众开放。除此之外，一些高校的课程的开放和分享，也让我们这些，没能进入Dream School的学生们，能够学习到最前沿的知识。几年前的我，无意中在网上看到了 <a href="https://csdiy.wiki/">CS自学指南</a>。从此打开了自学的大门。不过苦于的时间和精力有限，很多课程都是囫囵吞枣。现在研究生毕业了，趁现在找工作的间隙，将所学的课程及内容重新梳理，总结。</p>
-<p>自学的过程是痛苦的，全靠自制力来驱动。请大家不要放弃，毕竟坚持下去就会有收获。希望这个博客能帮助到你们。</p>
-<section id="关于本站" class="level2">
-<h2 class="anchored" data-anchor-id="关于本站">关于本站</h2>
-<p>本站是一个学习笔记的集合，主要内容包括<em>计算机科学</em>、<em>人工智能</em>、<em>机器学习</em>、<em>深度学习</em>等领域的课程笔记和代码实现。所有内容均为个人学习过程中整理的笔记，旨在帮助自己更好地理解和掌握相关知识，同时也希望能对其他自学者有所帮助。对于笔记中的错误和不足之处，欢迎大家提出意见和建议。</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>本站的笔记内容，主要是由英文编写。由于时间问题，暂时没有翻译成中文。如果有小伙伴愿意参与翻译工作，欢迎联系我。也欢迎大家提出意见和建议，共同完善笔记内容，为更多的自学者提供帮助。</p>
-</div>
-</div>
-<section id="如何阅读笔记" class="level3">
-<h3 class="anchored" data-anchor-id="如何阅读笔记">如何阅读笔记</h3>
-<p>在学习的过程中，由于每个人的背景知识不同，对有些知识点的理解，可能有差异。为了更好地理解笔记内容，建议大家在阅读笔记时，结合自己的实际情况，进行适当的调整和补充。我会在笔记中尽量提供相关的背景知识和参考资料，以帮助大家更好地理解和掌握相关内容。同时，笔记中，不同的<code>Callout</code>类型，表示不同的内容和提示，具体如下：</p>
-<blockquote class="blockquote">
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>用于补充扩展知识或背景信息，帮助加深理解。</p>
-</div>
-</div>
-</blockquote>
-<blockquote class="blockquote">
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>用于总结内容或提示学习方法，提升学习效率。</p>
-</div>
-</div>
-</blockquote>
-<blockquote class="blockquote">
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>用于提醒易错点或细节陷阱，避免理解偏差。</p>
-</div>
-</div>
-</blockquote>
-<blockquote class="blockquote">
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>用于标记课程重点、核心公式等需要特别掌握的内容。</p>
-</div>
-</div>
-</blockquote>
-<blockquote class="blockquote">
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>用于数学推导的过程。</p>
-</div>
-</div>
-</blockquote>
 </section>
-</section>
-<section id="课程列表" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="课程列表">课程列表</h2>
-<p>以下是我整理的课程列表，包含了课程名称、讲座数量、作业数量、预计学习时间和课程描述等信息。每个课程的链接都指向了相应的课程笔记页面，方便大家查看详细内容。</p>
-<div class="column-page">
-<table class="table-hover caption-top table">
-<thead>
-<tr class="header">
-<th>School</th>
-<th>Course Name</th>
-<th># of Lectures</th>
-<th># of Assignments</th>
-<th>Time Assumed</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Stanford</td>
-<td><a href="https://yuyang.info/Course-Notes/posts/Gen-AI/stanford-cs336.html">CS336: Language Modeling from Scratch</a></td>
-<td>17</td>
-<td>5</td>
-<td>200 hours</td>
-<td>Stanford CS336 is an implementation‑heavy course that leads students through building, optimizing, scaling, and aligning Transformer language models entirely from scratch—from dataset creation to distributed GPU training and safety alignment.</td>
-</tr>
-<tr class="even">
-<td>UCB</td>
-<td><a href="https://yuyang.info/Course-Notes/posts/RL/ucb-cs285.html">CS285: Deep Reinforcement Learning</a></td>
-<td>23</td>
-<td>5</td>
-<td>100 hours</td>
-<td>This course is an advanced course that systematically explores the foundations, algorithms, and cutting-edge research in deep reinforcement learning, covering topics from imitation learning and policy gradients to model-based RL, offline RL, and meta-learning.</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-
 </section>
 
 </main> <!-- /main -->
@@ -962,15 +843,6 @@ Caution
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./posts/RL/ucb-cs285.html" class="pagination-link" aria-label="UCB CS285: <tag style='font-weight: bold'>Deep Reinforcement Learning</tag>">
-        <span class="nav-page-text">UCB CS285: <tag style="font-weight: bold">Deep Reinforcement Learning</tag></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

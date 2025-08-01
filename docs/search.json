@@ -1,5 +1,283 @@
 [
   {
+    "objectID": "ReadMe.html",
+    "href": "ReadMe.html",
+    "title": "Learning Notes",
+    "section": "",
+    "text": "This repository contains the introduction and solution to the courses available on the Internet.\n\n\nCourse Link | My Notes | My Solutions\nIn this course, we will learn how to build large language models from scratch. It includes the topics of, from bottom to top:\n\nData Collection and Preprocessing (Lecture 14 & 14)\nModel Architecture and Variants (Lecture 3 & 4)\nGPU Training and Optimization (Lecture 5 & 6)\nParallel and Distributed Training (Lecture 7 & 8)\nSpeed up Inference (Lecture 10)\nScaling Laws (Lecture 9 & 11)\nEvaluation and Benchmarking (Lecture 12)\nLLM Alignment (Lecture 15, 16 & 17)\n\nBut I think the most valuable part of this course is the assignments, which are designed to help you build a language model from scratch. The assignments include:\nWhich is time-consuming but very rewarding. You will learn how to:"
+  },
+  {
+    "objectID": "ReadMe.html#about-this-repository",
+    "href": "ReadMe.html#about-this-repository",
+    "title": "Learning Notes",
+    "section": "",
+    "text": "This repository contains the introduction and solution to the courses available on the Internet.\n\n\nCourse Link | My Notes | My Solutions\nIn this course, we will learn how to build large language models from scratch. It includes the topics of, from bottom to top:\n\nData Collection and Preprocessing (Lecture 14 & 14)\nModel Architecture and Variants (Lecture 3 & 4)\nGPU Training and Optimization (Lecture 5 & 6)\nParallel and Distributed Training (Lecture 7 & 8)\nSpeed up Inference (Lecture 10)\nScaling Laws (Lecture 9 & 11)\nEvaluation and Benchmarking (Lecture 12)\nLLM Alignment (Lecture 15, 16 & 17)\n\nBut I think the most valuable part of this course is the assignments, which are designed to help you build a language model from scratch. The assignments include:\nWhich is time-consuming but very rewarding. You will learn how to:"
+  },
+  {
+    "objectID": "posts/RL/ucb-cs285.html",
+    "href": "posts/RL/ucb-cs285.html",
+    "title": "UCB CS285: Deep Reinforcement Learning",
+    "section": "",
+    "text": "This is a collection of notes and code for the UCB CS285: Deep Reinforcement Learning course. The course covers various topics in reinforcement learning, including policy gradients, actor-critic methods, deep Q-learning, and different exploration strategies. The course is designed to provide a comprehensive understanding of deep reinforcement learning and its applications.\nThere are total 23 lectures and 5 assignments in this course. It might 100 hours to finish the course, including the lectures and assignments.",
+    "crumbs": [
+      "Reinforcement Learning",
+      "UCB CS285: <tag style='font-weight: bold'>Deep Reinforcement Learning</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/RL/ucb-cs285.html#terminology-notation",
+    "href": "posts/RL/ucb-cs285.html#terminology-notation",
+    "title": "UCB CS285: Deep Reinforcement Learning",
+    "section": "Terminology & Notation",
+    "text": "Terminology & Notation\n\n\n\n\n\n\n\n\n\n\n\n\nTerm\nSymbol\nDefinition\nNotes\n\n\n\n\nObservation\n\\(o_t\\)\nWhat the agent perceives from the environment (e.g., camera image).\nMay be partial or noisy; does not always uniquely determine the state.\n\n\nAction\n\\(a_t\\)\nDecision taken by the agent at time \\(t\\).\nCan be discrete (e.g., “left”, “right”) or continuous (e.g., steering angle).\n\n\nPolicy\n\\(\\pi_\\theta\\)\nMapping from observation (or state) to action (or distribution over actions).\n\\(\\theta\\) are the learnable parameters (e.g., neural network weights).\n\n\nState\n\\(s_t\\)\nTrue, complete description of the environment at time \\(t\\).\nUnderlies the observation; satisfies the Markov property.\n\n\nMarkov Property\n\\(\\begin{gather*}\nP(s_{t+1} \\mid s_t, a_t) \\\\\n= P(s_{t+1} \\mid s_{&lt;t}, a_{&lt;t})\n\\end{gather*}\\)\nFuture state depends only on current state and action: \\(P(s_{t+1} \\mid s_t, a_t)\\).\nDefines the concept of a state in decision processes.\n\n\nBehavioral Cloning\n\\(\\min_\\theta , \\mathbb{E}{(s_t, a_t) \\sim \\mathcal{D}} \\left[ \\mathcal{L} \\left( \\pi\\theta(s_t), a_t \\right) \\right]\\)\nSupervised learning method to mimic expert behavior by training on \\((o_t, a_t)\\) pairs.\nCan suffer from compounding error due to distribution shift.\n\n\nStochastic Policy\n\\(a_t \\sim \\pi(a_t \\mid o_t)\\)\nOutputs a probability distribution over actions.\nMore general and often preferred for optimization.\n\n\nDeterministic Policy\n\\(a_t = \\pi_\\theta(o_t)\\)\nAlways outputs the same action for a given input.\nSpecial case of a stochastic policy.\n\n\nTransition Model\n\\(P(s_{t+1} \\mid s_t, a_t)\\)\nDefines how the environment evolves from state to state.\nCaptures system dynamics (e.g., physics).\n\n\nDAgger\n–\nImitation learning algorithm that mitigates compounding error by iterative expert feedback.\nWill be implemented in homework and discussed in Part 2.\n\n\n\n\n\nTable 1\n\n\n\nThere are total of 23 lectures in this course, each lecture covers a specific topic in reinforcement learning. The Lecture 01 introduces the course and provides an overview of reinforcement learning, while the subsequent lectures delve into specific algorithms and techniques.",
+    "crumbs": [
+      "Reinforcement Learning",
+      "UCB CS285: <tag style='font-weight: bold'>Deep Reinforcement Learning</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/RL/ucb-cs285.html#behavioral-cloning",
+    "href": "posts/RL/ucb-cs285.html#behavioral-cloning",
+    "title": "UCB CS285: Deep Reinforcement Learning",
+    "section": "2.1 Behavioral Cloning",
+    "text": "2.1 Behavioral Cloning\nBehavioral cloning is a supervised learning approach to imitation learning, where the agent learns a policy by directly mimicking the actions of an expert. The agent is trained on pairs of observations and actions from the expert’s behavior \\(\\mathcal{D}(o_t, a_t)\\), using supervised learning techniques, linear regression, neural networks, etc. The goal is to minimize the difference between the agent’s actions and the expert’s actions.\nHowever, one of the main problems of the behavioral cloning is the compounding error: small prediction errors will lead to unseen states, which can cause the agent to diverge from the expert’s behavior. This is because the agent is trained on the expert’s actions, but when it makes a mistake, it may not be able to recover from it, leading to a snowball effect of errors.\nThis is called distribution shift: Training is done on the expert distribution \\(P_{\\text{data}}(o_t)\\), but execution happens under the learned policy’s distribution \\(P_{\\pi_\\theta}(o_t)\\), causing distributional shift, a central issue in imitation learning.\n\n\n\n\n\n\nNote\n\n\n\nThis is the not the problem in the supervised learning, because in the supervised learning, the data is i.i.d., the output of the model is not dependent on the previous inputs, and will not affect the future inputs. However, in the behavioral cloning, the data is not i.i.d., and the model is trained on the expert’s actions, which may not be the same as the actions taken by the agent during execution.\n\n\nThere are several ways to mitigate the compounding error in behavioral cloning, such as:\n\nData Augmentation: Adding noise to the observations or actions to make the agent more robust to small errors.\nData Collection: Collecting more data from the expert to cover more states and actions.\nMore Powerful Models: Using more powerful models (e.g., deep neural networks) to better approximate the expert’s policy.\nDAgger: An iterative algorithm that combines behavioral cloning with online learning, where the agent collects data from its own policy and queries the expert for corrections. This helps the agent to recover from mistakes and improve its performance over time.",
+    "crumbs": [
+      "Reinforcement Learning",
+      "UCB CS285: <tag style='font-weight: bold'>Deep Reinforcement Learning</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/RL/ucb-cs285.html#math-explain-of-behavioral-cloning",
+    "href": "posts/RL/ucb-cs285.html#math-explain-of-behavioral-cloning",
+    "title": "UCB CS285: Deep Reinforcement Learning",
+    "section": "2.2 Math explain of Behavioral Cloning",
+    "text": "2.2 Math explain of Behavioral Cloning",
+    "crumbs": [
+      "Reinforcement Learning",
+      "UCB CS285: <tag style='font-weight: bold'>Deep Reinforcement Learning</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/RL/ucb-cs285.html#dagger-algorithm",
+    "href": "posts/RL/ucb-cs285.html#dagger-algorithm",
+    "title": "UCB CS285: Deep Reinforcement Learning",
+    "section": "2.3 DAgger Algorithm",
+    "text": "2.3 DAgger Algorithm\nDAgger(Dataset Aggregation) (Ross, Gordon, and Bagnell 2011) aims to solve the distributional shift problem in behavioral cloning by iteratively collecting data from the current policy and querying the expert for corrections. The key idea is to change the data collection strategy to better reflect the states the policy actually visits, rather than just improving the policy. It is an iterative process that:\n\n\n\n\nStart with an initial policy \\(\\pi_\\theta\\) trained on expert data.\n\nAt each iteration:\n  1. Run the current policy to collect new observations from the environment.\n  2. Get expert labels (actions) for these new observations.\n  3. Aggregate the new data with the previous dataset.\n\nRepeat until convergence.\n\nOver time, the dataset distribution converges to the test-time distribution (\\(p_{\\pi_\\theta}\\)).\n\n\n\n\n\n\n\n\n\nFigure 1: DAgger Algorithm",
+    "crumbs": [
+      "Reinforcement Learning",
+      "UCB CS285: <tag style='font-weight: bold'>Deep Reinforcement Learning</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/RL/ucb-cs285.html#assignment-01-imitation-learning",
+    "href": "posts/RL/ucb-cs285.html#assignment-01-imitation-learning",
+    "title": "UCB CS285: Deep Reinforcement Learning",
+    "section": "3.1 Assignment 01: Imitation Learning",
+    "text": "3.1 Assignment 01: Imitation Learning",
+    "crumbs": [
+      "Reinforcement Learning",
+      "UCB CS285: <tag style='font-weight: bold'>Deep Reinforcement Learning</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html",
+    "href": "posts/Gen-AI/stanford-cs336.html",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "",
+    "text": "Lecture Website: Link\nLecture Video: YouTube\nThis is a collection of notes and code for the Stanford CS336: Language Modeling from Scratch course. This is course is designed to teach students how to build a “large” language model (LLM) from scratch, covering from bottom to top, including the:\nThe course is designed to provide a comprehensive understanding of how LLMs work and how to build them from scratch.\nThere are total 17 Lectures and 5 Assignments in this course.",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#lecture-01-overview-tokenization",
+    "href": "posts/Gen-AI/stanford-cs336.html#lecture-01-overview-tokenization",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Lecture 01: Overview & Tokenization",
+    "text": "Lecture 01: Overview & Tokenization\n\n\n\n\n\n\nSummary of Lecture 01\n\n\n\nByte Pair Encoding (BPE) is a simple yet effective tokenization algorithm that adaptively merges frequent character pairs to create a compact vocabulary, balancing compression efficiency and reversibility for language modeling.\n\n\n\nTokenization\nTokenization is the process of converting raw text into a sequence of tokens(usually is represented by integer indices), which are the basic units of meaning in a language model.\nThere are different level of tokenization, such as:\n\nCharacter-level: Each character is treated as a separate token.\nWord-level: Each word is treated as a separate token.\nSubword-level: Words are split into smaller units, such as prefixes, suffixes, or common subwords, to handle rare or out-of-vocabulary words more effectively.\nByte-level: Each byte of the text is treated as a separate token, which can handle any character in the Unicode standard.\n\n\n\n\n\n\n\nFigure 1: An example of tokenization, the interactive demo of the tokenization process can be found here\n\n\n\nBefore diving into the details of each tokenization algorithms , let’s first define a framework for tokenization in Python code: A Tokenizer is a class that implements the encode and decode methods for tokenization:\n\nencode(string) method takes a string of text and converts it into a sequence of integer indices, which are the tokens.\ndecode(indices) method takes a sequence of integer indices and converts it back into a string of text.\n\nclass Tokenizer:\n    def __init__(self, config):\n\n    def encode(self, string: str) -&gt; list[int]:\n        pass\n\n    def decode(self, indices: list[int]) -&gt; str:\n        pass\nThe Tokenizer will generate a list of tokens from the input text, the number of the tokens is called the vocabulary size.\nOne of the good quantity to measure the tokenization algorithm is the compression ratio, which is defined as the ratio of the number of bytes of the input text to the number of tokens. A higher compression ratio indicates that the tokenization algorithm is more efficient in representing the input text. The compression ratio can be calculated as:\ndef get_compression_ratio(string: str, indices: list[int]) -&gt; float:\n    # Calculate the compression ratio of the tokenization algorithm\n    return len(bytes(string, 'utf-8')) / len(indices)\nNow, let’s discuss those four tokenization algorithms in detail:\n\nCharacter-Based Tokenization\nA Unicode string is a sequence of Unicode code points, which can be represented as a sequence of integers. Each character in the string is treated as a separate token, for example:\nord('a')   # 97 \nchr(97)   # 'a'\n\nord('🌍') # 127757\nchr(127757) # '🌍'\nWe can implement a simple character-based tokenizer as follows:\n\nclass CharacterTokenizer(Tokenizer):\n    def encode(self, string: str) -&gt; list[int]:\n        return [ord(c) for c in string]\n    def decode(self, indices: list[int]) -&gt; str:\n        return ''.join(chr(i) for i in indices)\n\nOne of the main drawbacks of character-based tokenization is that it can lead to a large vocabulary size (there are approximately 150K unicode characters), which can make the model more difficult to train and less efficient in terms of memory usage. And some character are not commonly used in the text(e.g. ‘🌍’), which is inefficient use of the vocabulary.\n\n\nByte-Based Tokenization\nUnicode strings can be encoded as a sequence of bytes using UTF-8 encoding. Each byte can be represented by integers in the range of 0 to 255. Some Unicode characters are represented by one byte, others take multiple bytes:\nbytes('a', 'utf-8')  # b'a'\nbytes('🌍', 'utf-8')  # b'\\xf0\\x9f\\x8c\\x8d'\nWe can implement a simple byte-based tokenizer as follows:\n\nclass ByteTokenizer(Tokenizer):\n    def encode(self, string: str) -&gt; list[int]:\n        return list(bytes(string, 'utf-8'))\n    def decode(self, indices: list[int]) -&gt; str:\n        return bytes(indices).decode('utf-8')\n\nAs we can expected, the compression ratio is 1, which is terrible.\nThe vocabulary size is 256, which is a nice property because it is fixed and covers all possible bytes, which means we will not get out-of-vocabulary (OOV) tokens. However, the main drawback is that it can lead to long sequences, since each character (even multi-byte Unicode characters) is split into multiple tokens. This can make training less efficient and increase the computational cost for language models, given that the context length of a Transformer model is limited.\n\n\nWord-Based Tokenization\nAnother common approach is to tokenize the text into words, where each word is treated as a separate token. We can use regular expression to split the text into words.\nfor example the GPT-2 regular expression is :\nGPT2_TOKENIZER_REGEX = r\"\"\"'(?:[sdmt]|ll|ve|re)| ?\\p{L}+| ?\\p{N}+| ?[^\\s\\p{L}\\p{N}]+|\\s+(?!\\S)|\\s+\"\"\"\nsegments = re.findall(GPT2_TOKENIZER_REGEX, string)\nAfter we get the segments, we can assign each segment to a unique integer index, which is the token. However there are several problem with this word-level tokenization:\n\nThe number of words is huge.\nMany words are rare and the model won’t learn much about them.\nThe vocabulary size is not fixed, which can lead to out-of-vocabulary (OOV) tokens. New words we haven’t seen during training will be treated as UNK tokens, which can lead to a loss of information and context.\n\n\n\nByte Pair Encoding (BPE)\nThe basic idea of BPE is to iteratively merge the most frequent pairs of characters or subwords in the text until a desired vocabulary size is reached. This allows for a more efficient representation of the text, as it can capture common subwords and reduce the overall vocabulary size. The intuition behind BPE is that common sequences of characters are represented by a single token, rare sequences are represented by many tokens.\n\nThe GPT-2 paper used word-based tokenization to break up the text into initial segments and run the original BPE algorithm on each segment.\n\nHere are the steps to implement BPE:\n\nInitialize: Start with a vocabulary that contains all unique characters in the text, usually start with 0-255\nCount Pairs: Count all adjacent character pairs in the text.\nMerge: Find the most frequent pair and merge it into a new token.\nUpdate: Replace all occurrences of the merged pair in the text with the new token.\nRepeat: Repeat steps 2-4 until the desired vocabulary size is reached.\n\n\n@dataclass(frozen=True)\nclass BPETokenizerParams:\n    vocab: dict[int, bytes]   # Mapping of token indices to byte sequences\n    merges: dict[tuple[int, int], int]  # Mapping of pairs to their frequency\n\ndef merge(indices: list[int], pair: tuple[int, int], new_index:int)  -&gt; list[int]:\n    new_indices = []\n    i = 0 \n    while i&lt; len(indices):\n        if i + 1 &lt; len(indices) and indices[i] == pair[0] and indices[i + 1] == pair[1]:\n            new_indices.append(new_index)  # Replace the pair with the new index\n            i += 2  # Skip the next index since it's part of the pair\n        else:\n            new_indices.append(indices[i])  # Keep the current index\n            i += 1  # Move to the next index\n    return new_indices\n\nclass BPETokenizer(Tokenizer):\n    def __init__(self, params: BPETokenizerParams):\n        self.params = params \n    \n    def encode(self, string: str) -&gt; list[int]:\n        indices = list(map(int, string.encode('utf-8'))) # Convert string to byte indices\n        for pair, new_index in self.params.merges.items():\n            indices = merge(indices, pair, new_index)  \n        return indices\n    \n    def decode(self, indices: list[int]) -&gt; str: \n        byte_list = list(map(self.params.vocab.get, indices))  # Convert indices to bytes\n        string = b''.join(byte_list)  # Join bytes into a single byte string\n        return string.decode('utf-8')  # Decode byte string to UTF-8\n\nTo train an BPE tokenizer, we need to count the frequency of pairs in the text and merge them iteratively. The BPETokenizerParams class holds the vocabulary and merge rules, which can be generated from a training corpus.\n\ndef train_bpe_tokenizer(string: str, num_merges: int) -&gt; BPETokenizerParams:\n    # Initialize vocabulary with single characters\n    vocab: dict[int, bytes] = {x: bytes([x]) for x in range(256)}  # index -&gt; bytes, 256 unique bytes for UTF-8\n    merges: dict[tuple[int, int], int] = {}  # index1, index2 =&gt; merged index\n    \n    # Convert string to byte indices\n    indices = list(map(int, string.encode('utf-8')))\n    \n    for i in range(num_merges):\n        # Count pairs\n        counts = defaultdict(int)\n        for index1, index2 in zip(indices[:-1], indices[1:]):\n            counts[(index1, index2)] += 1\n\n        # Find the most frequent pair\n\n        most_frequent_pair = max(counts, key=counts.get)\n        \n        # Create a new token for the merged pair\n        new_index = 256 + i \n        merges[most_frequent_pair] = new_index\n        vocab[new_index] = vocab[index1] + vocab[index2]  # Merge the byte sequences\n        \n        # Merge the pair in the indices\n        indices = merge(indices, most_frequent_pair, new_index)\n    \n    return BPETokenizerParams(vocab=vocab, merges=merges)\n\nWe can save the BPETokenizerParams to a file and load it later to use the tokenizer. The BPE algorithm is efficient in terms of compression ratio, as it can adaptively merge frequent subwords to form a compact vocabulary, while still being reversible.\n\n\n\n\n\n\nNote\n\n\n\nThis implementation of BPE is a simplified version, and there are many optimizations and variations that can be applied to improve the efficiency and performance of the algorithm. For example, we can use a priority queue to efficiently find the most frequent pair. And we can also use more advanced techniques to speed up the merging process, such as caching and batching.\n\n\n\n\n\n\n\n\nFurther Reading\n\n\n\nFor those are more interested in the BPE, I highly recommend this video by Andrej Karpathy, which provides a detailed explanation of the BPE algorithm.\n\n\n\n\n\n\nSummary of Lecture 01\nIn this lecture, we learned about the concept of the tokenization, which is the process of converting raw text into a sequence of tokens. We discussed four different tokenization algorithms: character-based, byte-based, word-based, and byte pair encoding (BPE). Each algorithm has its own advantages and disadvantages. We also learned how to measure the efficiency of a tokenization algorithm using the compression ratio. We will implemented more fancy version of the BPE algorithm in the assignment 01, which will be used to build a transformer model from scratch.\nBelow are the summary of four different tokenization algorithms:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTokenization Type\nDescription\nCompression Ratio\nVocabulary Size\nPros\nCons\n\n\n\n\nCharacter-Based\nEach character is a token (Unicode code point).\nLow\nLarge (all characters)\nSimple; handles any language\nInefficient; large vocab; rare chars waste tokens\n\n\nByte-Based\nEach byte from UTF-8 encoding is a token (0–255).\n~1\nFixed (256)\nFixed vocab; language-agnostic\nLong sequences for Unicode; inefficient for modeling semantics\n\n\nWord-Based\nWords (or regex-matched units) are tokens.\nMedium\nLarge and dynamic\nIntuitive; better compression than char/byte\nPoor generalization; large vocab; OOV issues with UNK\n\n\nByte Pair Encoding (BPE)\nIteratively merges frequent subword pairs to form subword tokens.\nHigh\nMedium (tunable)\nEfficient; balances granularity and vocab size\nMerge rules are corpus-dependent; needs initial segmentation\n\n\n\n\n\nTable 1: Summary of 4 different tokenization algorithms",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#lecture-02-pytorch-resource-accounting",
+    "href": "posts/Gen-AI/stanford-cs336.html#lecture-02-pytorch-resource-accounting",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Lecture 02: Pytorch, Resource Accounting",
+    "text": "Lecture 02: Pytorch, Resource Accounting\nh100_bytes = 80e9\nBytes_per_parameter = 4 + 4 + ( 4+ 4) =&gt; Parameters, gradient, optimizer state\nNum Paramter = (h100_byes * 8) / Bytes_per_parameter 4e10\nx = torch.tensor([\n    [1, 2, 3],\n])\n\nMemory Account\nfloat32 is the most common data type used in deep learning, which uses 4 bytes per element.\n\n\n\n\n\n\nFigure 2: The representation of float32 in memory\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe exponent used to represent the dynamic range of the number, for float32, it uses 8 bits for the exponent, which allows for a dynamic range of approximately 1.18e-38 to 3.4e+38. The fraction is used to represent the precision of the number, which is also known as resolution. For float32, it uses 23 bits for the fraction, which allows for a precision of approximately 7 decimal digits. To represent a number in float32, it uses the following formula: \\[\n\\begin{aligned}\n\\text{value}\n&= (-1)^{b_{31}} \\times 2^{(b_{30}b_{29} \\dots b_{23})_2 - 127} \\times (1.b_{22}b_{21} \\dots b_{0})_2 \\\\\n&= (-1)^{\\text{sign}} \\times 2^{(E - 127)} \\times \\left( 1 + \\sum_{i=1}^{23} b_{23 - i} \\cdot 2^{-i} \\right)\n\\end{aligned}\n\\] where sign is the sign bit, exponent is the exponent value, and fraction is the fraction value. The exponent is biased by 127, which means that the exponent value is stored as the actual exponent plus 127. This allows for both positive and negative exponents to be represented.\n\n\nMemory is determined by the number of values in the tensor and the data type of the tensor. The memory usage can be calculated as: \\[\n\\text{Memory} = \\text{Number of Values} \\times \\text{Bytes per Value}\n\\tag{1}\\] which can be calculated as:\ndef get_memory_usage(x: torch.Tensor):\n    return x.numel() * x.element_size()\nThe float32 takes 4 bytes per element, for the LLM, this is a lot of memory. We are use float16 to reduce the memory usage by half, which is 2 bytes per element. This is a common practice in deep learning to save memory and speed up training.\n\n\n\n\n\n\nFigure 3: The representation of float16 in memory\n\n\n\nThe float16 cuts down the memory usage by half, but it has a smaller dynamic range and precision compared to float32. This can lead to numerical instability and loss of precision in some cases, especially when dealing with very large or very small numbers.\nx = torch.tensor([1e-8], dtype=torch.float16)  \nassert x == 0\nwhen the underflow or overflow happens, the value will be rounded to 0 or infinity, which might cause the instability in the training process.\nAnother data type is bfloat16, which is a 16-bit floating point format that has the same dynamic range as float32, but with less precision. It uses 8 bits for the exponent and 7 bits for the fraction, which allows for a dynamic range of approximately 3.4e-38 to 3.4e+38, but with a precision of only 2 decimal digits.\n\nIn conclusion, the choice of data type can have a significant impact on the memory usage and performance of the model. The float32 is the most common data type used in deep learning, but it can be memory-intensive. The float16 and bfloat16 are commonly used to reduce the memory usage, but they can lead to numerical instability and loss of precision in some cases. One of the common practice to combine float16 and float32 is to use float16 for the model parameters and gradients, and float32 for the optimizer state. This is known as mixed precision training, which can save memory and speed up training without sacrificing too much performance.\n\n\nCompute Account\nBy defaults, all the tensors are stored in the CPU memory, which is not efficient for training deep learning models. We can move the tensors to the GPU memory by calling the to method on the tensor, which will move the tensor to the specified device.\nx = torch.tensor([1, 2, 3])\nx = x.to('cuda')  # Move tensor to GPU\nOne way to check the memory usage of the GPU in PyTorch is to use the torch.cuda.memory_allocated() and torch.cuda.memory_reserved() functions. The memory_allocated() function returns the total memory allocated by the tensors, while the memory_reserved() function returns the total memory reserved by the CUDA allocator.\nThe PyTorch tensor are pointers to the memory allocated on the GPU, with metadata such as the shape, data type, and device. There are several commom operations that can be performed on the tensors:\nx = torch.tensor([[1., 2, 3], [4, 5, 6]]) \ny = x[0] # Get the first row of the tensor\nz = x[:, 1] # Get the second column of the tensor\nw = x[0, 1] # Get the element at the first row and second\n\ny = x.view(3, 2) # Reshape the tensor to 3 rows and 2 columns\nz = x.reshape(3, 2) # Reshape the tensor to 3 rows\nw = x.transpose(0, 1) # Transpose the tensor \nOne of the most important operations in deep learning is the matrix multiplication, which can be performed using the torch.matmul() function. Also, besides that, the einops library provides a powerful way to manipulate tensors, allowing for more complex operations\nNow, let’s talk about the compute account, which is the number of floating point operations (FLOPs) required to perform a certain operation. The FLOPs can be calculated as the number of floating point operations divided by the time taken to perform the operation.\n\n\n\n\n\n\nNote\n\n\n\nThe FLOPs is a measure of the computational complexity of an operation, and it is often used to compare the performance of different algorithms. The FLOP/s (FLOPs per second) is a measure of the performance of a hardware, which is the number of floating point operations that can be performed in one second. It is often used to compare the performance of different hardware, such as CPUs and GPUs.\n\n\nSupport we have a Linear layer with B batch size, D input dimension, and K output dimension. The number of floating point operations required to perform the forward pass of the linear layer can be calculated as:\nFLOPs = 2 * B * D * K\nwhere 2 is the number of floating point operations required to perform the matrix multiplication and addition (1 for multiplication and 1 for addition) of (i, j, k) triple.\nBeside the matrix multiplication, the element-wise operations such as activation functions (e.g., ReLU, sigmoid) also contribute to the FLOPs. For example, if we apply a ReLU activation function after the linear layer, it will add B * K additional floating point operations, since it applies the function to each element in the output tensor. Addition of two \\(m \\times n\\) matrices requires \\(mn\\) FLOPs, where \\(m\\) is the number of rows and \\(n\\) is the number of columns.\nFLOPs is measure in terms of the number of the floating point operations required to perform a certain operation, which is a common way to measure the computational complexity of an algorithm. In theory, how to map those FLOPs to the wall clock time is not straightforward, since it depends on the hardware and the implementation of the algorithm. However, we can use the following formula to estimate the wall clock time:\nWall Clock Time = FLOPs / FLOP/s\nOne of the criterion is the MFU(Model FLOPs Utilization).Usually, MFU of &gt;= 0.5 is quite good (and will be higher if matmuls dominate)\nFloating point operation is a basic operation like addition or multiplication.\nForward: 2 * B * D * K (#tokens) (#parameters)\nFLOPs =&gt; Wall Clock time.",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#lecture-03-architectures-hyperparameters",
+    "href": "posts/Gen-AI/stanford-cs336.html#lecture-03-architectures-hyperparameters",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Lecture 03: Architectures & Hyperparameters",
+    "text": "Lecture 03: Architectures & Hyperparameters",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#lecture-04-mixture-of-experts",
+    "href": "posts/Gen-AI/stanford-cs336.html#lecture-04-mixture-of-experts",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Lecture 04: Mixture of Experts",
+    "text": "Lecture 04: Mixture of Experts",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#lecture-05-06-gpu-kernels-triton",
+    "href": "posts/Gen-AI/stanford-cs336.html#lecture-05-06-gpu-kernels-triton",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Lecture 05 & 06: GPU, Kernels, Triton",
+    "text": "Lecture 05 & 06: GPU, Kernels, Triton",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#lecture-07-08-parallelism",
+    "href": "posts/Gen-AI/stanford-cs336.html#lecture-07-08-parallelism",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Lecture 07 & 08: Parallelism",
+    "text": "Lecture 07 & 08: Parallelism",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#lecture-09-11-scaling-laws",
+    "href": "posts/Gen-AI/stanford-cs336.html#lecture-09-11-scaling-laws",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Lecture 09 & 11: Scaling Laws",
+    "text": "Lecture 09 & 11: Scaling Laws",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#lecture-10-inference",
+    "href": "posts/Gen-AI/stanford-cs336.html#lecture-10-inference",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Lecture 10: Inference",
+    "text": "Lecture 10: Inference",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#lecture-12-evaluation",
+    "href": "posts/Gen-AI/stanford-cs336.html#lecture-12-evaluation",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Lecture 12: Evaluation",
+    "text": "Lecture 12: Evaluation",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#lecture-13-14-data",
+    "href": "posts/Gen-AI/stanford-cs336.html#lecture-13-14-data",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Lecture 13 & 14: Data",
+    "text": "Lecture 13 & 14: Data",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#lecture-15-16-17-alignment-sft-rlhf",
+    "href": "posts/Gen-AI/stanford-cs336.html#lecture-15-16-17-alignment-sft-rlhf",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Lecture 15, 16 & 17: Alignment: SFT/ RLHF",
+    "text": "Lecture 15, 16 & 17: Alignment: SFT/ RLHF",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#assignment-01-basics",
+    "href": "posts/Gen-AI/stanford-cs336.html#assignment-01-basics",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Assignment 01: Basics",
+    "text": "Assignment 01: Basics\n\nPreparation\n\nClone Assignment Repository\nFirst, we need clone the assignment repository from GitHub:\ngit clone https://github.com/stanford-cs336/assignment1-basics/tree/main\ncd assignment1-basics\n\n\nDownload Dataset\nThen, we need download the dataset, the dataset used are TinyStories and OpenWebText\nmkdir -p data\ncd data\n\nwget https://huggingface.co/datasets/roneneldan/TinyStories/resolve/main/TinyStoriesV2-GPT4-train.txt\nwget https://huggingface.co/datasets/roneneldan/TinyStories/resolve/main/TinyStoriesV2-GPT4-valid.txt\n\nwget https://huggingface.co/datasets/stanford-cs336/owt-sample/resolve/main/owt_train.txt.gz\ngunzip owt_train.txt.gz\nwget https://huggingface.co/datasets/stanford-cs336/owt-sample/resolve/main/owt_valid.txt.gz\ngunzip owt_valid.txt.gz\n\ncd ..\nAfter downloading the dataset, we can check the size of the dataset:\ndu -sh ./data             \n# 13G    ./data\nThere are 13GB of data in total, which is a small dataset for training a language model.\n\n\nInstall Dependencies\nTo run code, and install the dependencies, we can just run the following command:\nuv run python\nIt will automatically create a virtual environment and install the dependencies.\n\n\n\nByte-Pair Encoding (BPE) Tokenizer\n\nThe Unicode Standard\nord() # convert a single Unicode character into its integer representation\nchr() # convert a single integer representation into its Unicode character\nThe Unicode character chr(0) return '\\x00', which is the null character. While use repr(chr(0)) will return \"'\\\\x00'\", which is the string representation of the null character. When use print function, it will not print anything, since the null character is not printable. So, when add the chr(0) to the string, it will not change the string, but it will add a null character to string.\n\"this is a test\" + chr(0) + \"string\" # 'this is a test\\x00string'\nprint(\"this is a test\" + chr(0) + \"string\") # # this is a teststring\n\n\nUnicode Encoding\nUnicode Encoding is the process of converting a Unicode character into a sequence of bytes. The most common encoding is UTF-8, which uses 1 to 4 bytes to represent a Unicode character.\n\n\n\n\n\n\nUnicode Standard VS. Unicode Encoding\n\n\n\nUnicode Standard is a character encoding standard that defines a unique number for every character, no matter the platform, program, or language. Unicode Encoding is the actual implementation of the Unicode Standard in a specific encoding format, such as UTF-8 or UTF-16. It will convert the Unicode character into a sequence of bytes.\n\n\nTo encode the Unicode string into UTF-8, we can use the encode() method in Python to convert the string into a byte sequence, and then use the decode() method to convert the byte sequence back into a string. The encode() method takes an optional argument that specifies the encoding format, which is UTF-8 by default.\noriginal_string = \"Hello World! 🌍 你好, 世界!\"\nutf8_encode = original_string.encode(\"utf-8\")\nutf8_bytes = list(utf8_encode) # Get the byte values of the encoded string\noriginal_string = utf8_encode.decode(\"utf-8\")\nlen(original_string) # 22\nlen(utf8_bytes) # 33\nUTF-8 is variable-length and uses 1 byte for ASCII (common in English), making it more compact for most real-world text. UTF-16 uses 2 or 4 bytes per character, and UTF-32 always uses 4 bytes, even for ASCII.\ns = \"hello\"\nprint(len(s.encode(\"utf-8\")))   # 5 bytes\nprint(len(s.encode(\"utf-16\")))  # 12 bytes (includes BOM)\nprint(len(s.encode(\"utf-32\")))  # 20 bytes (includes BOM)\nUTF-8 produces a byte range of 0–255, making the vocabulary size small and fixed (ideal for BPE training).\n•   UTF-16/32 would increase the vocabulary size dramatically (≥65,536 for UTF-16 and ~4 billion for UTF-32), requiring larger models and memory.\nbytes() creates an immutable sequence of bytes — that is, a sequence of integers in the range 0–255.\ns = \"hello 🌍\"\nb = bytes(s, \"utf-8\")\nprint(b)  # b'hello \\xf0\\x9f\\x8c\\x8d'\nb = s.encode(\"utf-8\")\n\nb = bytes([104, 101, 108, 108, 111])  # equivalent to 'hello'\nprint(b)  # b'hello'\n\nb = bytes(5)\nprint(b)  # b'\\x00\\x00\\x00\\x00\\x00'\ndecode_utf8_bytes_to_str_wrong(\"🌍\".encode(\"utf-8\"))\n# Raises: UnicodeDecodeError\nThe function is incorrect because it decodes each byte individually, but multi-byte UTF-8 characters (like ‘🌍’) must be decoded as a whole sequence, not byte-by-byte.\nbytes([0xc0, 0x20])\n\n\nBPE Tokenizer Training\nThree steps:\n\nVocabulary Initialization\nPre-Tokenization\nCompute BPE merges\nHandle Special Tokens",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/stanford-cs336.html#assignment-02-system",
+    "href": "posts/Gen-AI/stanford-cs336.html#assignment-02-system",
+    "title": "Stanford CS336: Language Modeling from Scratch",
+    "section": "Assignment 02: System",
+    "text": "Assignment 02: System\nIn this assignment, we will profile and benchmark the model we built in the assignment 01, and optimize the attention mechanism using Triton by implementing the FlashAttention2(Dao 2023).",
+    "crumbs": [
+      "Generative AI",
+      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
+    ]
+  },
+  {
+    "objectID": "posts/Others/stanford-cs25.html",
+    "href": "posts/Others/stanford-cs25.html",
+    "title": "Stanford CS25: Transformers United",
+    "section": "",
+    "text": "斯坦福大学的 CS25 是一门极受欢迎的研讨型课程，聚焦于 Transformer 架构及其在各个领域的前沿应用。该课程没有Assignments，主要通过阅读论文和课堂讨论来深入理解 Transformer 的原理和应用。每节课都可以独立的观看，该课程已经从 V1(2023) 更新到了 V5(2025)。 有兴趣的同学可以挑自己感兴趣的部分来学习。\n课程资源:",
+    "crumbs": [
+      "Others",
+      "Stanford CS25: Transformers United"
+    ]
+  },
+  {
+    "objectID": "posts/Others/stanford-cs25.html#transformers-for-video-generation",
+    "href": "posts/Others/stanford-cs25.html#transformers-for-video-generation",
+    "title": "Stanford CS25: Transformers United",
+    "section": "Transformers for Video Generation",
+    "text": "Transformers for Video Generation\nLecture Video Link\n这节Lecture 主要介绍了MovieGen(Polyak et al. 2025)，以及它的一个重要的发现：\n\nScaling simple transformer architectures (data, compute, parameters) works just as well for video as it does for text.\n\n首先，第一件事就是如何学习视频的表示，在这里，他们是 Temporal Autoencoder,\n\n\n\nThe use of temporal autoencoder to represent the video.\n\n\n\n[!info]\nSpatio-Temporal Dimension is the common discription in the video. The spation mean the height and width of the Image (\\(H \\times W\\)). And the Temporal is the time \\(T\\). Morden video model, such as Video GPT, TimeSformer, are all use patio-temporal tokens.\n\nUpon use the Temporal Autoencoder, there are 8* compression across each spation-temporal dimension. For the 768px 16s 16fps video, if we model the pixel directly, it will get: more than 450M tokens, but if we use the Temporal Autoencoder, we will just get the 2M tokens, which is computationaly feasible.\n\nPre-Training Data Gather\n\n\n\nimage-20250705210218209\n\n\n\nVisual Filtering:\n\nResolution: minimum width or height of 720 px.\n\nAspect Ratio:\n\nA mix of 60% landscape and 40% portrait videos.\n\nNo Text: Use Video OCR model to remove the videos with text\n\n\n\nQ1: Why not use specialized architectures like CNNs for video tasks (e.g., action diffusion in robotics)?\nA: Specialized architectures like CNNs offer useful inductive biases for small-scale setups, but transformers scale better. At large scale, transformers can learn these biases themselves and benefit from established infrastructure. Meta found scaling transformers outperformed scaling CNNs for high-quality video generation.\n\n\n\nQ2: Can this model architecture be used for 3D generation or video game content?\nA: Yes. Once the data (e.g., 3D scenes, game environments) is tokenized into sequences, the transformer architecture becomes modality-agnostic. The key is to find a good encoding method to convert the data into discrete tokens.\n\n\n\nQ3: Why are generated videos limited to 16 seconds? What’s the challenge with longer durations?\nA: The main constraint is sequence length and computational cost. A 16-second video already produces ~73K tokens with compression. Doubling the duration doubles the token count. Potential solutions include better compression, hierarchical generation, or chunked temporal generation.\n\n\n\nQ4: What happens if we run out of clean training video data?\nA: Two strategies:\n1. Improve filtering and concept balancing pipelines, possibly with LLMs.\n2. Use generated data in post-training phases, which is already common in language modeling (e.g., RLHF).\n\n\n\nQ5: How can academic researchers contribute without access to large-scale compute for pretraining?\nA: Academia plays a vital role in proposing new training objectives, architectures, and post-training methods. For example, flow matching originated in academic work. Innovations at small scale can influence large-scale industrial projects.\n\n\n\nQ6: How do you ensure that the auto-generated captions (via LLaMA-3) are high quality?\nA: Meta trained a dedicated LLaMA-3-based video captioner. Limitations include frame subsampling (not all frames seen) and imperfect descriptions. Improving caption quality can directly enhance generation performance.\n\n\n\nQ7: What text encoders are used, and how important is the choice?\nA: MovieGen uses three frozen encoders: UL2, MetaCLIP, and T5. Surprisingly, decoder-only models (like LLaMA or GPT) perform worse for this use case. Models aligned with vision (like CLIP) work better for multimodal tasks.\n\n\n\nQ8: Can the model handle long, detailed prompts describing multi-step actions?\nA: It can handle basic sequences, but struggles with detailed, multi-event scripts. This may stem from the limited detail and sequencing in pretraining captions.\n\n\n\nQ9: Can physics priors be hardcoded to improve realism (e.g., car collisions)?\nA: The project intentionally avoids inductive biases, but injecting physics knowledge (e.g., from game engine data) could help. It’s a promising direction for future research.\n\n\n\nQ10: Is there any work on watermarking to prevent misuse like deepfakes?\nA: Yes. Meta and other groups like DeepMind are actively working on video watermarking techniques for authenticity and safety.\n\n\n\nQ11: Why include GAN discriminators in the VAE decoder?\nA: GAN losses encourage perceptual realism and allow more aggressive compression. This technique, inspired by VQGAN, helps produce sharper and more varied reconstructions than simple L1 pixel-level losses.\n\n\n\nQ12: How do you prevent fake/generated content from polluting the training data?\nA: Meta applies strict filtering to ensure high-quality real content. That said, generated data isn’t always harmful—many post-training techniques (e.g., SFT, RLHF) rely on synthetic outputs. The key is quality control.",
+    "crumbs": [
+      "Others",
+      "Stanford CS25: Transformers United"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/ucb-deep-unsupervised.html",
+    "href": "posts/Gen-AI/ucb-deep-unsupervised.html",
+    "title": "CS294-158: Deep Unsupervised Learning",
+    "section": "",
+    "text": "Lecture Website: Link Lecture Video: YouTube",
+    "crumbs": [
+      "Generative AI",
+      "CS294-158: *Deep Unsupervised Learning*"
+    ]
+  },
+  {
+    "objectID": "posts/Gen-AI/kaist-diffusion-models.html",
+    "href": "posts/Gen-AI/kaist-diffusion-models.html",
+    "title": "KAIST CS492(D): Diffusion Models and Their Applications",
+    "section": "",
+    "text": "Lecture Website: Link Lecture Video: YouTube\nTotal 17 Lectures and 7 Assignments in this course.",
+    "crumbs": [
+      "Generative AI",
+      "KAIST CS492(D): *Diffusion Models and Their Applications*"
+    ]
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Course Notes",
@@ -28,103 +306,5 @@
     "crumbs": [
       "About"
     ]
-  },
-  {
-    "objectID": "posts/Gen-AI/kaist-diffusion-models.html",
-    "href": "posts/Gen-AI/kaist-diffusion-models.html",
-    "title": "KAIST CS492(D): Diffusion Models and Their Applications",
-    "section": "",
-    "text": "Lecture Website: Link Lecture Video: YouTube\nTotal 17 Lectures and 7 Assignments in this course.",
-    "crumbs": [
-      "Generative AI",
-      "KAIST CS492(D): *Diffusion Models and Their Applications*"
-    ]
-  },
-  {
-    "objectID": "posts/Gen-AI/ucb-deep-unsupervised.html",
-    "href": "posts/Gen-AI/ucb-deep-unsupervised.html",
-    "title": "CS294-158: Deep Unsupervised Learning",
-    "section": "",
-    "text": "Lecture Website: Link Lecture Video: YouTube",
-    "crumbs": [
-      "Generative AI",
-      "CS294-158: *Deep Unsupervised Learning*"
-    ]
-  },
-  {
-    "objectID": "posts/Others/stanford-cs25.html",
-    "href": "posts/Others/stanford-cs25.html",
-    "title": "Stanford CS25: Transformers United",
-    "section": "",
-    "text": "斯坦福大学的 CS25 是一门极受欢迎的研讨型课程，聚焦于 Transformer 架构及其在各个领域的前沿应用。该课程没有Assignments，主要通过阅读论文和课堂讨论来深入理解 Transformer 的原理和应用。每节课都可以独立的观看，该课程已经从 V1(2023) 更新到了 V5(2025)。 有兴趣的同学可以挑自己感兴趣的部分来学习。\n课程资源:",
-    "crumbs": [
-      "Others",
-      "Stanford CS25: Transformers United"
-    ]
-  },
-  {
-    "objectID": "posts/Others/stanford-cs25.html#transformers-for-video-generation",
-    "href": "posts/Others/stanford-cs25.html#transformers-for-video-generation",
-    "title": "Stanford CS25: Transformers United",
-    "section": "Transformers for Video Generation",
-    "text": "Transformers for Video Generation\nLecture Video Link\n这节Lecture 主要介绍了MovieGen(Polyak et al. 2025)，以及它的一个重要的发现：\n\nScaling simple transformer architectures (data, compute, parameters) works just as well for video as it does for text.\n\n首先，第一件事就是如何学习视频的表示，在这里，他们是 Temporal Autoencoder,\n\n\n\nThe use of temporal autoencoder to represent the video.\n\n\n\n[!info]\nSpatio-Temporal Dimension is the common discription in the video. The spation mean the height and width of the Image (\\(H \\times W\\)). And the Temporal is the time \\(T\\). Morden video model, such as Video GPT, TimeSformer, are all use patio-temporal tokens.\n\nUpon use the Temporal Autoencoder, there are 8* compression across each spation-temporal dimension. For the 768px 16s 16fps video, if we model the pixel directly, it will get: more than 450M tokens, but if we use the Temporal Autoencoder, we will just get the 2M tokens, which is computationaly feasible.\n\nPre-Training Data Gather\n\n\n\nimage-20250705210218209\n\n\n\nVisual Filtering:\n\nResolution: minimum width or height of 720 px.\n\nAspect Ratio:\n\nA mix of 60% landscape and 40% portrait videos.\n\nNo Text: Use Video OCR model to remove the videos with text\n\n\n\nQ1: Why not use specialized architectures like CNNs for video tasks (e.g., action diffusion in robotics)?\nA: Specialized architectures like CNNs offer useful inductive biases for small-scale setups, but transformers scale better. At large scale, transformers can learn these biases themselves and benefit from established infrastructure. Meta found scaling transformers outperformed scaling CNNs for high-quality video generation.\n\n\n\nQ2: Can this model architecture be used for 3D generation or video game content?\nA: Yes. Once the data (e.g., 3D scenes, game environments) is tokenized into sequences, the transformer architecture becomes modality-agnostic. The key is to find a good encoding method to convert the data into discrete tokens.\n\n\n\nQ3: Why are generated videos limited to 16 seconds? What’s the challenge with longer durations?\nA: The main constraint is sequence length and computational cost. A 16-second video already produces ~73K tokens with compression. Doubling the duration doubles the token count. Potential solutions include better compression, hierarchical generation, or chunked temporal generation.\n\n\n\nQ4: What happens if we run out of clean training video data?\nA: Two strategies:\n1. Improve filtering and concept balancing pipelines, possibly with LLMs.\n2. Use generated data in post-training phases, which is already common in language modeling (e.g., RLHF).\n\n\n\nQ5: How can academic researchers contribute without access to large-scale compute for pretraining?\nA: Academia plays a vital role in proposing new training objectives, architectures, and post-training methods. For example, flow matching originated in academic work. Innovations at small scale can influence large-scale industrial projects.\n\n\n\nQ6: How do you ensure that the auto-generated captions (via LLaMA-3) are high quality?\nA: Meta trained a dedicated LLaMA-3-based video captioner. Limitations include frame subsampling (not all frames seen) and imperfect descriptions. Improving caption quality can directly enhance generation performance.\n\n\n\nQ7: What text encoders are used, and how important is the choice?\nA: MovieGen uses three frozen encoders: UL2, MetaCLIP, and T5. Surprisingly, decoder-only models (like LLaMA or GPT) perform worse for this use case. Models aligned with vision (like CLIP) work better for multimodal tasks.\n\n\n\nQ8: Can the model handle long, detailed prompts describing multi-step actions?\nA: It can handle basic sequences, but struggles with detailed, multi-event scripts. This may stem from the limited detail and sequencing in pretraining captions.\n\n\n\nQ9: Can physics priors be hardcoded to improve realism (e.g., car collisions)?\nA: The project intentionally avoids inductive biases, but injecting physics knowledge (e.g., from game engine data) could help. It’s a promising direction for future research.\n\n\n\nQ10: Is there any work on watermarking to prevent misuse like deepfakes?\nA: Yes. Meta and other groups like DeepMind are actively working on video watermarking techniques for authenticity and safety.\n\n\n\nQ11: Why include GAN discriminators in the VAE decoder?\nA: GAN losses encourage perceptual realism and allow more aggressive compression. This technique, inspired by VQGAN, helps produce sharper and more varied reconstructions than simple L1 pixel-level losses.\n\n\n\nQ12: How do you prevent fake/generated content from polluting the training data?\nA: Meta applies strict filtering to ensure high-quality real content. That said, generated data isn’t always harmful—many post-training techniques (e.g., SFT, RLHF) rely on synthetic outputs. The key is quality control.",
-    "crumbs": [
-      "Others",
-      "Stanford CS25: Transformers United"
-    ]
-  },
-  {
-    "objectID": "posts/Gen-AI/stanford-cs336.html",
-    "href": "posts/Gen-AI/stanford-cs336.html",
-    "title": "Stanford CS336: Language Modeling from Scratch",
-    "section": "",
-    "text": "Lecture Website: Link Lecture Video: YouTube\nThis is a collection of notes and code for the Stanford CS336: Language Modeling from Scratch course. This is course is designed to teach students how to build a “large” language model (LLM) from scratch, covering from bottom to top, including the data collection, tokenization, model architecture, pre-training, post-training, inference and model evaluation. The course is designed to provide a comprehensive understanding of how LLMs work and how to build them from scratch.\nThere are total 17 Lectures and 5 Assignments in this course.",
-    "crumbs": [
-      "Generative AI",
-      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
-    ]
-  },
-  {
-    "objectID": "posts/Gen-AI/stanford-cs336.html#lectures",
-    "href": "posts/Gen-AI/stanford-cs336.html#lectures",
-    "title": "Stanford CS336: Language Modeling from Scratch",
-    "section": "Lectures",
-    "text": "Lectures\n\nLecture 01: Overview & Tokenization\n\nTokenization\nTokenization is the process of converting raw text into a sequence of tokens(usually is represented by integer indices), which are the basic units of meaning in a language model.\nIn this lecture, we will cover the basics of tokenization, including the different types of tokenization, such as character-level, word-level, and subword-level tokenization. We will also discuss the importance of tokenization in language modeling and how it affects the performance of the model.\nA Tokenizer is a class that implements the encode and decode methods for tokenization: - encode method takes a string of text and converts it into a sequence of integer indices, which are the tokens. - decode method takes a sequence of integer indices and converts it back into a string of text. The Tokenizer will generate a list of tokens from the input text, the number of the tokens is called the vocabulary size.\nAn interactive demo of the tokenization process can be found here\nThere are several tokenization algorithms, such as:\nOne of the good quantity to measure the tokenization algorithm is the compression ratio, which is defined as the ratio of the number of bytes of the input text to the number of tokens. A higher compression ratio indicates that the tokenization algorithm is more efficient in representing the input text.\ndef get_compression_ratio(string: str, indices: list[int]) -&gt; float:\n    \"\"\"\n    Calculate the compression ratio of a string and its tokenized indices.\n    \n    Args:\n        string (str): The input string.\n        indices (list[int]): The tokenized indices.\n        \n    Returns:\n        float: The compression ratio.\n    \"\"\"\n    return len(string.encode('utf-8')) / len(indices)\nThere are different types of the tokenization:\n\nCharacter-based tokenization: A Unicode string is a sequence of Unicode code points, which can be represented as a sequence of integers. Each character in the string is treated as a separate token.\n\nord('a')   # 97 \nchr(97)   # 'a'\n\nord('🌍') # 127757\nchr(127757) # '🌍'\nOne of the main drawbacks of character-based tokenization is that it can lead to a large vocabulary size, which can make the model more difficult to train and less efficient in terms of memory usage. And some character are not commonly used in the text, which is inefficient use of the vocabulary.\n\nByte-Based Tokenization: Unicode strings can be encoded as a sequence of bytes using UTF-8 encoding. Each byte can be represented by integers in the range of 0 to 255. Some Unicode characters may be represented by multiple bytes.\n\nbytes('a', 'utf-8')  # b'a'\nbytes('🌍', 'utf-8')  # b'\\xf0\\x9f\\x8c\\x8d'\nAs we can expected, the compression ratio is 1, which is terrible.\nThe vocabulary size is 256, which is a nice property because it is fixed and covers all possible bytes. However, the main drawback is that it can lead to long sequences, since each character (even multi-byte Unicode characters) is split into multiple tokens. This can make training less efficient and increase the computational cost for language models, given that the context length of a Transformer model is limited.\n\nWord-Based Tokenization\nAnother common approach is to tokenize the text into words, where each word is treated as a separate token. We can use regular expression to split the text into words.\n\n\n\n\n\n\nTip\n\n\n\n\\w+ matches any word character, which includes:\n\nLetters: A–Z, a–z\nDigits: 0–9\nUnderscore: _\n\n+ is a quantifier meaning “one or more times”\n\n\nA more fancy expression is :\nGPT2_TOKENIZER_REGEX = r\"\"\"'(?:[sdmt]|ll|ve|re)| ?\\p{L}+| ?\\p{N}+| ?[^\\s\\p{L}\\p{N}]+|\\s+(?!\\S)|\\s+\"\"\"\nsegments = re.findall(GPT2_TOKENIZER_REGEX, string)\nAfter we get the segments, we can assign each segment to a unique integer index, which is the token. One of the main drawbacks of word-based tokenization is that the vocabulary size is not fixed and can grow very large, especially with rare or out-of-vocabulary words. This can make the model harder to train and require more memory. Additionally, it struggles with handling misspellings, new words, or languages with rich morphology. New words we haven’t seen during training will be treated as UNK tokens, which can lead to a loss of information and context.\n\n\nByte Pair Encoding (BPE)\nThe basic idea of BPE is to iteratively merge the most frequent pairs of characters or subwords in the text until a desired vocabulary size is reached. This allows for a more efficient representation of the text, as it can capture common subwords and reduce the overall vocabulary size. (In the info encoding)\n\nThe GPT-2 paper used word-based tokenization to break up the text into initial segments and run the original BPE algorithm on each segment.\n\nBelow are the summary of four different tokenization algorithms:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTokenization Type\nDescription\nCompression Ratio\nVocabulary Size\nPros\nCons\n\n\n\n\nCharacter-Based\nEach character is a token (Unicode code point).\nLow\nLarge (all characters)\nSimple; handles any language\nInefficient; large vocab; rare chars waste tokens\n\n\nByte-Based\nEach byte from UTF-8 encoding is a token (0–255).\n~1\nFixed (256)\nFixed vocab; language-agnostic\nLong sequences for Unicode; inefficient for modeling semantics\n\n\nWord-Based\nWords (or regex-matched units) are tokens.\nMedium\nLarge and dynamic\nIntuitive; better compression than char/byte\nPoor generalization; large vocab; OOV issues with UNK\n\n\nByte Pair Encoding (BPE)\nIteratively merges frequent subword pairs to form subword tokens.\nHigh\nMedium (tunable)\nEfficient; balances granularity and vocab size\nMerge rules are corpus-dependent; needs initial segmentation\n\n\n\n\n\nTable 1: Summary of 4 Tokenization Algorithms\n\n\n\n\n\n\n\n\nLecture 02: Pytorch, Resource Accounting\nh100_bytes = 80e9\nBytes_per_parameter = 4 + 4 + ( 4+ 4) =&gt; Parameters, gradient, optimizer state\nNum Paramter = (h100_byes * 8) / Bytes_per_parameter 4e10\nx = torch.tensor([\n    [1, 2, 3],\n])\n\nMemory Account\nfloat32 is the most common data type used in deep learning, which uses 4 bytes per element.\n\n\n\n\n\n\nFigure 1: The representation of float32 in memory\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe exponent used to represent the dynamic range of the number, for float32, it uses 8 bits for the exponent, which allows for a dynamic range of approximately 1.18e-38 to 3.4e+38. The fraction is used to represent the precision of the number, which is also known as resolution. For float32, it uses 23 bits for the fraction, which allows for a precision of approximately 7 decimal digits. To represent a number in float32, it uses the following formula: \\[\n\\begin{aligned}\n\\text{value}\n&= (-1)^{b_{31}} \\times 2^{(b_{30}b_{29} \\dots b_{23})_2 - 127} \\times (1.b_{22}b_{21} \\dots b_{0})_2 \\\\\n&= (-1)^{\\text{sign}} \\times 2^{(E - 127)} \\times \\left( 1 + \\sum_{i=1}^{23} b_{23 - i} \\cdot 2^{-i} \\right)\n\\end{aligned}\n\\] where sign is the sign bit, exponent is the exponent value, and fraction is the fraction value. The exponent is biased by 127, which means that the exponent value is stored as the actual exponent plus 127. This allows for both positive and negative exponents to be represented.\n\n\nMemory is determined by the number of values in the tensor and the data type of the tensor. The memory usage can be calculated as: \\[\n\\text{Memory} = \\text{Number of Values} \\times \\text{Bytes per Value}\n\\tag{1}\\] which can be calculated as:\ndef get_memory_usage(x: torch.Tensor):\n    return x.numel() * x.element_size()\nThe float32 takes 4 bytes per element, for the LLM, this is a lot of memory. We are use float16 to reduce the memory usage by half, which is 2 bytes per element. This is a common practice in deep learning to save memory and speed up training.\n\n\n\n\n\n\nFigure 2: The representation of float16 in memory\n\n\n\nThe float16 cuts down the memory usage by half, but it has a smaller dynamic range and precision compared to float32. This can lead to numerical instability and loss of precision in some cases, especially when dealing with very large or very small numbers.\nx = torch.tensor([1e-8], dtype=torch.float16)  \nassert x == 0\nwhen the underflow or overflow happens, the value will be rounded to 0 or infinity, which might cause the instability in the training process.\nAnother data type is bfloat16, which is a 16-bit floating point format that has the same dynamic range as float32, but with less precision. It uses 8 bits for the exponent and 7 bits for the fraction, which allows for a dynamic range of approximately 3.4e-38 to 3.4e+38, but with a precision of only 2 decimal digits.\n\nIn conclusion, the choice of data type can have a significant impact on the memory usage and performance of the model. The float32 is the most common data type used in deep learning, but it can be memory-intensive. The float16 and bfloat16 are commonly used to reduce the memory usage, but they can lead to numerical instability and loss of precision in some cases. One of the common practice to combine float16 and float32 is to use float16 for the model parameters and gradients, and float32 for the optimizer state. This is known as mixed precision training, which can save memory and speed up training without sacrificing too much performance.\n\n\nCompute Account\nBy defaults, all the tensors are stored in the CPU memory, which is not efficient for training deep learning models. We can move the tensors to the GPU memory by calling the to method on the tensor, which will move the tensor to the specified device.\nx = torch.tensor([1, 2, 3])\nx = x.to('cuda')  # Move tensor to GPU\nOne way to check the memory usage of the GPU in PyTorch is to use the torch.cuda.memory_allocated() and torch.cuda.memory_reserved() functions. The memory_allocated() function returns the total memory allocated by the tensors, while the memory_reserved() function returns the total memory reserved by the CUDA allocator.\nThe PyTorch tensor are pointers to the memory allocated on the GPU, with metadata such as the shape, data type, and device. There are several commom operations that can be performed on the tensors:\nx = torch.tensor([[1., 2, 3], [4, 5, 6]]) \ny = x[0] # Get the first row of the tensor\nz = x[:, 1] # Get the second column of the tensor\nw = x[0, 1] # Get the element at the first row and second\n\ny = x.view(3, 2) # Reshape the tensor to 3 rows and 2 columns\nz = x.reshape(3, 2) # Reshape the tensor to 3 rows\nw = x.transpose(0, 1) # Transpose the tensor \nOne of the most important operations in deep learning is the matrix multiplication, which can be performed using the torch.matmul() function. Also, besides that, the einops library provides a powerful way to manipulate tensors, allowing for more complex operations\nNow, let’s talk about the compute account, which is the number of floating point operations (FLOPs) required to perform a certain operation. The FLOPs can be calculated as the number of floating point operations divided by the time taken to perform the operation.\n\n\n\n\n\n\nNote\n\n\n\nThe FLOPs is a measure of the computational complexity of an operation, and it is often used to compare the performance of different algorithms. The FLOP/s (FLOPs per second) is a measure of the performance of a hardware, which is the number of floating point operations that can be performed in one second. It is often used to compare the performance of different hardware, such as CPUs and GPUs.\n\n\nSupport we have a Linear layer with B batch size, D input dimension, and K output dimension. The number of floating point operations required to perform the forward pass of the linear layer can be calculated as:\nFLOPs = 2 * B * D * K\nwhere 2 is the number of floating point operations required to perform the matrix multiplication and addition (1 for multiplication and 1 for addition) of (i, j, k) triple.\nBeside the matrix multiplication, the element-wise operations such as activation functions (e.g., ReLU, sigmoid) also contribute to the FLOPs. For example, if we apply a ReLU activation function after the linear layer, it will add B * K additional floating point operations, since it applies the function to each element in the output tensor. Addition of two \\(m \\times n\\) matrices requires \\(mn\\) FLOPs, where \\(m\\) is the number of rows and \\(n\\) is the number of columns.\nFLOPs is measure in terms of the number of the floating point operations required to perform a certain operation, which is a common way to measure the computational complexity of an algorithm. In theory, how to map those FLOPs to the wall clock time is not straightforward, since it depends on the hardware and the implementation of the algorithm. However, we can use the following formula to estimate the wall clock time:\nWall Clock Time = FLOPs / FLOP/s\nOne of the criterion is the MFU(Model FLOPs Utilization).Usually, MFU of &gt;= 0.5 is quite good (and will be higher if matmuls dominate)\nFloating point operation is a basic operation like addition or multiplication.\nForward: 2 * B * D * K (#tokens) (#parameters)\nFLOPs =&gt; Wall Clock time.\n\n\n\nLecture 03: Architectures & Hyperparameters\n\n\nLecture 04: Mixture of Experts\n\n\nLecture 05 & 06: GPU, Kernels, Triton\n\n\nLecture 07 & 08: Parallelism\n\n\nLecture 10: Inference\n\n\nLecture 09 & 11: Scaling Laws\n\n\nLecture 12: Evaluation\n\n\nLecture 13 & 14: Data\n\n\nLecture 15, 16 & 17: Alignment: SFT/ RLHF",
-    "crumbs": [
-      "Generative AI",
-      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
-    ]
-  },
-  {
-    "objectID": "posts/Gen-AI/stanford-cs336.html#assignments",
-    "href": "posts/Gen-AI/stanford-cs336.html#assignments",
-    "title": "Stanford CS336: Language Modeling from Scratch",
-    "section": "Assignments",
-    "text": "Assignments\n\nAssignment 01: Basics\nIn this assignment, we will implement the Byte-Pair Encoding(BPE) algorithm for tokenization, and build a transformer model from scratch. And also define optimization and training loop for the model.\n\n\nAssignment 02: System\nIn this assignment, we will profile and benchmark the model we built in the assignment 01, and optimize the attention mechanism using Triton by implementing the FlashAttention2(Dao 2023).",
-    "crumbs": [
-      "Generative AI",
-      "Stanford CS336: <tag style='font-weight: bold'>Language Modeling from Scratch</tag>"
-    ]
-  },
-  {
-    "objectID": "posts/RL/ucb-cs285.html",
-    "href": "posts/RL/ucb-cs285.html",
-    "title": "UCB CS285: Deep Reinforcement Learning",
-    "section": "",
-    "text": "This is a collection of notes and code for the UCB CS285: Deep Reinforcement Learning course. The course covers various topics in reinforcement learning, including policy gradients, actor-critic methods, deep Q-learning, and different exploration strategies. The course is designed to provide a comprehensive understanding of deep reinforcement learning and its applications.\nThere are total 23 lectures and 5 assignments in this course. It might 100 hours to finish the course, including the lectures and assignments."
-  },
-  {
-    "objectID": "posts/RL/ucb-cs285.html#lectures",
-    "href": "posts/RL/ucb-cs285.html#lectures",
-    "title": "UCB CS285: Deep Reinforcement Learning",
-    "section": "Lectures",
-    "text": "Lectures\n\nLecture 01: Introduction & Overview\nLecture 01 introduces the course and provides an overview of reinforcement learning. It covers the basic concepts of reinforcement learning, including the agent-environment interaction, rewards, and policies. The lecture also discusses the different types of reinforcement learning algorithms, such as model-free and model-based methods.\nThe difference between Reinforcement Learning and Supervised Learning Algorithms is that: Reinforcement Learning not just trying to copy everything from data, but use the reward to figure out what should do in order to maximize the cumulative reward, and learned the policy.\n\nIn the Supervised Learning, the data points are assumed i.i.d., while in the reinforcement learning, the data is not i.i.d., previous output might effect the future inputs.\nIn the Supervised Learning, the ground truth outputs is known, and the algorithms is trained on the known ground truth, in the RL, the group truth is un-known, we only know the succeeded or failed (rewards)\nIn the Supervised Learning, the algorithms is trained on the fixed dataset, while in the RL, the algorithms is trained on the online data (the data is generated by the agent itself).\n\n\n\nLecture 02: Supervised Learning of Behaviors\nLecture 02 covers the basics of supervised learning and how it can be used to learn behaviors in reinforcement learning. It discusses the concept of imitation learning, where an agent learns to mimic the behavior of an expert by observing its actions. The lecture also introduces the concept of behavioral cloning, where the agent learns a policy directly from the expert’s actions."
-  },
-  {
-    "objectID": "posts/RL/ucb-cs285.html#assignments",
-    "href": "posts/RL/ucb-cs285.html#assignments",
-    "title": "UCB CS285: Deep Reinforcement Learning",
-    "section": "Assignments",
-    "text": "Assignments\nThere are total of 5 assignments in this course, from imitation learning to deep Q-Learning. The assignments are designed to help you understand the concepts and algorithms in reinforcement learning, and to implement them in code.\n\nAssignment 01: Imitation Learning\n\n\nAssignment 02: Policy Gradients"
   }
 ]

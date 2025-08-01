@@ -1,15 +1,122 @@
 ---
 title: "UCB CS285: <tag style='font-weight: bold'>Deep Reinforcement Learning</tag>"
+number-sections: true
 ---
 
 
 This is a collection of notes and code for the [UCB CS285: Deep Reinforcement Learning](https://rail.eecs.berkeley.edu/deeprlcourse/) course. The course covers various topics in reinforcement learning, including **policy gradients**, **actor-critic methods**, **deep Q-learning**, and **different exploration strategies**. The course is designed to provide a comprehensive understanding of deep reinforcement learning and its applications.
 
-There are total <tag style='color: orange'>23 lectures</tag> and <tag style='color: orange'>5 assignments</tag> in this course. It might 100 hours to finish the course, including the lectures and assignments. 
+There are total <tag style='color: orange'>23 lectures</tag> and <tag style='color: orange'>5 assignments</tag> in this course. It might <tag style='color: red'>100 hours</tag> to finish the course, including the lectures and assignments. 
 
-##  Lectures
-### Lecture 01: Introduction & Overview 
-Lecture 01 introduces the course and provides an overview of reinforcement learning. It covers the basic concepts of reinforcement learning, including the agent-environment interaction, rewards, and policies. The lecture also discusses the different types of reinforcement learning algorithms, such as model-free and model-based methods.
+
+## Terminology & Notation {.unnumbered}
+
+:::{#tbl-terminology .column-page}
+| Term                  | Symbol                     | Definition                                                                                         | Notes                                                                                     |
+|-----------------------|----------------------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| **Observation**        | $o_t$                      | What the agent perceives from the environment (e.g., camera image).                                 | May be partial or noisy; does not always uniquely determine the state.                   |
+| **Action**             | $a_t$                      | Decision taken by the agent at time $t$.                                                            | Can be discrete (e.g., "left", "right") or continuous (e.g., steering angle).            |
+| **Policy**             | $\pi_\theta$               | Mapping from observation (or state) to action (or distribution over actions).                      | $\theta$ are the learnable parameters (e.g., neural network weights).                    |
+| **State**              | $s_t$                      | True, complete description of the environment at time $t$.                                          | Underlies the observation; satisfies the Markov property.                                |
+| **Markov Property**    | $\begin{gather*}
+P(s_{t+1} \mid s_t, a_t) \\
+= P(s_{t+1} \mid s_{<t}, a_{<t})
+\end{gather*}$ | Future state depends only on current state and action: $P(s_{t+1} \mid s_t, a_t)$.                  | Defines the concept of a state in decision processes.                                    |
+| **Behavioral Cloning** | $\min_\theta , \mathbb{E}{(s_t, a_t) \sim \mathcal{D}} \left[ \mathcal{L} \left( \pi\theta(s_t), a_t \right) \right]$                         | Supervised learning method to mimic expert behavior by training on $(o_t, a_t)$ pairs.              | Can suffer from compounding error due to distribution shift.                             |
+| **Stochastic Policy**  | $a_t \sim \pi(a_t \mid o_t)$        | Outputs a probability distribution over actions.                                                    | More general and often preferred for optimization.                                       |
+| **Deterministic Policy** | $a_t = \pi_\theta(o_t)$                        | Always outputs the same action for a given input.                                                   | Special case of a stochastic policy.                                                     |
+| **Transition Model**   | $P(s_{t+1} \mid s_t, a_t)$ | Defines how the environment evolves from state to state.                                            | Captures system dynamics (e.g., physics).                                                |
+| **DAgger**             | –                          | Imitation learning algorithm that mitigates compounding error by iterative expert feedback.         | Will be implemented in homework and discussed in Part 2.                                 |
+
+:
+{.hover}
+:::
+
+
+
+
+
+
+There are total of <u>23 lectures</u> in this course, each lecture covers a specific topic in reinforcement learning. The Lecture 01 introduces the course and provides an overview of reinforcement learning, while the subsequent lectures delve into specific algorithms and techniques.
+
+# Lecture 01: Introduction & Overview 
+Lecture 01 introduces the course and provides an overview of reinforcement learning. It covers the basic concepts of reinforcement learning, including:
+
+- the agent-environment interaction, 
+- rewards
+- policies
+
+::: {#vid-robot-grasping}
+{{<video https://www.youtube.com/embed/RikmTF3ZNWo?si=HpEyJx3FPXuguN3W >}}
+
+Example of Robot Grasping
+:::
+
+It first introduce an example of Robotic Grasping (@vid-robot-grasping). In this example, the goal is to <u>build a systems for robotic object grasping</u>. This is non-trivial problem, because of object variability, such as rigid, deformable, and articulated objects. In this case, *manually designing every special case is not feasible, so we need to use machine learning algorithms to solve this problem*. Instead of hand-engineered logic, use can use ML (e.g., CNNs) to <u>learn grasp strategies from data</u>. However, the in the traditional ML algorithms, we requires a bunch of labeled data, which is hard to obtain in the real world. So, is there a way to learn from the data without the labels? The answer is yes, we can use Reinforcement Learning (RL) to solve this problem. 
+
+
+
+RL allows robots to learn from **trial and error**, rather than human labels. To be more specific, <u>instead of providing a the correct action for each state, we give the robot a reward signal (e.g., success / failure), which tells the robot how well it is doing</u>. The robot can then use this reward signal to learn a **policy** that <u>maximizes the cumulative reward over time</u>.
+
+::: {.callout-note title="Recent AI Advances and Limitations"}
+Until recently (2023), massive progress in generative models: DALL-E, Stable Diffusion, GPT, etc. These model use **supervised learning** or **density estimation** (e.g., $P(x), P(y|x)$) on human-generated data. This is effective when the goal is to replicate human-like data/ behavior.
+In this context, we just learning the distribution of the dataset in different fancy ways, so it's only as good as the data we have, which means it mimic human outputs, but may not generalize well or innovate.
+:::
+
+With the development of deep learning and hardware, RL has become a powerful tool for solving complex problems. When combines large-scale optimization (e.g., deep nets) with RL principles, we can build systems that can learn to solve complex tasks, and might emerge new capabilities that were not explicitly programmed -- e.g. AlphaGo's famous "move 37".
+
+### What is Reinforcement Learning?
+RL is both a mathematical formalism and an approach for learning decision-making from experience. It distnguish between the problem (sequential decision-making) and the solution (learning a policy). One main difference between RL and other machine learning approaches is the data: 
+
+- Supervised learning assumes I.I.D. labeled data $(X, Y)$
+- RL involves sequential, temporally correlated data and often lacks explicit labels -- only feedback in terms of rewards.
+
+
+### Credit Assignment Problem
+The credit assignment problem is a fundamental challenge in reinforcement learning. It refers to the difficulty of determining which actions in a sequence of actions are responsible for the eventual outcome or reward. In other words, when an agent receives a reward after taking a series of actions, it must figure out which of those actions contributed to the reward and which did not. This is particularly challenging in environments where the effects of actions are delayed or not immediately observable. This illustrates the need for learning from sequences of events and delayed feedback.
+
+The lecture also discusses the different types of reinforcement learning algorithms, such as model-free and model-based methods.
+
+
+
+### RL in AI Systems(Language & Vision)
+With the ChatGPT and other large language models, we can see the power of RL in AI systems. RL is used to fine-tune the models to align with human preferences and to improve their performance on specific tasks. For example, RL can be used to optimize the responses of a language model to make them more coherent and relevant to the user's query. Similarly, in computer vision, RL can be used to train models to recognize objects and scenes more accurately by providing feedback based on the model's predictions. 
+
+The RL also plays a crucial role in Image Generation: RL optimizes prompts-to-image pipelines using caption feedback.
+
+### Sutton’s “The Bitter Lesson”
+Richard Sutton argues that learning and search (not manual design) are the scalable paths to intelligence. Scalable learning machines outperform systems engineered by intuition. Learning helps extract patterns; search / optimization helps generate new behaviors. Both necessary for flexible, rational decision-making in real-world problems. 
+
+All ML problems (vision, control, language) can be reframed as decision-making problems. For example:
+
+- Vision: Recognizing objects in images is a decision-making problem where the agent must decide which features to focus on and how to classify the objects.
+- Control: Controlling a robot is a decision-making problem where the agent must decide which actions to take based on the current state of the environment.
+- Language: Generating text is a decision-making problem where the agent must decide which words to use and how to structure the sentences to convey the intended meaning.
+
+Thus, RL applies broadly—even supervised learning is often RL in disguise.
+
+
+### RL Beyond Reward Maximization 
+RL is not just about maximizing rewards, the real-world RL also tackles:
+
+- Reward Inference (inverse RL): Learning the reward function from observed behavior.
+- Imitation Learning: Learning from expert demonstrations without explicit rewards.
+- Transfer / Meta Learning: Adapting learned policies to new tasks or environments.
+- Prediction and Planning: Using learned models to predict future states and plan actions.
+
+
+### Leveraging Pre-trained Models 
+RT-2 [@RT2VisionLanguageActionModels2023brohan] combines VLMs with robot control to complete complex tasks by grounding instructions in internet knowledge and robot experience.
+
+::: {.callout-note title="The summary of RT-2: Vision-Language Action Models"}
+RT‑2 examines how to merge internet‑scale vision‑language (VLM) knowledge with low‑level robotic control, enabling robots to generalize to new objects, environments, and even execute reasoning commands—far beyond the limited distribution of robotics data alone.
+
+Co‑fine‑tuning strategy: they train a pre‑trained VLM (e.g. PaLI‑X or PaLM‑E) simultaneously on:
+- Robotic trajectory data (visual frames paired with robot actions),
+- Internet‑scale vision‑language tasks (like VQA) 
+
+They convert low‑level robot actions into discrete text tokens, effectively treating action sequences as if they were normal language output—so the model’s output space covers both natural language and action vocabulary
+:::
 
 The difference between Reinforcement Learning and Supervised Learning Algorithms is that: *Reinforcement Learning not just trying to copy everything from data, but use the reward to figure out what should do in order to maximize the cumulative reward, and learned the policy.*
 
@@ -19,15 +126,108 @@ The difference between Reinforcement Learning and Supervised Learning Algorithms
 
 
 
-### Lecture 02: Supervised Learning of Behaviors
-Lecture 02 covers the basics of supervised learning and how it can be used to learn behaviors in reinforcement learning. It discusses the concept of imitation learning, where an agent learns to mimic the behavior of an expert by observing its actions. The lecture also introduces the concept of behavioral cloning, where the agent learns a policy directly from the expert's actions.
+### Challenges in Reinforcement Learning
+Reinforcement learning faces several challenges, including:
 
-## Assignments 
+1. Scaling RL to Real-World Settings
+   - While deep learning scales well, RL still struggles to scale to large, open-world, high-dimensional problems (e.g., robotics, autonomous driving).
+   - Data inefficiency is a major bottleneck.
+2. Sparse and Delayed Rewards
+   - Many real-world tasks (e.g., completing a PhD) have rewards that are rare or highly delayed, making it difficult for RL to learn solely from these signals.
+3. Designing Reward Functions:
+   - In real tasks (e.g., pouring water), defining a precise reward signal is often as hard as solving the task itself.
+   - Perception and control are tightly intertwined.
+
+These challenges frame the motivation for deeper research into more sample-efficient, generalizable, and scalable reinforcement learning algorithms—especially those that better mimic how intelligent agents (like humans) learn from limited data and rich interactions.
+
+# Lecture 02: Supervised Learning of Behaviors (Imitation Learning)
+Lecture 02 covers the basics of supervised learning and how it can be used to learn behaviors in reinforcement learning. It discusses the concept of **imitation learning**, where an<u> agent learns to mimic the behavior of an expert by observing its actions</u>. The lecture also introduces the concept of **behavioral cloning**, where the <u>agent learns a policy directly from the expert's actions</u>.
+
+
+::: {.callout-caution title="Behavioral Cloning vs. Imitation Learning"}
+*Behavioral Cloning is a specific form of Imitation Learning* that <u>treats policy learning as a supervised learning problem using expert demonstrations</u>, while Imitation Learning more broadly includes methods like inverse reinforcement learning and DAgger.
+:::
+
+Policies as Supervised Learning Models:
+
+- Policies map observations $o_t$ to actions $a_t$., analogous to supervised learning models how classifiers map $x \to y$.
+- Policies can be **deterministic** ($a_t = \pi(o_t)$) or **stochastic** ($a_t \sim \pi(a_t \mid o_t)$).
+
+Training is done on the expert distribution $P_{\text{data}}(o_t)$, but execution happens under the learned policy’s distribution $P_{\pi_\theta}(o_t)$, causing distributional shift, a central issue in imitation learning.
+
+State vs. Observation:
+
+- **State**: Complete description of the environment at time $t$.
+- **Observation**: What the agent perceives (e.g., camera image), which may be partial or noisy, which not always sufficient to infer the state. 
+
+
+One of the main assumption in the RL is  Markov Property, which states that the future state depends only on the current state and action, not on the previous states or actions. 
+
+$$
+P(s_{t+1} \mid s_t, a_t) = P(s_{t+1} \mid s_{<t}, a_{<t})
+$$ {#eq-markov-property}
+
+
+The input to the policy is the observation or state, and the output is the action or distribution over actions. The policy can be deterministic or stochastic, depending on whether it outputs a single action or a probability distribution over actions.
+
+
+## Behavioral Cloning 
+**Behavioral cloning is a supervised learning approach to imitation learning**, where the <u>agent learns a policy by directly mimicking the actions of an expert.</u> The agent is trained on pairs of observations and actions from the expert's behavior $\mathcal{D}(o_t, a_t)$, using supervised learning techniques,  linear regression, neural networks, etc. The goal is to minimize the difference between the agent's actions and the expert's actions.
+
+However, one of the main problems of the behavioral cloning is the **compounding error**:  small prediction errors will lead to unseen states, which can cause the agent to diverge from the expert's behavior. This is because the agent is trained on the expert's actions, but when it makes a mistake, it may not be able to recover from it, leading to a snowball effect of errors.
+
+This is called **distribution shift**: Training is done on the expert distribution $P_{\text{data}}(o_t)$, but execution happens under the learned policy’s distribution $P_{\pi_\theta}(o_t)$, causing distributional shift, a central issue in imitation learning.
+
+::: {.callout-note}
+This is the not the problem in the supervised learning, because in the supervised learning, the data is i.i.d., the output of the model is not dependent on the previous inputs, and will not affect the future inputs. However, in the behavioral cloning, the data is not i.i.d., and the model is trained on the expert's actions, which may not be the same as the actions taken by the agent during execution.
+:::
+
+There are several ways to mitigate the compounding error in behavioral cloning, such as:
+
+- **Data Augmentation**: Adding noise to the observations or actions to make the agent more robust to small errors.
+- **Data Collection**: Collecting more data from the expert to cover more states and actions.
+-  **More Powerful Models**: Using more powerful models (e.g., deep neural networks) to better approximate the expert's policy.
+- **DAgger**: An iterative algorithm that combines behavioral cloning with online learning, where the agent collects data from its own policy and queries the expert for corrections. This helps the agent to recover from mistakes and improve its performance over time.
+
+
+## Math explain of Behavioral Cloning
+
+
+## DAgger Algorithm
+DAgger(Dataset Aggregation) [@ReductionImitationLearning2011ross] aims to solve the distributional shift problem in behavioral cloning by <u>iteratively collecting data from the current policy and querying the expert for corrections.</u> The key idea is to change the data collection strategy to better reflect the states the policy actually visits, rather than just improving the policy. It is an iterative process that:
+
+:::{.columns layout-ncol="2"}
+
+::: {.column}
+1. Start with an initial policy $\pi_\theta$ trained on expert data.  
+2. At each iteration:  
+  1. Run the current policy to collect new observations from the environment.  
+  2. Get expert labels (actions) for these new observations.  
+  3. Aggregate the new data with the previous dataset.  
+3. Repeat until convergence.  
+4. Over time, the dataset distribution converges to the test-time distribution ($p_{\pi_\theta}$).
+:::
+
+<div style="margin: 0;">
+
+::: {.column #fig-dagger width="100%"}
+
+<img src="./ucb-cs285.assets/dagger-alg.png" alt="DAgger Algorithm" width="100%">
+
+DAgger Algorithm 
+
+:::
+
+</div>
+
+:::
+
+# Assignments
 There are total of 5 <u>assignments</u> in this course, from imitation learning to deep Q-Learning. The assignments are designed to help you understand the concepts and algorithms in reinforcement learning, and to implement them in code.
 
-### Assignment 01: Imitation Learning 
+## Assignment 01: Imitation Learning 
 
 
-### Assignment 02: Policy Gradients 
+## Assignment 02: Policy Gradients 
 
 
