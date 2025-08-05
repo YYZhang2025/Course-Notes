@@ -276,11 +276,13 @@ x = torch.tensor([
 ```
 
 ### Memory Account 
-`float32` is the most common data type used in deep learning, which uses 4 bytes per element.
+Let's introduce three most common data types used in deep learning: `float32`, `float16`, and `bfloat16`.
+
+`float32` is the most common(default) data type used in deep learning, which uses 4 bytes per element.
 
 ![The representation of float32 in memory](./images/fp32.png){#fig-fp32-representation}
 
-:::{.callout-note}
+:::{.callout-note title="Float Representation"}
 The `exponent` used to represent the dynamic range of the number, for `float32`, it uses 8 bits for the exponent, which allows for a dynamic range of approximately 1.18e-38 to 3.4e+38.
 The `fraction` is used to represent the precision of the number, which is also known as resolution. For `float32`, it uses 23 bits for the fraction, which allows for a precision of approximately 7 decimal digits.
 To represent a number in `float32`, it uses the following formula:
@@ -295,7 +297,7 @@ where `sign` is the sign bit, `exponent` is the exponent value, and `fraction` i
 :::
 
 
-Memory is determined by the number of values in the tensor and the data type of the tensor. The memory usage can be calculated as:
+Memory is determined by <u>the number of values in the tensor and the data type of the tensor</u>. The memory usage can be calculated as:
 $$
 \text{Memory} = \text{Number of Values} \times \text{Bytes per Value}
 $$ {#eq-memory-account-tensor}
@@ -375,6 +377,7 @@ Addition of two $m \times n$ matrices requires $mn$ FLOPs, where $m$ is the numb
 
 
 FLOPs is measure in terms of the number of the floating point operations required to perform a certain operation, which is a common way to measure the computational complexity of an algorithm. In theory, how to map those FLOPs to the wall clock time is not straightforward, since it depends on the hardware and the implementation of the algorithm. However, we can use the following formula to estimate the wall clock time:
+
 ```python
 Wall Clock Time = FLOPs / FLOP/s
 ```
@@ -443,6 +446,13 @@ By default, CPU tensors are in paged memory, we can explicitly pin the memory to
 if torch.cuda.is_available():
 batch = batch.pin_memory()  # Pin the memory to avoid page faults
 ``` 
+
+:::{#fig-pinned-memory}
+
+![](./cs336.assets/lec02-pinned-memory.png)
+
+Illustrate the difference between pinned memory and paged memory. The GPU cannot access data directly from pageable host memory, so when a data transfer from pageable host memory to device memory is invoked, the CUDA driver must first allocate a temporary page-locked, or “pinned”, host array, copy the host data to the pinned array, and then transfer the data from the pinned array to device memory (Image Source: [NVIDA](https://developer.nvidia.com/blog/how-optimize-data-transfers-cuda-cc/))
+:::
 
 ::: {.callout-tip title="Pinned Memory vs. Paged Memory"}
 
