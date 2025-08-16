@@ -275,7 +275,7 @@ x = torch.tensor([
 ])
 ```
 
-### Memory Account 
+### Memory Accounting
 Let's introduce three most common data types used in deep learning: `float32`, `float16`, and `bfloat16`.
 
 `float32` is the most common(default) data type used in deep learning, which uses 4 bytes per element.
@@ -321,11 +321,12 @@ when the underflow or overflow happens, the value will be rounded to 0 or infini
 
 
 Another data type is `bfloat16`, which is a 16-bit floating point format that has the same dynamic range as `float32`, but with less precision. It uses 8 bits for the exponent and 7 bits for the fraction, which allows for a dynamic range of approximately 3.4e-38 to 3.4e+38, but with a precision of only 2 decimal digits.   
+
 ![The representation of bfloat16 in memory](./images/bf16.png){#fig-bf16-representation}
 
 
 
-In conclusion, the choice of data type can have a significant impact on the memory usage and performance of the model. The `float32` is the most common data type used in deep learning, but it can be memory-intensive. The `float16` and `bfloat16` are commonly used to reduce the memory usage, but they can lead to numerical instability and loss of precision in some cases. One of the common practice to combine `float16` and `float32` is to use `float16` for the model parameters and gradients, and `float32` for the optimizer state. This is known as mixed precision training, which can save memory and speed up training without sacrificing too much performance.
+In conclusion, the choice of data type can have a significant impact on the memory usage and performance of the model. The `float32` is the most common data type used in deep learning, but it can be memory-intensive. The `float16` and `bfloat16` are commonly used to reduce the memory usage, but they can lead to numerical instability and loss of precision in some cases. One of the common practice to combine `float16` and `float32` is to <u>use `float16` for the model parameters and gradients, and `float32` for the optimizer state</u>. This is known as **mixed precision training**[@MixedPrecisionTraining2018micikevicius], which can save memory and speed up training without sacrificing too much performance.
 
 
 
@@ -335,6 +336,12 @@ By defaults, all the tensors are stored in the CPU memory, which is not efficien
 ```python
 x = torch.tensor([1, 2, 3])
 x = x.to('cuda')  # Move tensor to GPU
+
+num_gpus = torch.cuda.device_count() # Check the number of GPUs available
+for i in range(num_gpus):
+    properties = torch.cuda.get_device_properties(i)  # @inspect properties
+
+y = x.to('cuda:0')  # Move tensor to GPU 0
 ``` 
 
 
@@ -386,6 +393,36 @@ One of the criterion is the **MFU(Model FLOPs Utilization)**.Usually, MFU of >= 
 ```python
 MFU = actual_flop_per_sec / promised_flop_per_sec
 ```
+
+#### Eniops
+
+It also introduce several `einops` operations:
+
+- `einsum` is used to perform Einstein summation notation, which is a powerful way to express complex tensor operations in a concise way.
+- `rearrange` is used to change the shape of the tensor without changing the data, it is similar to `view` or `reshape` in PyTorch.
+- `reduce` is used to reduce the tensor along a certain dimension, such as summing or averaging the values.
+- `repeat` is used to repeat the tensor along a certain dimension, which is useful for broadcasting operations.
+
+
+#### Count Flops for operations 
+A floating-point operation (FLOP) is a basic operation like addition (x + y) or multiplication (x y).
+
+- FLOPs: floating-point operations (measure of computation done)
+- FLOP/s: floating-point operations per second (also written as FLOPS), which is used to measure the speed of hardware.
+
+For example, the Flops for the matrix multiplication of two matrices with dimensions `m x n` and `n x p` is `2 * m * n * p`, where the `2` accounts for the multiplication and addition operations.
+
+In the Linear module, the number of FLOPs can be calculated as follows:
+
+Number of data points(B) x Number of parameters (D K)
+
+One of the matrix is Model FLOPs utilization (MFU), which is the ratio of the number of floating point operations to the number of floating point operations that can be performed in one second, which is the FLOP/s. The MFU can be calculated as:
+```python
+MFU = actual_flop_per_sec / promised_flop_per_sec
+```
+
+
+
 
 
 ### Models 
@@ -500,7 +537,6 @@ class SGD(torch.optim.Optimizer):
             for p in group["params"]:
                 grad = p.grad.data
                 p.data -= lr * grad
-
 ```
 
 Also the `AdaGrad` optimizer can be implemented as follows:

@@ -490,8 +490,12 @@ window.Quarto = {
   </ul></li>
   <li><a href="#lecture-02-pytorch-resource-accounting" id="toc-lecture-02-pytorch-resource-accounting" class="nav-link" data-scroll-target="#lecture-02-pytorch-resource-accounting">Lecture 02: Pytorch, Resource Accounting</a>
   <ul>
-  <li><a href="#memory-account" id="toc-memory-account" class="nav-link" data-scroll-target="#memory-account">Memory Account</a></li>
-  <li><a href="#compute-account" id="toc-compute-account" class="nav-link" data-scroll-target="#compute-account">Compute Account</a></li>
+  <li><a href="#memory-accounting" id="toc-memory-accounting" class="nav-link" data-scroll-target="#memory-accounting">Memory Accounting</a></li>
+  <li><a href="#compute-account" id="toc-compute-account" class="nav-link" data-scroll-target="#compute-account">Compute Account</a>
+  <ul>
+  <li><a href="#eniops" id="toc-eniops" class="nav-link" data-scroll-target="#eniops">Eniops</a></li>
+  <li><a href="#count-flops-for-operations" id="toc-count-flops-for-operations" class="nav-link" data-scroll-target="#count-flops-for-operations">Count Flops for operations</a></li>
+  </ul></li>
   <li><a href="#models" id="toc-models" class="nav-link" data-scroll-target="#models">Models</a>
   <ul>
   <li><a href="#model-parameters-initialization" id="toc-model-parameters-initialization" class="nav-link" data-scroll-target="#model-parameters-initialization">Model Parameters Initialization</a></li>
@@ -659,7 +663,7 @@ Figure&nbsp;1: An example of tokenization, the interactive demo of the tokenizat
 <span id="cb3-4"><a href="#cb3-4"></a><span class="bu">ord</span>(<span class="st">'🌍'</span>) <span class="co"># 127757</span></span>
 <span id="cb3-5"><a href="#cb3-5"></a><span class="bu">chr</span>(<span class="dv">127757</span>) <span class="co"># '🌍'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can implement a simple character-based tokenizer as follows:</p>
-<div id="a69c4240" class="cell" data-execution_count="1">
+<div id="2a971e5d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">class</span> CharacterTokenizer(Tokenizer):</span>
 <span id="cb4-2"><a href="#cb4-2"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, string: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">int</span>]:</span>
 <span id="cb4-3"><a href="#cb4-3"></a>        <span class="cf">return</span> [<span class="bu">ord</span>(c) <span class="cf">for</span> c <span class="kw">in</span> string]</span>
@@ -674,7 +678,7 @@ Figure&nbsp;1: An example of tokenization, the interactive demo of the tokenizat
 <div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="bu">bytes</span>(<span class="st">'a'</span>, <span class="st">'utf-8'</span>)  <span class="co"># b'a'</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="bu">bytes</span>(<span class="st">'🌍'</span>, <span class="st">'utf-8'</span>)  <span class="co"># b'\xf0\x9f\x8c\x8d'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can implement a simple byte-based tokenizer as follows:</p>
-<div id="51aa7499" class="cell" data-execution_count="2">
+<div id="0518df0e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">class</span> ByteTokenizer(Tokenizer):</span>
 <span id="cb6-2"><a href="#cb6-2"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, string: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">int</span>]:</span>
 <span id="cb6-3"><a href="#cb6-3"></a>        <span class="cf">return</span> <span class="bu">list</span>(<span class="bu">bytes</span>(string, <span class="st">'utf-8'</span>))</span>
@@ -711,7 +715,7 @@ Figure&nbsp;1: An example of tokenization, the interactive demo of the tokenizat
 <li><strong>Update</strong>: Replace all occurrences of the merged pair in the text with the new token.</li>
 <li><strong>Repeat</strong>: Repeat steps 2-4 until the desired vocabulary size is reached.</li>
 </ol>
-<div id="41854f2c" class="cell" data-execution_count="3">
+<div id="df2586bf" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="at">@dataclass</span>(frozen<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="kw">class</span> BPETokenizerParams:</span>
 <span id="cb8-3"><a href="#cb8-3"></a>    vocab: <span class="bu">dict</span>[<span class="bu">int</span>, <span class="bu">bytes</span>]   <span class="co"># Mapping of token indices to byte sequences</span></span>
@@ -745,7 +749,7 @@ Figure&nbsp;1: An example of tokenization, the interactive demo of the tokenizat
 <span id="cb8-31"><a href="#cb8-31"></a>        <span class="cf">return</span> string.decode(<span class="st">'utf-8'</span>)  <span class="co"># Decode byte string to UTF-8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To train an BPE tokenizer, we need to count the frequency of pairs in the text and merge them iteratively. The <code>BPETokenizerParams</code> class holds the vocabulary and merge rules, which can be generated from a training corpus.</p>
-<div id="64fe4a0f" class="cell" data-execution_count="4">
+<div id="60b2c1e6" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> train_bpe_tokenizer(string: <span class="bu">str</span>, num_merges: <span class="bu">int</span>) <span class="op">-&gt;</span> BPETokenizerParams:</span>
 <span id="cb9-2"><a href="#cb9-2"></a>    <span class="co"># Initialize vocabulary with single characters</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a>    vocab: <span class="bu">dict</span>[<span class="bu">int</span>, <span class="bu">bytes</span>] <span class="op">=</span> {x: <span class="bu">bytes</span>([x]) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">256</span>)}  <span class="co"># index -&gt; bytes, 256 unique bytes for UTF-8</span></span>
@@ -883,9 +887,10 @@ Table&nbsp;1: Summary of 4 different tokenization algorithms
 <div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>x <span class="op">=</span> torch.tensor([</span>
 <span id="cb10-2"><a href="#cb10-2"></a>    [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
 <span id="cb10-3"><a href="#cb10-3"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="memory-account" class="level3">
-<h3 class="anchored" data-anchor-id="memory-account">Memory Account</h3>
-<p><code>float32</code> is the most common data type used in deep learning, which uses 4 bytes per element.</p>
+<section id="memory-accounting" class="level3">
+<h3 class="anchored" data-anchor-id="memory-accounting">Memory Accounting</h3>
+<p>Let’s introduce three most common data types used in deep learning: <code>float32</code>, <code>float16</code>, and <code>bfloat16</code>.</p>
+<p><code>float32</code> is the most common(default) data type used in deep learning, which uses 4 bytes per element.</p>
 <div id="fig-fp32-representation" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fp32-representation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -896,13 +901,13 @@ Figure&nbsp;2: The representation of float32 in memory
 </figcaption>
 </figure>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-note callout-titled" title="Float Representation">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Float Representation
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -915,7 +920,7 @@ Note
 \]</span> where <code>sign</code> is the sign bit, <code>exponent</code> is the exponent value, and <code>fraction</code> is the fraction value. The exponent is biased by 127, which means that the exponent value is stored as the actual exponent plus 127. This allows for both positive and negative exponents to be represented.</p>
 </div>
 </div>
-<p>Memory is determined by the number of values in the tensor and the data type of the tensor. The memory usage can be calculated as: <span id="eq-memory-account-tensor"><span class="math display">\[
+<p>Memory is determined by <u>the number of values in the tensor and the data type of the tensor</u>. The memory usage can be calculated as: <span id="eq-memory-account-tensor"><span class="math display">\[
 \text{Memory} = \text{Number of Values} \times \text{Bytes per Value}
 \tag{1}\]</span></span> which can be calculated as:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">def</span> get_memory_usage(x: torch.Tensor):</span>
@@ -935,15 +940,30 @@ Figure&nbsp;3: The representation of float16 in memory
 <div class="sourceCode" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>x <span class="op">=</span> torch.tensor([<span class="fl">1e-8</span>], dtype<span class="op">=</span>torch.float16)  </span>
 <span id="cb12-2"><a href="#cb12-2"></a><span class="cf">assert</span> x <span class="op">==</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>when the underflow or overflow happens, the value will be rounded to 0 or infinity, which might cause the instability in the training process.</p>
-<p>Another data type is <code>bfloat16</code>, which is a 16-bit floating point format that has the same dynamic range as <code>float32</code>, but with less precision. It uses 8 bits for the exponent and 7 bits for the fraction, which allows for a dynamic range of approximately 3.4e-38 to 3.4e+38, but with a precision of only 2 decimal digits.<br>
-<img src="./images/bf16.png" id="fig-bf16-representation" class="img-fluid" alt="The representation of bfloat16 in memory"></p>
-<p>In conclusion, the choice of data type can have a significant impact on the memory usage and performance of the model. The <code>float32</code> is the most common data type used in deep learning, but it can be memory-intensive. The <code>float16</code> and <code>bfloat16</code> are commonly used to reduce the memory usage, but they can lead to numerical instability and loss of precision in some cases. One of the common practice to combine <code>float16</code> and <code>float32</code> is to use <code>float16</code> for the model parameters and gradients, and <code>float32</code> for the optimizer state. This is known as mixed precision training, which can save memory and speed up training without sacrificing too much performance.</p>
+<p>Another data type is <code>bfloat16</code>, which is a 16-bit floating point format that has the same dynamic range as <code>float32</code>, but with less precision. It uses 8 bits for the exponent and 7 bits for the fraction, which allows for a dynamic range of approximately 3.4e-38 to 3.4e+38, but with a precision of only 2 decimal digits.</p>
+<div id="fig-bf16-representation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bf16-representation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="./images/bf16.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bf16-representation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: The representation of bfloat16 in memory
+</figcaption>
+</figure>
+</div>
+<p>In conclusion, the choice of data type can have a significant impact on the memory usage and performance of the model. The <code>float32</code> is the most common data type used in deep learning, but it can be memory-intensive. The <code>float16</code> and <code>bfloat16</code> are commonly used to reduce the memory usage, but they can lead to numerical instability and loss of precision in some cases. One of the common practice to combine <code>float16</code> and <code>float32</code> is to <u>use <code>float16</code> for the model parameters and gradients, and <code>float32</code> for the optimizer state</u>. This is known as <strong>mixed precision training</strong><span class="citation" data-cites="MixedPrecisionTraining2018micikevicius">(<a href="#ref-MixedPrecisionTraining2018micikevicius" role="doc-biblioref">Micikevicius et al. 2018</a>)</span>, which can save memory and speed up training without sacrificing too much performance.</p>
 </section>
 <section id="compute-account" class="level3">
 <h3 class="anchored" data-anchor-id="compute-account">Compute Account</h3>
 <p>By defaults, all the tensors are stored in the CPU memory, which is not efficient for training deep learning models. We can move the tensors to the GPU memory by calling the <code>to</code> method on the tensor, which will move the tensor to the specified device.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>x <span class="op">=</span> torch.tensor([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
-<span id="cb13-2"><a href="#cb13-2"></a>x <span class="op">=</span> x.to(<span class="st">'cuda'</span>)  <span class="co"># Move tensor to GPU</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-2"><a href="#cb13-2"></a>x <span class="op">=</span> x.to(<span class="st">'cuda'</span>)  <span class="co"># Move tensor to GPU</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a>num_gpus <span class="op">=</span> torch.cuda.device_count() <span class="co"># Check the number of GPUs available</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_gpus):</span>
+<span id="cb13-6"><a href="#cb13-6"></a>    properties <span class="op">=</span> torch.cuda.get_device_properties(i)  <span class="co"># @inspect properties</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a></span>
+<span id="cb13-8"><a href="#cb13-8"></a>y <span class="op">=</span> x.to(<span class="st">'cuda:0'</span>)  <span class="co"># Move tensor to GPU 0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>One way to check the memory usage of the GPU in PyTorch is to use the <code>torch.cuda.memory_allocated()</code> and <code>torch.cuda.memory_reserved()</code> functions. The <code>memory_allocated()</code> function returns the total memory allocated by the tensors, while the <code>memory_reserved()</code> function returns the total memory reserved by the CUDA allocator.</p>
 <p>The PyTorch <code>tensor</code> are pointers to the memory allocated on the GPU, with metadata such as the shape, data type, and device. There are several commom operations that can be performed on the tensors:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode numberSource Python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>x <span class="op">=</span> torch.tensor([[<span class="fl">1.</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]]) </span>
@@ -978,50 +998,73 @@ Note
 <div class="sourceCode" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>Wall Clock Time <span class="op">=</span> FLOPs <span class="op">/</span> FLOP<span class="op">/</span>s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>One of the criterion is the <strong>MFU(Model FLOPs Utilization)</strong>.Usually, MFU of &gt;= 0.5 is quite good (and will be higher if matmuls dominate), the MFU is defined as the ratio of the number of floating point operations to the number of floating point operations that can be performed in one second, which is the FLOP/s. The MFU can be calculated as:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>MFU <span class="op">=</span> actual_flop_per_sec <span class="op">/</span> promised_flop_per_sec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="eniops" class="level4">
+<h4 class="anchored" data-anchor-id="eniops">Eniops</h4>
+<p>It also introduce several <code>einops</code> operations:</p>
+<ul>
+<li><code>einsum</code> is used to perform Einstein summation notation, which is a powerful way to express complex tensor operations in a concise way.</li>
+<li><code>rearrange</code> is used to change the shape of the tensor without changing the data, it is similar to <code>view</code> or <code>reshape</code> in PyTorch.</li>
+<li><code>reduce</code> is used to reduce the tensor along a certain dimension, such as summing or averaging the values.</li>
+<li><code>repeat</code> is used to repeat the tensor along a certain dimension, which is useful for broadcasting operations.</li>
+</ul>
+</section>
+<section id="count-flops-for-operations" class="level4">
+<h4 class="anchored" data-anchor-id="count-flops-for-operations">Count Flops for operations</h4>
+<p>A floating-point operation (FLOP) is a basic operation like addition (x + y) or multiplication (x y).</p>
+<ul>
+<li>FLOPs: floating-point operations (measure of computation done)</li>
+<li>FLOP/s: floating-point operations per second (also written as FLOPS), which is used to measure the speed of hardware.</li>
+</ul>
+<p>For example, the Flops for the matrix multiplication of two matrices with dimensions <code>m x n</code> and <code>n x p</code> is <code>2 * m * n * p</code>, where the <code>2</code> accounts for the multiplication and addition operations.</p>
+<p>In the Linear module, the number of FLOPs can be calculated as follows:</p>
+<p>Number of data points(B) x Number of parameters (D K)</p>
+<p>One of the matrix is Model FLOPs utilization (MFU), which is the ratio of the number of floating point operations to the number of floating point operations that can be performed in one second, which is the FLOP/s. The MFU can be calculated as:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>MFU <span class="op">=</span> actual_flop_per_sec <span class="op">/</span> promised_flop_per_sec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 </section>
 <section id="models" class="level3">
 <h3 class="anchored" data-anchor-id="models">Models</h3>
 <section id="model-parameters-initialization" class="level4">
 <h4 class="anchored" data-anchor-id="model-parameters-initialization">Model Parameters Initialization</h4>
 <p>The model parameters are usually initialized using a random distribution, such as the normal distribution or the uniform distribution. Such as:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>w <span class="op">=</span> nn.Parameter(torch.randn(input_dim, out_dim))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>w <span class="op">=</span> nn.Parameter(torch.randn(input_dim, out_dim))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>However, each element of <code>output</code> scales as <code>sqrt(input_dim)</code>, so we need to scale the initialization by <code>1/sqrt(input_dim)</code> to ensure that the variance of the output is not too large or too small. This is known as the <strong>Xavier initialization</strong> or <strong>Glorot initialization</strong>. The Xavier initialization can be implemented as follows:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>w <span class="op">=</span> nn.Parameter(torch.randn(input_dim, out_dim) <span class="op">*</span> (<span class="dv">1</span> <span class="op">/</span> math.sqrt(input_dim)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>w <span class="op">=</span> nn.Parameter(torch.randn(input_dim, out_dim) <span class="op">*</span> (<span class="dv">1</span> <span class="op">/</span> math.sqrt(input_dim)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To be more safe, we can truncate the normal distribution to avoid the outliers, which can be done by using the <code>torch.nn.init.trunc_normal_</code> function. The truncation can be done by specifying the <code>mean</code>, <code>std</code>, and <code>a</code> and <code>b</code> parameters, which are the lower and upper bounds of the truncation.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>w <span class="op">=</span> nn.Parameter(torch.nn.init.trunc_normal_(torch.empty(input_dim, out_dim), mean<span class="op">=</span><span class="dv">0</span>, std<span class="op">=</span><span class="dv">1</span>, a<span class="op">=-</span><span class="dv">2</span>, b<span class="op">=</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>w <span class="op">=</span> nn.Parameter(torch.nn.init.trunc_normal_(torch.empty(input_dim, out_dim), mean<span class="op">=</span><span class="dv">0</span>, std<span class="op">=</span><span class="dv">1</span>, a<span class="op">=-</span><span class="dv">2</span>, b<span class="op">=</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="random-seed" class="level4">
 <h4 class="anchored" data-anchor-id="random-seed">Random Seed</h4>
 <p>To ensure the reproducibility of the results, we need to set the random seed for the random number generator. In PyTorch, we can set the random seed using the <code>torch.manual_seed()</code> function, which will set the seed for all the random number generators in PyTorch.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>torch.manual_seed(<span class="dv">42</span>)  <span class="co"># Set the random seed to 42</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>torch.manual_seed(<span class="dv">42</span>)  <span class="co"># Set the random seed to 42</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="data-loading" class="level4">
 <h4 class="anchored" data-anchor-id="data-loading">Data Loading</h4>
 <p>In language modeling, data is a sequence of integer (tokens) indices, It is convenient to serialize them as numpy arrays, and load it back.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>orig_data <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>], dtype<span class="op">=</span>np.int32)</span>
-<span id="cb22-2"><a href="#cb22-2"></a>orig_data.tofile(<span class="st">"data.npy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>orig_data <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>], dtype<span class="op">=</span>np.int32)</span>
+<span id="cb23-2"><a href="#cb23-2"></a>orig_data.tofile(<span class="st">"data.npy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If we don’t want to load the entire data into memory, we can use the <code>np.memmap</code> function to create a memory-mapped array, which allows us to access the data on disk as if it were in memory. This is useful for large datasets that cannot fit into memory.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>data <span class="op">=</span> np.memmap(<span class="st">"data.npy"</span>, dtype<span class="op">=</span>np.int32, mode<span class="op">=</span><span class="st">"r"</span>)</span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="bu">print</span>(data[<span class="dv">0</span>:<span class="dv">10</span>])  <span class="co"># Access the first 10 elements of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>data <span class="op">=</span> np.memmap(<span class="st">"data.npy"</span>, dtype<span class="op">=</span>np.int32, mode<span class="op">=</span><span class="st">"r"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="bu">print</span>(data[<span class="dv">0</span>:<span class="dv">10</span>])  <span class="co"># Access the first 10 elements of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can load data using</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">def</span> get_batch(</span>
-<span id="cb24-2"><a href="#cb24-2"></a>    data: np.array, </span>
-<span id="cb24-3"><a href="#cb24-3"></a>    batch_size: <span class="bu">int</span>, </span>
-<span id="cb24-4"><a href="#cb24-4"></a>    sequence_length: <span class="bu">int</span>,</span>
-<span id="cb24-5"><a href="#cb24-5"></a>    device: <span class="bu">str</span> <span class="op">=</span> <span class="st">"cpu"</span></span>
-<span id="cb24-6"><a href="#cb24-6"></a>) <span class="op">-&gt;</span> torch.Tensor:</span>
-<span id="cb24-7"><a href="#cb24-7"></a>    start_indices <span class="op">=</span> torch.randint(<span class="bu">len</span>(data) <span class="op">-</span> sequence_length, (batch_size, )) <span class="co"># Randomly select start indices for each batch</span></span>
-<span id="cb24-8"><a href="#cb24-8"></a>    batch <span class="op">=</span> torch.stack([torch.tensor(data[i:i <span class="op">+</span> sequence_length]) <span class="cf">for</span> i <span class="kw">in</span> start_indices])  <span class="co"># Create a batch of sequences</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">def</span> get_batch(</span>
+<span id="cb25-2"><a href="#cb25-2"></a>    data: np.array, </span>
+<span id="cb25-3"><a href="#cb25-3"></a>    batch_size: <span class="bu">int</span>, </span>
+<span id="cb25-4"><a href="#cb25-4"></a>    sequence_length: <span class="bu">int</span>,</span>
+<span id="cb25-5"><a href="#cb25-5"></a>    device: <span class="bu">str</span> <span class="op">=</span> <span class="st">"cpu"</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a>) <span class="op">-&gt;</span> torch.Tensor:</span>
+<span id="cb25-7"><a href="#cb25-7"></a>    start_indices <span class="op">=</span> torch.randint(<span class="bu">len</span>(data) <span class="op">-</span> sequence_length, (batch_size, )) <span class="co"># Randomly select start indices for each batch</span></span>
+<span id="cb25-8"><a href="#cb25-8"></a>    batch <span class="op">=</span> torch.stack([torch.tensor(data[i:i <span class="op">+</span> sequence_length]) <span class="cf">for</span> i <span class="kw">in</span> start_indices])  <span class="co"># Create a batch of sequences</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>By default, CPU tensors are in paged memory, we can explicitly pin the memory to avoid the page faults, which can be done by using the <code>pin_memory()</code> method on the tensor. This will ensure that the tensor is allocated in a contiguous block of memory, which can improve the performance of the data loading process.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="cf">if</span> torch.cuda.is_available():</span>
-<span id="cb25-2"><a href="#cb25-2"></a>batch <span class="op">=</span> batch.pin_memory()  <span class="co"># Pin the memory to avoid page faults</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="cf">if</span> torch.cuda.is_available():</span>
+<span id="cb26-2"><a href="#cb26-2"></a>batch <span class="op">=</span> batch.pin_memory()  <span class="co"># Pin the memory to avoid page faults</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div id="fig-pinned-memory" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pinned-memory-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="./cs336.assets/lec02-pinned-memory.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pinned-memory-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Illustrate the difference between pinned memory and paged memory. The GPU cannot access data directly from pageable host memory, so when a data transfer from pageable host memory to device memory is invoked, the CUDA driver must first allocate a temporary page-locked, or “pinned”, host array, copy the host data to the pinned array, and then transfer the data from the pinned array to device memory (Image Source: <a href="https://developer.nvidia.com/blog/how-optimize-data-transfers-cuda-cc/">NVIDA</a>)
+Figure&nbsp;5: Illustrate the difference between pinned memory and paged memory. The GPU cannot access data directly from pageable host memory, so when a data transfer from pageable host memory to device memory is invoked, the CUDA driver must first allocate a temporary page-locked, or “pinned”, host array, copy the host data to the pinned array, and then transfer the data from the pinned array to device memory (Image Source: <a href="https://developer.nvidia.com/blog/how-optimize-data-transfers-cuda-cc/">NVIDA</a>)
 </figcaption>
 </figure>
 </div>
@@ -1042,8 +1085,8 @@ Pinned Memory vs.&nbsp;Paged Memory
 </div>
 </div>
 <p>This allows use to copy <code>x</code> from CPU to GPU asynchronously, which can improve the performance of the data loading process. We can use the <code>to()</code> method to move the tensor to the GPU, which will copy the tensor to the GPU memory.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="cf">if</span> torch.cuda.is_available():</span>
-<span id="cb26-2"><a href="#cb26-2"></a>    batch <span class="op">=</span> batch.to(<span class="st">"cuda"</span>, non_blocking<span class="op">=</span><span class="va">True</span>)  <span class="co"># Move the batch to GPU</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="cf">if</span> torch.cuda.is_available():</span>
+<span id="cb27-2"><a href="#cb27-2"></a>    batch <span class="op">=</span> batch.to(<span class="st">"cuda"</span>, non_blocking<span class="op">=</span><span class="va">True</span>)  <span class="co"># Move the batch to GPU</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This allows us to do two things in parallel (not done here):</p>
 <ul>
 <li>Fetch the next batch of data into CPU</li>
@@ -1077,45 +1120,45 @@ Note
 </ul></li>
 </ul>
 <p>Implement of <code>SGD</code> optimizer in PyTorch is as follows:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">class</span> SGD(torch.optim.Optimizer):</span>
-<span id="cb27-2"><a href="#cb27-2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, params: Iterable[nn.Parameter], lr: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.01</span>):</span>
-<span id="cb27-3"><a href="#cb27-3"></a>        <span class="bu">super</span>(SGD, <span class="va">self</span>).<span class="fu">__init__</span>(params, <span class="bu">dict</span>(lr<span class="op">=</span>lr))</span>
-<span id="cb27-4"><a href="#cb27-4"></a>    <span class="kw">def</span> step(<span class="va">self</span>):</span>
-<span id="cb27-5"><a href="#cb27-5"></a>        <span class="cf">for</span> group <span class="kw">in</span> <span class="va">self</span>.param_groups:</span>
-<span id="cb27-6"><a href="#cb27-6"></a>            lr <span class="op">=</span> group[<span class="st">"lr"</span>]</span>
-<span id="cb27-7"><a href="#cb27-7"></a>            <span class="cf">for</span> p <span class="kw">in</span> group[<span class="st">"params"</span>]:</span>
-<span id="cb27-8"><a href="#cb27-8"></a>                grad <span class="op">=</span> p.grad.data</span>
-<span id="cb27-9"><a href="#cb27-9"></a>                p.data <span class="op">-=</span> lr <span class="op">*</span> grad</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Also the <code>AdaGrad</code> optimizer can be implemented as follows:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">class</span> AdaGrad(torch.optim.Optimizer):</span>
+<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">class</span> SGD(torch.optim.Optimizer):</span>
 <span id="cb28-2"><a href="#cb28-2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, params: Iterable[nn.Parameter], lr: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.01</span>):</span>
-<span id="cb28-3"><a href="#cb28-3"></a>        <span class="bu">super</span>(AdaGrad, <span class="va">self</span>).<span class="fu">__init__</span>(params, <span class="bu">dict</span>(lr<span class="op">=</span>lr))</span>
+<span id="cb28-3"><a href="#cb28-3"></a>        <span class="bu">super</span>(SGD, <span class="va">self</span>).<span class="fu">__init__</span>(params, <span class="bu">dict</span>(lr<span class="op">=</span>lr))</span>
 <span id="cb28-4"><a href="#cb28-4"></a>    <span class="kw">def</span> step(<span class="va">self</span>):</span>
 <span id="cb28-5"><a href="#cb28-5"></a>        <span class="cf">for</span> group <span class="kw">in</span> <span class="va">self</span>.param_groups:</span>
 <span id="cb28-6"><a href="#cb28-6"></a>            lr <span class="op">=</span> group[<span class="st">"lr"</span>]</span>
 <span id="cb28-7"><a href="#cb28-7"></a>            <span class="cf">for</span> p <span class="kw">in</span> group[<span class="st">"params"</span>]:</span>
-<span id="cb28-8"><a href="#cb28-8"></a>                <span class="co"># Optimizer state</span></span>
-<span id="cb28-9"><a href="#cb28-9"></a>                state <span class="op">=</span> <span class="va">self</span>.state[p]</span>
-<span id="cb28-10"><a href="#cb28-10"></a>                grad <span class="op">=</span> p.grad.data</span>
-<span id="cb28-11"><a href="#cb28-11"></a>                <span class="co"># Get squared gradients g2 = sum_{i&lt;t} g_i^2</span></span>
-<span id="cb28-12"><a href="#cb28-12"></a>                g2 <span class="op">=</span> state.get(<span class="st">"g2"</span>, torch.zeros_like(grad))</span>
-<span id="cb28-13"><a href="#cb28-13"></a>                <span class="co"># Update optimizer state</span></span>
-<span id="cb28-14"><a href="#cb28-14"></a>                g2 <span class="op">+=</span> torch.square(grad)</span>
-<span id="cb28-15"><a href="#cb28-15"></a>                state[<span class="st">"g2"</span>] <span class="op">=</span> g2</span>
-<span id="cb28-16"><a href="#cb28-16"></a>                <span class="co"># Update parameters</span></span>
-<span id="cb28-17"><a href="#cb28-17"></a>                p.data <span class="op">-=</span> lr <span class="op">*</span> grad <span class="op">/</span> torch.sqrt(g2 <span class="op">+</span> <span class="fl">1e-5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-8"><a href="#cb28-8"></a>                grad <span class="op">=</span> p.grad.data</span>
+<span id="cb28-9"><a href="#cb28-9"></a>                p.data <span class="op">-=</span> lr <span class="op">*</span> grad</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Also the <code>AdaGrad</code> optimizer can be implemented as follows:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">class</span> AdaGrad(torch.optim.Optimizer):</span>
+<span id="cb29-2"><a href="#cb29-2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, params: Iterable[nn.Parameter], lr: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.01</span>):</span>
+<span id="cb29-3"><a href="#cb29-3"></a>        <span class="bu">super</span>(AdaGrad, <span class="va">self</span>).<span class="fu">__init__</span>(params, <span class="bu">dict</span>(lr<span class="op">=</span>lr))</span>
+<span id="cb29-4"><a href="#cb29-4"></a>    <span class="kw">def</span> step(<span class="va">self</span>):</span>
+<span id="cb29-5"><a href="#cb29-5"></a>        <span class="cf">for</span> group <span class="kw">in</span> <span class="va">self</span>.param_groups:</span>
+<span id="cb29-6"><a href="#cb29-6"></a>            lr <span class="op">=</span> group[<span class="st">"lr"</span>]</span>
+<span id="cb29-7"><a href="#cb29-7"></a>            <span class="cf">for</span> p <span class="kw">in</span> group[<span class="st">"params"</span>]:</span>
+<span id="cb29-8"><a href="#cb29-8"></a>                <span class="co"># Optimizer state</span></span>
+<span id="cb29-9"><a href="#cb29-9"></a>                state <span class="op">=</span> <span class="va">self</span>.state[p]</span>
+<span id="cb29-10"><a href="#cb29-10"></a>                grad <span class="op">=</span> p.grad.data</span>
+<span id="cb29-11"><a href="#cb29-11"></a>                <span class="co"># Get squared gradients g2 = sum_{i&lt;t} g_i^2</span></span>
+<span id="cb29-12"><a href="#cb29-12"></a>                g2 <span class="op">=</span> state.get(<span class="st">"g2"</span>, torch.zeros_like(grad))</span>
+<span id="cb29-13"><a href="#cb29-13"></a>                <span class="co"># Update optimizer state</span></span>
+<span id="cb29-14"><a href="#cb29-14"></a>                g2 <span class="op">+=</span> torch.square(grad)</span>
+<span id="cb29-15"><a href="#cb29-15"></a>                state[<span class="st">"g2"</span>] <span class="op">=</span> g2</span>
+<span id="cb29-16"><a href="#cb29-16"></a>                <span class="co"># Update parameters</span></span>
+<span id="cb29-17"><a href="#cb29-17"></a>                p.data <span class="op">-=</span> lr <span class="op">*</span> grad <span class="op">/</span> torch.sqrt(g2 <span class="op">+</span> <span class="fl">1e-5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The usage of the optimizer is as follows:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>model <span class="op">=</span> MyModel()</span>
-<span id="cb29-2"><a href="#cb29-2"></a>optimizer <span class="op">=</span> torch.optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span>
-<span id="cb29-3"><a href="#cb29-3"></a></span>
-<span id="cb29-4"><a href="#cb29-4"></a>x_in <span class="op">=</span> torch.randn(<span class="dv">32</span>, <span class="dv">100</span>)  <span class="co"># Input tensor</span></span>
-<span id="cb29-5"><a href="#cb29-5"></a>y_out <span class="op">=</span> model(x_in)  <span class="co"># Forward pass</span></span>
-<span id="cb29-6"><a href="#cb29-6"></a>target <span class="op">=</span> torch.randn(<span class="dv">32</span>, <span class="dv">10</span>)  <span class="co"># Target tensor</span></span>
-<span id="cb29-7"><a href="#cb29-7"></a>loss <span class="op">=</span> loss_fn(y_out, target)  <span class="co"># Compute loss</span></span>
-<span id="cb29-8"><a href="#cb29-8"></a></span>
-<span id="cb29-9"><a href="#cb29-9"></a>loss.backward()  <span class="co"># Backward pass</span></span>
-<span id="cb29-10"><a href="#cb29-10"></a>optimizer.step()  <span class="co"># Update parameters</span></span>
-<span id="cb29-11"><a href="#cb29-11"></a>optimizer.zero_grad(set_to_none<span class="op">=</span><span class="va">True</span>) <span class="co"># Zero gradients for the next iteration # Set to None is more memory efficient</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>model <span class="op">=</span> MyModel()</span>
+<span id="cb30-2"><a href="#cb30-2"></a>optimizer <span class="op">=</span> torch.optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span>
+<span id="cb30-3"><a href="#cb30-3"></a></span>
+<span id="cb30-4"><a href="#cb30-4"></a>x_in <span class="op">=</span> torch.randn(<span class="dv">32</span>, <span class="dv">100</span>)  <span class="co"># Input tensor</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a>y_out <span class="op">=</span> model(x_in)  <span class="co"># Forward pass</span></span>
+<span id="cb30-6"><a href="#cb30-6"></a>target <span class="op">=</span> torch.randn(<span class="dv">32</span>, <span class="dv">10</span>)  <span class="co"># Target tensor</span></span>
+<span id="cb30-7"><a href="#cb30-7"></a>loss <span class="op">=</span> loss_fn(y_out, target)  <span class="co"># Compute loss</span></span>
+<span id="cb30-8"><a href="#cb30-8"></a></span>
+<span id="cb30-9"><a href="#cb30-9"></a>loss.backward()  <span class="co"># Backward pass</span></span>
+<span id="cb30-10"><a href="#cb30-10"></a>optimizer.step()  <span class="co"># Update parameters</span></span>
+<span id="cb30-11"><a href="#cb30-11"></a>optimizer.zero_grad(set_to_none<span class="op">=</span><span class="va">True</span>) <span class="co"># Zero gradients for the next iteration # Set to None is more memory efficient</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="training-loop" class="level4">
 <h4 class="anchored" data-anchor-id="training-loop">Training Loop</h4>
@@ -1129,15 +1172,15 @@ Note
 <p>Higher precision: more accurate/stable, more memory, more compute</p>
 <p>Lower precision: less accurate/stable, less memory, less compute</p>
 <p>We can use <a href="https://arxiv.org/abs/1710.03740">mixed precision training</a> to balance the tradeoffs, which is a common practice in deep learning to save memory and speed up training without sacrificing too much performance. The idea is to use <code>float16</code> &nbsp;<code>bfloat16</code> for the model parameters and gradients, and <code>float32</code> for the optimizer state. This can be done using the <code>torch.cuda.amp</code> module in PyTorch, which provides automatic mixed precision training.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>scaler <span class="op">=</span> torch.cuda.amp.GradScaler()  <span class="co"># Create a GradScaler for mixed precision training</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="cf">for</span> data, target <span class="kw">in</span> dataloader:</span>
-<span id="cb30-3"><a href="#cb30-3"></a>    optimizer.zero_grad(set_to_none<span class="op">=</span><span class="va">True</span>)  <span class="co"># Zero gradients for the next iteration</span></span>
-<span id="cb30-4"><a href="#cb30-4"></a>    <span class="cf">with</span> torch.cuda.amp.autocast():  <span class="co"># Enable autocasting for mixed precision training</span></span>
-<span id="cb30-5"><a href="#cb30-5"></a>        output <span class="op">=</span> model(data)  <span class="co"># Forward pass</span></span>
-<span id="cb30-6"><a href="#cb30-6"></a>        loss <span class="op">=</span> loss_fn(output, target)  <span class="co"># Compute loss</span></span>
-<span id="cb30-7"><a href="#cb30-7"></a>    scaler.scale(loss).backward()  <span class="co"># Backward pass with scaled loss</span></span>
-<span id="cb30-8"><a href="#cb30-8"></a>    scaler.step(optimizer)  <span class="co"># Update parameters with scaled gradients</span></span>
-<span id="cb30-9"><a href="#cb30-9"></a>    scaler.update()  <span class="co"># Update the scaler for the next iteration</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>scaler <span class="op">=</span> torch.cuda.amp.GradScaler()  <span class="co"># Create a GradScaler for mixed precision training</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="cf">for</span> data, target <span class="kw">in</span> dataloader:</span>
+<span id="cb31-3"><a href="#cb31-3"></a>    optimizer.zero_grad(set_to_none<span class="op">=</span><span class="va">True</span>)  <span class="co"># Zero gradients for the next iteration</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a>    <span class="cf">with</span> torch.cuda.amp.autocast():  <span class="co"># Enable autocasting for mixed precision training</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a>        output <span class="op">=</span> model(data)  <span class="co"># Forward pass</span></span>
+<span id="cb31-6"><a href="#cb31-6"></a>        loss <span class="op">=</span> loss_fn(output, target)  <span class="co"># Compute loss</span></span>
+<span id="cb31-7"><a href="#cb31-7"></a>    scaler.scale(loss).backward()  <span class="co"># Backward pass with scaled loss</span></span>
+<span id="cb31-8"><a href="#cb31-8"></a>    scaler.step(optimizer)  <span class="co"># Update parameters with scaled gradients</span></span>
+<span id="cb31-9"><a href="#cb31-9"></a>    scaler.update()  <span class="co"># Update the scaler for the next iteration</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="summary-of-lecture-02" class="level3">
@@ -1181,33 +1224,33 @@ Note
 <section id="clone-assignment-repository" class="level4">
 <h4 class="anchored" data-anchor-id="clone-assignment-repository">Clone Assignment Repository</h4>
 <p>First, we need clone the assignment repository from GitHub:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/stanford-cs336/assignment1-basics/tree/main</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> assignment1-basics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/stanford-cs336/assignment1-basics/tree/main</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> assignment1-basics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="download-dataset" class="level4">
 <h4 class="anchored" data-anchor-id="download-dataset">Download Dataset</h4>
 <p>Then, we need download the dataset, the dataset used are <a href="https://huggingface.co/datasets/roneneldan/TinyStories">TinyStories</a> and <a href="https://github.com/jcpeterson/openwebtext">OpenWebText</a></p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://huggingface.co/datasets/roneneldan/TinyStories/resolve/main/TinyStoriesV2-GPT4-train.txt</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://huggingface.co/datasets/roneneldan/TinyStories/resolve/main/TinyStoriesV2-GPT4-valid.txt</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://huggingface.co/datasets/stanford-cs336/owt-sample/resolve/main/owt_train.txt.gz</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> owt_train.txt.gz</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://huggingface.co/datasets/stanford-cs336/owt-sample/resolve/main/owt_valid.txt.gz</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> owt_valid.txt.gz</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://huggingface.co/datasets/roneneldan/TinyStories/resolve/main/TinyStoriesV2-GPT4-train.txt</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://huggingface.co/datasets/roneneldan/TinyStories/resolve/main/TinyStoriesV2-GPT4-valid.txt</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://huggingface.co/datasets/stanford-cs336/owt-sample/resolve/main/owt_train.txt.gz</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> owt_train.txt.gz</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://huggingface.co/datasets/stanford-cs336/owt-sample/resolve/main/owt_valid.txt.gz</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> owt_valid.txt.gz</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>After downloading the dataset, we can check the size of the dataset:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ./data             </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 13G    ./data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ./data             </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 13G    ./data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>There are 13GB of data in total, which is a small dataset for training a language model.</p>
 </section>
 <section id="install-dependencies" class="level4">
 <h4 class="anchored" data-anchor-id="install-dependencies">Install Dependencies</h4>
 <p>To run code, and install the dependencies, we can just run the following command:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It will automatically create a virtual environment and install the dependencies.</p>
 </section>
 </section>
@@ -1215,11 +1258,11 @@ Note
 <h3 class="anchored" data-anchor-id="byte-pair-encoding-bpe-tokenizer">Byte-Pair Encoding (BPE) Tokenizer</h3>
 <section id="the-unicode-standard" class="level4">
 <h4 class="anchored" data-anchor-id="the-unicode-standard">The Unicode Standard</h4>
-<div class="sourceCode" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a><span class="bu">ord</span>() <span class="co"># convert a single Unicode character into its integer representation</span></span>
-<span id="cb35-2"><a href="#cb35-2"></a><span class="bu">chr</span>() <span class="co"># convert a single integer representation into its Unicode character</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a><span class="bu">ord</span>() <span class="co"># convert a single Unicode character into its integer representation</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a><span class="bu">chr</span>() <span class="co"># convert a single integer representation into its Unicode character</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The Unicode character <code>chr(0)</code> return <code>'\x00'</code>, which is the null character. While use <code>repr(chr(0))</code> will return <code>"'\\x00'"</code>, which is the string representation of the null character. When use <code>print</code> function, it will not print anything, since the null character is not printable. So, when add the <code>chr(0)</code> to the string, it will not change the string, but it will add a null character to string.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a><span class="co">"this is a test"</span> <span class="op">+</span> <span class="bu">chr</span>(<span class="dv">0</span>) <span class="op">+</span> <span class="st">"string"</span> <span class="co"># 'this is a test\x00string'</span></span>
-<span id="cb36-2"><a href="#cb36-2"></a><span class="bu">print</span>(<span class="st">"this is a test"</span> <span class="op">+</span> <span class="bu">chr</span>(<span class="dv">0</span>) <span class="op">+</span> <span class="st">"string"</span>) <span class="co"># # this is a teststring</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a><span class="co">"this is a test"</span> <span class="op">+</span> <span class="bu">chr</span>(<span class="dv">0</span>) <span class="op">+</span> <span class="st">"string"</span> <span class="co"># 'this is a test\x00string'</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a><span class="bu">print</span>(<span class="st">"this is a test"</span> <span class="op">+</span> <span class="bu">chr</span>(<span class="dv">0</span>) <span class="op">+</span> <span class="st">"string"</span>) <span class="co"># # this is a teststring</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="unicode-encoding" class="level4">
 <h4 class="anchored" data-anchor-id="unicode-encoding">Unicode Encoding</h4>
@@ -1238,34 +1281,34 @@ Unicode Standard VS. Unicode Encoding
 </div>
 </div>
 <p>To encode the Unicode string into UTF-8, we can use the <code>encode()</code> method in Python to convert the string into a byte sequence, and then use the <code>decode()</code> method to convert the byte sequence back into a string. The <code>encode()</code> method takes an optional argument that specifies the encoding format, which is UTF-8 by default.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a>original_string <span class="op">=</span> <span class="st">"Hello World! 🌍 你好, 世界!"</span></span>
-<span id="cb37-2"><a href="#cb37-2"></a>utf8_encode <span class="op">=</span> original_string.encode(<span class="st">"utf-8"</span>)</span>
-<span id="cb37-3"><a href="#cb37-3"></a>utf8_bytes <span class="op">=</span> <span class="bu">list</span>(utf8_encode) <span class="co"># Get the byte values of the encoded string</span></span>
-<span id="cb37-4"><a href="#cb37-4"></a>original_string <span class="op">=</span> utf8_encode.decode(<span class="st">"utf-8"</span>)</span>
-<span id="cb37-5"><a href="#cb37-5"></a><span class="bu">len</span>(original_string) <span class="co"># 22</span></span>
-<span id="cb37-6"><a href="#cb37-6"></a><span class="bu">len</span>(utf8_bytes) <span class="co"># 33</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a>original_string <span class="op">=</span> <span class="st">"Hello World! 🌍 你好, 世界!"</span></span>
+<span id="cb38-2"><a href="#cb38-2"></a>utf8_encode <span class="op">=</span> original_string.encode(<span class="st">"utf-8"</span>)</span>
+<span id="cb38-3"><a href="#cb38-3"></a>utf8_bytes <span class="op">=</span> <span class="bu">list</span>(utf8_encode) <span class="co"># Get the byte values of the encoded string</span></span>
+<span id="cb38-4"><a href="#cb38-4"></a>original_string <span class="op">=</span> utf8_encode.decode(<span class="st">"utf-8"</span>)</span>
+<span id="cb38-5"><a href="#cb38-5"></a><span class="bu">len</span>(original_string) <span class="co"># 22</span></span>
+<span id="cb38-6"><a href="#cb38-6"></a><span class="bu">len</span>(utf8_bytes) <span class="co"># 33</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>UTF-8 is variable-length and uses 1 byte for ASCII (common in English), making it more compact for most real-world text. UTF-16 uses 2 or 4 bytes per character, and UTF-32 always uses 4 bytes, even for ASCII.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a>s <span class="op">=</span> <span class="st">"hello"</span></span>
-<span id="cb38-2"><a href="#cb38-2"></a><span class="bu">print</span>(<span class="bu">len</span>(s.encode(<span class="st">"utf-8"</span>)))   <span class="co"># 5 bytes</span></span>
-<span id="cb38-3"><a href="#cb38-3"></a><span class="bu">print</span>(<span class="bu">len</span>(s.encode(<span class="st">"utf-16"</span>)))  <span class="co"># 12 bytes (includes BOM)</span></span>
-<span id="cb38-4"><a href="#cb38-4"></a><span class="bu">print</span>(<span class="bu">len</span>(s.encode(<span class="st">"utf-32"</span>)))  <span class="co"># 20 bytes (includes BOM)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1"></a>s <span class="op">=</span> <span class="st">"hello"</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a><span class="bu">print</span>(<span class="bu">len</span>(s.encode(<span class="st">"utf-8"</span>)))   <span class="co"># 5 bytes</span></span>
+<span id="cb39-3"><a href="#cb39-3"></a><span class="bu">print</span>(<span class="bu">len</span>(s.encode(<span class="st">"utf-16"</span>)))  <span class="co"># 12 bytes (includes BOM)</span></span>
+<span id="cb39-4"><a href="#cb39-4"></a><span class="bu">print</span>(<span class="bu">len</span>(s.encode(<span class="st">"utf-32"</span>)))  <span class="co"># 20 bytes (includes BOM)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>UTF-8 produces a byte range of 0–255, making the vocabulary size small and fixed (ideal for BPE training).
 •   UTF-16/32 would increase the vocabulary size dramatically (≥65,536 for UTF-16 and ~4 billion for UTF-32), requiring larger models and memory.</code></pre>
 <p>bytes() creates an immutable sequence of bytes — that is, a sequence of integers in the range 0–255.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a>s <span class="op">=</span> <span class="st">"hello 🌍"</span></span>
-<span id="cb40-2"><a href="#cb40-2"></a>b <span class="op">=</span> <span class="bu">bytes</span>(s, <span class="st">"utf-8"</span>)</span>
-<span id="cb40-3"><a href="#cb40-3"></a><span class="bu">print</span>(b)  <span class="co"># b'hello \xf0\x9f\x8c\x8d'</span></span>
-<span id="cb40-4"><a href="#cb40-4"></a>b <span class="op">=</span> s.encode(<span class="st">"utf-8"</span>)</span>
-<span id="cb40-5"><a href="#cb40-5"></a></span>
-<span id="cb40-6"><a href="#cb40-6"></a>b <span class="op">=</span> <span class="bu">bytes</span>([<span class="dv">104</span>, <span class="dv">101</span>, <span class="dv">108</span>, <span class="dv">108</span>, <span class="dv">111</span>])  <span class="co"># equivalent to 'hello'</span></span>
-<span id="cb40-7"><a href="#cb40-7"></a><span class="bu">print</span>(b)  <span class="co"># b'hello'</span></span>
-<span id="cb40-8"><a href="#cb40-8"></a></span>
-<span id="cb40-9"><a href="#cb40-9"></a>b <span class="op">=</span> <span class="bu">bytes</span>(<span class="dv">5</span>)</span>
-<span id="cb40-10"><a href="#cb40-10"></a><span class="bu">print</span>(b)  <span class="co"># b'\x00\x00\x00\x00\x00'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a>decode_utf8_bytes_to_str_wrong(<span class="st">"🌍"</span>.encode(<span class="st">"utf-8"</span>))</span>
-<span id="cb41-2"><a href="#cb41-2"></a><span class="co"># Raises: UnicodeDecodeError</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a>s <span class="op">=</span> <span class="st">"hello 🌍"</span></span>
+<span id="cb41-2"><a href="#cb41-2"></a>b <span class="op">=</span> <span class="bu">bytes</span>(s, <span class="st">"utf-8"</span>)</span>
+<span id="cb41-3"><a href="#cb41-3"></a><span class="bu">print</span>(b)  <span class="co"># b'hello \xf0\x9f\x8c\x8d'</span></span>
+<span id="cb41-4"><a href="#cb41-4"></a>b <span class="op">=</span> s.encode(<span class="st">"utf-8"</span>)</span>
+<span id="cb41-5"><a href="#cb41-5"></a></span>
+<span id="cb41-6"><a href="#cb41-6"></a>b <span class="op">=</span> <span class="bu">bytes</span>([<span class="dv">104</span>, <span class="dv">101</span>, <span class="dv">108</span>, <span class="dv">108</span>, <span class="dv">111</span>])  <span class="co"># equivalent to 'hello'</span></span>
+<span id="cb41-7"><a href="#cb41-7"></a><span class="bu">print</span>(b)  <span class="co"># b'hello'</span></span>
+<span id="cb41-8"><a href="#cb41-8"></a></span>
+<span id="cb41-9"><a href="#cb41-9"></a>b <span class="op">=</span> <span class="bu">bytes</span>(<span class="dv">5</span>)</span>
+<span id="cb41-10"><a href="#cb41-10"></a><span class="bu">print</span>(b)  <span class="co"># b'\x00\x00\x00\x00\x00'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1"></a>decode_utf8_bytes_to_str_wrong(<span class="st">"🌍"</span>.encode(<span class="st">"utf-8"</span>))</span>
+<span id="cb42-2"><a href="#cb42-2"></a><span class="co"># Raises: UnicodeDecodeError</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The function is incorrect because it decodes each byte individually, but multi-byte UTF-8 characters (like ‘🌍’) must be decoded as a whole sequence, not byte-by-byte.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1"></a><span class="bu">bytes</span>([<span class="bn">0xc0</span>, <span class="bn">0x20</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1"></a><span class="bu">bytes</span>([<span class="bn">0xc0</span>, <span class="bn">0x20</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="bpe-tokenizer-training" class="level4">
 <h4 class="anchored" data-anchor-id="bpe-tokenizer-training">BPE Tokenizer Training</h4>
@@ -1291,6 +1334,9 @@ Unicode Standard VS. Unicode Encoding
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-FlashAttention2FasterAttention2023dao" class="csl-entry" role="listitem">
 Dao, Tri. 2023. <span>“<span>FlashAttention-2</span>: <span>Faster Attention</span> with <span>Better Parallelism</span> and <span>Work Partitioning</span>.”</span> July 17, 2023. <a href="https://doi.org/10.48550/arXiv.2307.08691">https://doi.org/10.48550/arXiv.2307.08691</a>.
+</div>
+<div id="ref-MixedPrecisionTraining2018micikevicius" class="csl-entry" role="listitem">
+Micikevicius, Paulius, Sharan Narang, Jonah Alben, Gregory Diamos, Erich Elsen, David Garcia, Boris Ginsburg, et al. 2018. <span>“Mixed <span>Precision Training</span>.”</span> February 15, 2018. <a href="https://doi.org/10.48550/arXiv.1710.03740">https://doi.org/10.48550/arXiv.1710.03740</a>.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -97,7 +97,7 @@ custom-callout:
     icon-symbol: "🗨️"
     color: "#e7f3ff"
     appearance: "default"
-    collapse: true
+    collapse: false
 
 filters:
   - custom-callout

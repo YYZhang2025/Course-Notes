@@ -222,6 +222,234 @@ DAgger Algorithm
 
 :::
 
+
+# Lecture 03: Introduction to PyTorch 
+
+# Lecture 04: Introduction to Reinforcement Learning
+
+
+# Lecture 05: Policy Gradient 
+
+let first review the object of the RL. The object of RL algorithm is to maximize the expected cumulative reward under some policy $\pi$, which is by paramter $\theta$. The optimal $\theta$ is defined as:
+
+$$
+\theta^* = \arg\max_\theta \mathbb{E}_{\tau \sim p_\theta(\tau)} \left[ \sum_{t=1}^{T} r(s_t, a_t) \right]  
+$$
+
+
+where $\tau$ is a trajectory (sequence of states, actions, rewards), and $r(s_t, a_t)$ is the reward at time $t$. And we define $J(\theta)$ as:
+
+$$
+J(\theta) = \mathbb{E}_{\tau \sim p_\theta(\tau)} \left[ \sum_{t=1}^{T} r(s_t, a_t) \right]
+$$
+
+
+
+
+We can evaluate the $J(\theta)$ using **Monte Carlo methods**, by sampling trajectories (rollouts) from the policy $\pi_\theta$ and computing the average return.
+
+$$
+J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} \sum_{t=1}^{T} r(s_t, a_t)
+$$
+
+
+
+
+And the Policy Gradient methods means, we<u> update the parameters of the policy according to the information of the gradient of $J(\theta)$</u>. But, first we need to compute the gradient $\nabla J(\theta)$.
+
+## Gradient Evaluation 
+The objective is defined as 
+
+$$
+J(\theta) = \mathbb{E}_{\tau \sim p_\theta(\tau)} \left[r(\tau)\right ] = \int p_\theta(\tau) r(\tau) d\tau
+$$
+
+So, the gradient can be computed as:
+
+$$
+\begin{align*}
+
+\nabla_\theta J(\theta) 
+&= \nabla_\theta \int p_\theta(\tau) r(\tau) d\tau \\
+&= \int \nabla_\theta p_\theta(\tau) r(\tau) d\tau \quad  \hfill \text{(Leibniz integral rule)} \\
+&= \int p_\theta(\tau) \nabla_\theta \log p_\theta(\tau) r(\tau) d\tau \quad \text{(Log Gradient Trick)} \\
+&= \mathbb{E}_{\tau \sim p_\theta(\tau)} \left[ \nabla_\theta \log p_\theta(\tau) r(\tau) \right] \\
+&= \mathbb{E}_{\tau \sim p_\theta(\tau)} \left\{ \nabla_\theta\left[ \cancel{\log p(s_1)} + \sum_{t=1}^{T} \bigg(\log \pi_\theta(a_t | s_t) + \cancel{ \log p(s_{t+1} | s_t, a_t)}\bigg) \right] r(\tau) \right\} \\ 
+&= \mathbb{E}_{\tau \sim p_\theta(\tau)} \left\{ \nabla_\theta\left[ \sum_{t=1}^{T} \log \pi_\theta(a_t | s_t)  \right]  r(\tau)\right\} \\ 
+&\approx \frac{1}{N} \sum_{i=1}^{N} \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) r(\tau) \\
+&\approx \frac{1}{N} \sum_{i=1}^{N} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) \right] \left[  \sum_{t=1}^{T} r(s_t, a_t) \right]
+
+\end{align*}
+$$
+
+
+There are lot thing going on, let's break this down step by step. 
+
+1. First, the **Leibniz integral rule** allows us to differentiate under the integral sign, which is a powerful technique in calculus. In our case, it lets us move the gradient operator inside the integral when computing the gradient of the expected return.
+
+2. Next, we apply the **Log Gradient Trick**, which is a key insight in reinforcement learning. It allows us to express the gradient of the expected return in terms of the policy's log probabilities. This is useful because it connects the policy's parameters directly to the reward signal, enabling us to compute the policy gradient.
+
+:::{.QA title="Why can we just take the gradient of the probability but on the log-probability?"}
+The probability of the trajectory $p_\theta(\tau)$ is not just depends on $\pi_\theta$, but also on the dynamics of the environment, $p(s_{t+1} | s_t, a_t)$. Sometimes we don't have access to the true dynamics, and we need to rely on the policy's log probabilities to compute the gradient.
+:::
+
+
+
+
+3. Finally, we arrive at the empirical estimate of the policy gradient by averaging over multiple trajectories. This is typically done using **Monte Carlo sampling**, where we collect a batch of trajectories and compute the average gradient across them.
+
+
+When we get the gradient of the objective function, we can use it to update the policy parameters in the direction that increases the expected return. This is the **REINFORCE** algorithm.
+
+
+::: {#fig-reinforce-algorithm}
+
+![](./assets/REINFORCE_alg.png){width=100%}
+
+3 Steps of the REINFORCE Algorithm
+:::
+
+
+As we can see, the gradient of the objective function is very similar as the gradient of the loss function we used in supervised learning. For example, in the behavior cloning algorithms, the policy is updated to maximize the likelihood of the actions taken in the expert demonstrations(true actions). And we want to maximize the likelihood of the actions taken in the expert demonstrations(true actions). So, the object is 
+$$
+J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) \right] 
+$$
+
+
+So the policy gradient can be view as weighted version of MLE by returns, and the loss is weighted cross entropy. This means, if the action is good(high returns), we want to increase its probability (via gradient ascent by increasing the derivative of the log probability), and if the action is bad(low returns), we want to decrease its probability.
+
+One good thing is that the Markov property is not used in the policy gradient methods, which makes them more flexible and applicable to a wider range of problems. we can use them in partially observable environments as well.
+
+## Reduce Variance 
+However, one problem of this naive policy gradient algorithm is high variance in the gradient estimates. It's dig into why this happens. The first thing to note is that the gradient is based on the Monte Carlo Estimation, which means the returns can vary significantly between different trajectories, leading to noisy gradient estimates.The next is the every action's gradient is multiplied by the total return $R(\tau)$, even if the action had little effect on that return, which lead to high variance(Credit Assignment Problem).  Third, in the finite sampling estimate, if the returns are positive, all the actions will be "reinforced", even those with little impact on the return. 
+
+According to those problems, we can use the following methods to solve the problem:
+
+1. **Add Causality**: One approach to reduce variance is to incorporate causal information into the policy gradient estimates. This can be done by using techniques such as counterfactual reasoning or causal inference to better understand the impact of actions on future states and rewards.
+
+2. **Baseline**: One common approach is to subtract a baseline from the returns before computing the gradient. This baseline can be the average return or a value function estimate. By reducing the variance of the returns, we can obtain more stable gradient estimates.
+
+
+Let's dig into the details of the baseline technique.
+
+### Baseline Technique
+
+The baseline technique involves subtracting a baseline value from the returns before computing the policy gradient. This baseline can be the average return or a value function estimate. The key idea is that by reducing the variance of the returns, we can obtain more stable gradient estimates. Why we can substract the basedline from the graidnet estimation?
+
+The reason we can subtract the baseline from the gradient estimation is that it does not change the expected value of the gradient. Mathematically, we can express the policy gradient as:
+
+$$
+\nabla J(\theta) = \mathbb{E} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) R(\tau) \right]
+$$
+
+If we introduce a baseline $b(s_t)$, we can rewrite the policy gradient as:
+
+$$
+\begin{align}
+\nabla J(\theta) 
+&= \mathbb{E}_{\tau \sim p_\theta} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) (R(\tau) - b) \right] \\
+&= \mathbb{E}_{\tau \sim p_\theta} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) R(\tau) \right]  - \mathbb{E}_{\tau \sim p_\theta} \left[\sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t)  b  \right] \\
+&= \mathbb{E}_{\tau \sim p_\theta} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) R(\tau) \right]  -  \int p_\theta(\tau) \nabla_\theta \log p_\theta(a_t | s_t) b d\tau \\
+&= \mathbb{E}_{\tau \sim p_\theta} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) R(\tau) \right]  -  b \nabla_\theta \int  p_\theta(\tau) d\tau \\
+&= \mathbb{E}_{\tau \sim p_\theta} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) R(\tau) \right]  -  b \nabla_\theta 1 \\
+&= \mathbb{E}_{\tau \sim p_\theta} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) R(\tau) \right]  -  0 \\
+\end{align}
+$$
+
+Since the baseline is a function of the state and does not depend on the action taken, it does not affect the expected value of the gradient. By subtracting the baseline, we can reduce the variance of the gradient estimates without introducing bias. So, when subtracting the baseline, we are essentially centering the returns around the baseline, which helps to stabilize the learning process. But, which baseline should we use? let's derive the best one.
+
+We want to minimize the variance of the estimator, for now, we use $g(\tau)$ to represent $\log \pi_\theta(a_t | s_t)$. So, the variance of the estimator can be expressed as:
+$$
+\begin{align}
+\text{Var}[g(\tau)(r(\tau) - b)] 
+&= \mathbb{E}[g(\tau)^2(r(\tau) - b)^2] - \mathbb{E}[g(\tau)(r(\tau) - b)]^2 \\ 
+&= \mathbb{E}[g(\tau)^2(r(\tau) - b)^2] - \mathbb{E}[g(\tau)r(\tau)]^2 + \mathbb{E}[g(\tau)b]^2 \\
+&= \mathbb{E}[g(\tau)^2(r(\tau) - b)^2] - \mathbb{E}[g(\tau)r(\tau)]^2 + 0
+\end{align}
+$$
+
+So, we can see, to minish the variance, we need to minimize $\mathbb{E}[g(\tau)r(\tau)]$.
+
+$$
+E[g^2(r−b)^2]​=E[g^2(r^2−2rb+b^2)]=E[g^2r^2]−2bE[g^2r]+b^2E[g^2]​
+$$
+
+Take the derivative with respect to $b$ and set it to zero to find the optimal baseline:
+
+$$
+\frac{d}{db} E[g^2r^2]−2bE[g^2r]+b^2E[g^2]​ = 0
+−2E[g^2r]+2bE[g^2] = 0
+$$
+So, the optimal baseline is given by:
+
+$$
+b^* = \frac{E[g^2r]}{E[g^2]}
+$$
+
+However, in practice, we barely used the optimal baseline. The choice of baseline can significantly impact the performance of the policy gradient algorithm. In many cases, a simple and computationally efficient baseline, such as the average return or a running estimate of the value function, is used instead of the optimal baseline.
+
+## Off-Policy Policy Gradient
+The REINFORCE algorithm is an on-policy algorithm, because they require sampling trajectories from the current policy at each update step, the old samples cannot be reused, because the policy is constantly being updated. And we know that neural networks require many small gradient steps, each step demands fresh samples. So, on-policy make the training very costly if the generate samples are not sufficient. So, off-policy methods have been proposed to address this issue by using the old samples to update the current policy. Before we dive into off-policy methods, let's first understand how to get samples of one distribution from another through important sampling.
+
+### Important Sampling 
+Important sampling is a technique used to estimate the properties of a particular distribution while only having samples generated from a different distribution. It is particularly useful in reinforcement learning when we want to evaluate or optimize a policy using data collected from another policy.
+
+$$
+\begin{align}
+\mathbb{E}_{x \sim P(x)}[f(x)] 
+&= \int \frac{Q(x)}{Q(x)} P(x) f(x) dx \\
+&= \int Q(x) \frac{P(x)}{Q(x)} f(x) dx \\ 
+&= \mathbb{E}_{x \sim Q(x)}\left[\frac{P(x)}{Q(x)} f(x)\right]
+\end{align}
+$$
+
+where $P(x)$ is the target distribution, $Q(x)$ is the proposal distribution, and $f(x)$ is the function we want to evaluate, and $\frac{P(x)}{Q(x)}$ is the importance sampling ratio, also known as important weight.
+
+
+### Importance Sampled Policy Gradient
+To apply the important sampling on the policy gradient, we can rewrite the policy gradient as:
+
+$$
+\begin{align}
+J(\theta) 
+&= \mathbb{E}_{\tau \sim \tilde{p}(\tau)} \left[ \frac{P(\tau)}{\tilde{P}(\tau)} r(\tau) \right] \\
+&= \mathbb{E}_{\tau \sim \tilde{p}(\tau)} \left[ \frac{\cancel{p(s_1)} \prod_{t=1}^T \pi_\theta(a_t|s_t) \cancel{\prod_{t=1}^T p(s_t|s_{t-1},a_{t-1})}}{\cancel{p(s_1)}\prod_{t=1}^T \pi_\tilde{\theta}(a_t|s_t) \cancel{\prod_{t=1}^T p(s_t|s_{t-1},a_{t-1})}} r(\tau) \right] \\
+&= \mathbb{E}_{\tau \sim \tilde{p}(\tau)} \left[ \prod_{t=1}^T \frac{\pi_\theta(a_t|s_t)}{\pi_\tilde{\theta}(a_t|s_t)} r(\tau) \right]
+\end{align}
+$$
+
+So, the gradient of the objective function become:
+
+$$
+\nabla_{\theta}J(\theta) = \mathbb{E}_{\tau \sim \tilde{p}(\tau)} \left[ \prod_{t=1}^T \frac{\pi_\theta(a_t|s_t)}{\pi_\tilde{\theta}(a_t|s_t)}  \nabla_{\theta} \log \pi_\theta(a_t|s_t) r(\tau) \right]
+$$
+
+As we can see, if $\theta = \tilde{\theta}$, then the importance sampling ratio becomes 1, and we recover the standard policy gradient. 
+
+If the importance sampling ratio is very different from 1, it can lead to high variance in the gradient estimate. This is known as the "importance sampling problem" and is a key challenge in off-policy reinforcement learning. One way it to apply causality:
+
+$$
+\begin{align}
+\nabla J(\theta)
+&= \mathbb{E}_{\tau \sim p_\theta(\tau)} \Bigg[
+\left( \prod_{t=1}^T \frac{\pi_{\theta'}(a_t \mid s_t)}{\pi_\theta(a_t \mid s_t)} \right)
+\left( \sum_{t=1}^T \nabla_{\theta'} \log \pi_{\theta'}(a_t \mid s_t) \right)
+\left( \sum_{t=1}^T r(s_t, a_t) \right)
+\Bigg] \\ 
+&= \mathbb{E}_{\tau \sim p_\theta(\tau)} 
+\Bigg[
+\left( \sum_{t=1}^T \nabla_{\theta'} \log \pi_{\theta'}(a_t \mid s_t) \right)
+\left( \prod_{t=1}^T \frac{\pi_{\theta'}(a_t \mid s_t)}{\pi_\theta(a_t \mid s_t)} \right)
+\left( \sum_{t=1}^T r(s_t, a_t) \right)
+\Bigg]
+\end{align}
+$$
+
+# Lecture 06: Actor-Critic Methods
+
+
+
+
 # Assignments
 There are total of 5 <u>assignments</u> in this course, from imitation learning to deep Q-Learning. The assignments are designed to help you understand the concepts and algorithms in reinforcement learning, and to implement them in code.
 

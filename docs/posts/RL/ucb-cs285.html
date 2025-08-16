@@ -458,10 +458,26 @@ window.Quarto = {
   <li><a href="#math-explain-of-behavioral-cloning" id="toc-math-explain-of-behavioral-cloning" class="nav-link" data-scroll-target="#math-explain-of-behavioral-cloning"><span class="header-section-number">2.2</span> Math explain of Behavioral Cloning</a></li>
   <li><a href="#dagger-algorithm" id="toc-dagger-algorithm" class="nav-link" data-scroll-target="#dagger-algorithm"><span class="header-section-number">2.3</span> DAgger Algorithm</a></li>
   </ul></li>
-  <li><a href="#assignments" id="toc-assignments" class="nav-link" data-scroll-target="#assignments"><span class="header-section-number">3</span> Assignments</a>
+  <li><a href="#lecture-03-introduction-to-pytorch" id="toc-lecture-03-introduction-to-pytorch" class="nav-link" data-scroll-target="#lecture-03-introduction-to-pytorch"><span class="header-section-number">3</span> Lecture 03: Introduction to PyTorch</a></li>
+  <li><a href="#lecture-04-introduction-to-reinforcement-learning" id="toc-lecture-04-introduction-to-reinforcement-learning" class="nav-link" data-scroll-target="#lecture-04-introduction-to-reinforcement-learning"><span class="header-section-number">4</span> Lecture 04: Introduction to Reinforcement Learning</a></li>
+  <li><a href="#lecture-05-policy-gradient" id="toc-lecture-05-policy-gradient" class="nav-link" data-scroll-target="#lecture-05-policy-gradient"><span class="header-section-number">5</span> Lecture 05: Policy Gradient</a>
   <ul>
-  <li><a href="#assignment-01-imitation-learning" id="toc-assignment-01-imitation-learning" class="nav-link" data-scroll-target="#assignment-01-imitation-learning"><span class="header-section-number">3.1</span> Assignment 01: Imitation Learning</a></li>
-  <li><a href="#assignment-02-policy-gradients" id="toc-assignment-02-policy-gradients" class="nav-link" data-scroll-target="#assignment-02-policy-gradients"><span class="header-section-number">3.2</span> Assignment 02: Policy Gradients</a></li>
+  <li><a href="#gradient-evaluation" id="toc-gradient-evaluation" class="nav-link" data-scroll-target="#gradient-evaluation"><span class="header-section-number">5.1</span> Gradient Evaluation</a></li>
+  <li><a href="#reduce-variance" id="toc-reduce-variance" class="nav-link" data-scroll-target="#reduce-variance"><span class="header-section-number">5.2</span> Reduce Variance</a>
+  <ul>
+  <li><a href="#baseline-technique" id="toc-baseline-technique" class="nav-link" data-scroll-target="#baseline-technique"><span class="header-section-number">5.2.1</span> Baseline Technique</a></li>
+  </ul></li>
+  <li><a href="#off-policy-policy-gradient" id="toc-off-policy-policy-gradient" class="nav-link" data-scroll-target="#off-policy-policy-gradient"><span class="header-section-number">5.3</span> Off-Policy Policy Gradient</a>
+  <ul>
+  <li><a href="#important-sampling" id="toc-important-sampling" class="nav-link" data-scroll-target="#important-sampling"><span class="header-section-number">5.3.1</span> Important Sampling</a></li>
+  <li><a href="#importance-sampled-policy-gradient" id="toc-importance-sampled-policy-gradient" class="nav-link" data-scroll-target="#importance-sampled-policy-gradient"><span class="header-section-number">5.3.2</span> Importance Sampled Policy Gradient</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#lecture-06-actor-critic-methods" id="toc-lecture-06-actor-critic-methods" class="nav-link" data-scroll-target="#lecture-06-actor-critic-methods"><span class="header-section-number">6</span> Lecture 06: Actor-Critic Methods</a></li>
+  <li><a href="#assignments" id="toc-assignments" class="nav-link" data-scroll-target="#assignments"><span class="header-section-number">7</span> Assignments</a>
+  <ul>
+  <li><a href="#assignment-01-imitation-learning" id="toc-assignment-01-imitation-learning" class="nav-link" data-scroll-target="#assignment-01-imitation-learning"><span class="header-section-number">7.1</span> Assignment 01: Imitation Learning</a></li>
+  <li><a href="#assignment-02-policy-gradients" id="toc-assignment-02-policy-gradients" class="nav-link" data-scroll-target="#assignment-02-policy-gradients"><span class="header-section-number">7.2</span> Assignment 02: Policy Gradients</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -807,13 +823,199 @@ Figure&nbsp;1: DAgger Algorithm
 </div>
 </section>
 </section>
-<section id="assignments" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Assignments</h1>
+<section id="lecture-03-introduction-to-pytorch" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Lecture 03: Introduction to PyTorch</h1>
+</section>
+<section id="lecture-04-introduction-to-reinforcement-learning" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Lecture 04: Introduction to Reinforcement Learning</h1>
+</section>
+<section id="lecture-05-policy-gradient" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Lecture 05: Policy Gradient</h1>
+<p>let first review the object of the RL. The object of RL algorithm is to maximize the expected cumulative reward under some policy <span class="math inline">\(\pi\)</span>, which is by paramter <span class="math inline">\(\theta\)</span>. The optimal <span class="math inline">\(\theta\)</span> is defined as:</p>
+<p><span class="math display">\[
+\theta^* = \arg\max_\theta \mathbb{E}_{\tau \sim p_\theta(\tau)} \left[ \sum_{t=1}^{T} r(s_t, a_t) \right]  
+\]</span></p>
+<p>where <span class="math inline">\(\tau\)</span> is a trajectory (sequence of states, actions, rewards), and <span class="math inline">\(r(s_t, a_t)\)</span> is the reward at time <span class="math inline">\(t\)</span>. And we define <span class="math inline">\(J(\theta)\)</span> as:</p>
+<p><span class="math display">\[
+J(\theta) = \mathbb{E}_{\tau \sim p_\theta(\tau)} \left[ \sum_{t=1}^{T} r(s_t, a_t) \right]
+\]</span></p>
+<p>We can evaluate the <span class="math inline">\(J(\theta)\)</span> using <strong>Monte Carlo methods</strong>, by sampling trajectories (rollouts) from the policy <span class="math inline">\(\pi_\theta\)</span> and computing the average return.</p>
+<p><span class="math display">\[
+J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} \sum_{t=1}^{T} r(s_t, a_t)
+\]</span></p>
+<p>And the Policy Gradient methods means, we<u> update the parameters of the policy according to the information of the gradient of <span class="math inline">\(J(\theta)\)</span></u>. But, first we need to compute the gradient <span class="math inline">\(\nabla J(\theta)\)</span>.</p>
+<section id="gradient-evaluation" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="gradient-evaluation"><span class="header-section-number">5.1</span> Gradient Evaluation</h2>
+<p>The objective is defined as</p>
+<p><span class="math display">\[
+J(\theta) = \mathbb{E}_{\tau \sim p_\theta(\tau)} \left[r(\tau)\right ] = \int p_\theta(\tau) r(\tau) d\tau
+\]</span></p>
+<p>So, the gradient can be computed as:</p>
+<p>$$ <span class="math display">\[\begin{align*}
+
+\nabla_\theta J(\theta)
+&amp;= \nabla_\theta \int p_\theta(\tau) r(\tau) d\tau \\
+&amp;= \int \nabla_\theta p_\theta(\tau) r(\tau) d\tau \quad  \hfill \text{(Leibniz integral rule)} \\
+&amp;= \int p_\theta(\tau) \nabla_\theta \log p_\theta(\tau) r(\tau) d\tau \quad \text{(Log Gradient Trick)} \\
+&amp;= \mathbb{E}_{\tau \sim p_\theta(\tau)} \left[ \nabla_\theta \log p_\theta(\tau) r(\tau) \right] \\
+&amp;= \mathbb{E}_{\tau \sim p_\theta(\tau)} \left\{ \nabla_\theta\left[ \cancel{\log p(s_1)} + \sum_{t=1}^{T} \bigg(\log \pi_\theta(a_t | s_t) + \cancel{ \log p(s_{t+1} | s_t, a_t)}\bigg) \right] r(\tau) \right\} \\
+&amp;= \mathbb{E}_{\tau \sim p_\theta(\tau)} \left\{ \nabla_\theta\left[ \sum_{t=1}^{T} \log \pi_\theta(a_t | s_t)  \right]  r(\tau)\right\} \\
+&amp;\approx \frac{1}{N} \sum_{i=1}^{N} \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) r(\tau) \\
+&amp;\approx \frac{1}{N} \sum_{i=1}^{N} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) \right] \left[  \sum_{t=1}^{T} r(s_t, a_t) \right]
+
+\end{align*}\]</span> $$</p>
+<p>There are lot thing going on, let’s break this down step by step.</p>
+<ol type="1">
+<li><p>First, the <strong>Leibniz integral rule</strong> allows us to differentiate under the integral sign, which is a powerful technique in calculus. In our case, it lets us move the gradient operator inside the integral when computing the gradient of the expected return.</p></li>
+<li><p>Next, we apply the <strong>Log Gradient Trick</strong>, which is a key insight in reinforcement learning. It allows us to express the gradient of the expected return in terms of the policy’s log probabilities. This is useful because it connects the policy’s parameters directly to the reward signal, enabling us to compute the policy gradient.</p></li>
+</ol>
+<div class="callout callout-style-default callout-QA callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why can we just take the gradient of the probability but on the log-probability?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The probability of the trajectory <span class="math inline">\(p_\theta(\tau)\)</span> is not just depends on <span class="math inline">\(\pi_\theta\)</span>, but also on the dynamics of the environment, <span class="math inline">\(p(s_{t+1} | s_t, a_t)\)</span>. Sometimes we don’t have access to the true dynamics, and we need to rely on the policy’s log probabilities to compute the gradient.</p>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Finally, we arrive at the empirical estimate of the policy gradient by averaging over multiple trajectories. This is typically done using <strong>Monte Carlo sampling</strong>, where we collect a batch of trajectories and compute the average gradient across them.</li>
+</ol>
+<p>When we get the gradient of the objective function, we can use it to update the policy parameters in the direction that increases the expected return. This is the <strong>REINFORCE</strong> algorithm.</p>
+<div id="fig-reinforce-algorithm" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-reinforce-algorithm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="./assets/REINFORCE_alg.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reinforce-algorithm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: 3 Steps of the REINFORCE Algorithm
+</figcaption>
+</figure>
+</div>
+<p>As we can see, the gradient of the objective function is very similar as the gradient of the loss function we used in supervised learning. For example, in the behavior cloning algorithms, the policy is updated to maximize the likelihood of the actions taken in the expert demonstrations(true actions). And we want to maximize the likelihood of the actions taken in the expert demonstrations(true actions). So, the object is <span class="math display">\[
+J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) \right]
+\]</span></p>
+<p>So the policy gradient can be view as weighted version of MLE by returns, and the loss is weighted cross entropy. This means, if the action is good(high returns), we want to increase its probability (via gradient ascent by increasing the derivative of the log probability), and if the action is bad(low returns), we want to decrease its probability.</p>
+<p>One good thing is that the Markov property is not used in the policy gradient methods, which makes them more flexible and applicable to a wider range of problems. we can use them in partially observable environments as well.</p>
+</section>
+<section id="reduce-variance" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="reduce-variance"><span class="header-section-number">5.2</span> Reduce Variance</h2>
+<p>However, one problem of this naive policy gradient algorithm is high variance in the gradient estimates. It’s dig into why this happens. The first thing to note is that the gradient is based on the Monte Carlo Estimation, which means the returns can vary significantly between different trajectories, leading to noisy gradient estimates.The next is the every action’s gradient is multiplied by the total return <span class="math inline">\(R(\tau)\)</span>, even if the action had little effect on that return, which lead to high variance(Credit Assignment Problem). Third, in the finite sampling estimate, if the returns are positive, all the actions will be “reinforced”, even those with little impact on the return.</p>
+<p>According to those problems, we can use the following methods to solve the problem:</p>
+<ol type="1">
+<li><p><strong>Add Causality</strong>: One approach to reduce variance is to incorporate causal information into the policy gradient estimates. This can be done by using techniques such as counterfactual reasoning or causal inference to better understand the impact of actions on future states and rewards.</p></li>
+<li><p><strong>Baseline</strong>: One common approach is to subtract a baseline from the returns before computing the gradient. This baseline can be the average return or a value function estimate. By reducing the variance of the returns, we can obtain more stable gradient estimates.</p></li>
+</ol>
+<p>Let’s dig into the details of the baseline technique.</p>
+<section id="baseline-technique" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="baseline-technique"><span class="header-section-number">5.2.1</span> Baseline Technique</h3>
+<p>The baseline technique involves subtracting a baseline value from the returns before computing the policy gradient. This baseline can be the average return or a value function estimate. The key idea is that by reducing the variance of the returns, we can obtain more stable gradient estimates. Why we can substract the basedline from the graidnet estimation?</p>
+<p>The reason we can subtract the baseline from the gradient estimation is that it does not change the expected value of the gradient. Mathematically, we can express the policy gradient as:</p>
+<p><span class="math display">\[
+\nabla J(\theta) = \mathbb{E} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) R(\tau) \right]
+\]</span></p>
+<p>If we introduce a baseline <span class="math inline">\(b(s_t)\)</span>, we can rewrite the policy gradient as:</p>
+<p><span class="math display">\[
+\begin{align}
+\nabla J(\theta)
+&amp;= \mathbb{E}_{\tau \sim p_\theta} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) (R(\tau) - b) \right] \\
+&amp;= \mathbb{E}_{\tau \sim p_\theta} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) R(\tau) \right]  - \mathbb{E}_{\tau \sim p_\theta} \left[\sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t)  b  \right] \\
+&amp;= \mathbb{E}_{\tau \sim p_\theta} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) R(\tau) \right]  -  \int p_\theta(\tau) \nabla_\theta \log p_\theta(a_t | s_t) b d\tau \\
+&amp;= \mathbb{E}_{\tau \sim p_\theta} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) R(\tau) \right]  -  b \nabla_\theta \int  p_\theta(\tau) d\tau \\
+&amp;= \mathbb{E}_{\tau \sim p_\theta} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) R(\tau) \right]  -  b \nabla_\theta 1 \\
+&amp;= \mathbb{E}_{\tau \sim p_\theta} \left[ \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) R(\tau) \right]  -  0 \\
+\end{align}
+\]</span></p>
+<p>Since the baseline is a function of the state and does not depend on the action taken, it does not affect the expected value of the gradient. By subtracting the baseline, we can reduce the variance of the gradient estimates without introducing bias. So, when subtracting the baseline, we are essentially centering the returns around the baseline, which helps to stabilize the learning process. But, which baseline should we use? let’s derive the best one.</p>
+<p>We want to minimize the variance of the estimator, for now, we use <span class="math inline">\(g(\tau)\)</span> to represent <span class="math inline">\(\log \pi_\theta(a_t | s_t)\)</span>. So, the variance of the estimator can be expressed as: <span class="math display">\[
+\begin{align}
+\text{Var}[g(\tau)(r(\tau) - b)]
+&amp;= \mathbb{E}[g(\tau)^2(r(\tau) - b)^2] - \mathbb{E}[g(\tau)(r(\tau) - b)]^2 \\
+&amp;= \mathbb{E}[g(\tau)^2(r(\tau) - b)^2] - \mathbb{E}[g(\tau)r(\tau)]^2 + \mathbb{E}[g(\tau)b]^2 \\
+&amp;= \mathbb{E}[g(\tau)^2(r(\tau) - b)^2] - \mathbb{E}[g(\tau)r(\tau)]^2 + 0
+\end{align}
+\]</span></p>
+<p>So, we can see, to minish the variance, we need to minimize <span class="math inline">\(\mathbb{E}[g(\tau)r(\tau)]\)</span>.</p>
+<p><span class="math display">\[
+E[g^2(r−b)^2]​=E[g^2(r^2−2rb+b^2)]=E[g^2r^2]−2bE[g^2r]+b^2E[g^2]​
+\]</span></p>
+<p>Take the derivative with respect to <span class="math inline">\(b\)</span> and set it to zero to find the optimal baseline:</p>
+<p><span class="math display">\[
+\frac{d}{db} E[g^2r^2]−2bE[g^2r]+b^2E[g^2]​ = 0
+−2E[g^2r]+2bE[g^2] = 0
+\]</span> So, the optimal baseline is given by:</p>
+<p><span class="math display">\[
+b^* = \frac{E[g^2r]}{E[g^2]}
+\]</span></p>
+<p>However, in practice, we barely used the optimal baseline. The choice of baseline can significantly impact the performance of the policy gradient algorithm. In many cases, a simple and computationally efficient baseline, such as the average return or a running estimate of the value function, is used instead of the optimal baseline.</p>
+</section>
+</section>
+<section id="off-policy-policy-gradient" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="off-policy-policy-gradient"><span class="header-section-number">5.3</span> Off-Policy Policy Gradient</h2>
+<p>The REINFORCE algorithm is an on-policy algorithm, because they require sampling trajectories from the current policy at each update step, the old samples cannot be reused, because the policy is constantly being updated. And we know that neural networks require many small gradient steps, each step demands fresh samples. So, on-policy make the training very costly if the generate samples are not sufficient. So, off-policy methods have been proposed to address this issue by using the old samples to update the current policy. Before we dive into off-policy methods, let’s first understand how to get samples of one distribution from another through important sampling.</p>
+<section id="important-sampling" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="important-sampling"><span class="header-section-number">5.3.1</span> Important Sampling</h3>
+<p>Important sampling is a technique used to estimate the properties of a particular distribution while only having samples generated from a different distribution. It is particularly useful in reinforcement learning when we want to evaluate or optimize a policy using data collected from another policy.</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbb{E}_{x \sim P(x)}[f(x)]
+&amp;= \int \frac{Q(x)}{Q(x)} P(x) f(x) dx \\
+&amp;= \int Q(x) \frac{P(x)}{Q(x)} f(x) dx \\
+&amp;= \mathbb{E}_{x \sim Q(x)}\left[\frac{P(x)}{Q(x)} f(x)\right]
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\(P(x)\)</span> is the target distribution, <span class="math inline">\(Q(x)\)</span> is the proposal distribution, and <span class="math inline">\(f(x)\)</span> is the function we want to evaluate, and <span class="math inline">\(\frac{P(x)}{Q(x)}\)</span> is the importance sampling ratio, also known as important weight.</p>
+</section>
+<section id="importance-sampled-policy-gradient" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="importance-sampled-policy-gradient"><span class="header-section-number">5.3.2</span> Importance Sampled Policy Gradient</h3>
+<p>To apply the important sampling on the policy gradient, we can rewrite the policy gradient as:</p>
+<p><span class="math display">\[
+\begin{align}
+J(\theta)
+&amp;= \mathbb{E}_{\tau \sim \tilde{p}(\tau)} \left[ \frac{P(\tau)}{\tilde{P}(\tau)} r(\tau) \right] \\
+&amp;= \mathbb{E}_{\tau \sim \tilde{p}(\tau)} \left[ \frac{\cancel{p(s_1)} \prod_{t=1}^T \pi_\theta(a_t|s_t) \cancel{\prod_{t=1}^T p(s_t|s_{t-1},a_{t-1})}}{\cancel{p(s_1)}\prod_{t=1}^T \pi_\tilde{\theta}(a_t|s_t) \cancel{\prod_{t=1}^T p(s_t|s_{t-1},a_{t-1})}} r(\tau) \right] \\
+&amp;= \mathbb{E}_{\tau \sim \tilde{p}(\tau)} \left[ \prod_{t=1}^T \frac{\pi_\theta(a_t|s_t)}{\pi_\tilde{\theta}(a_t|s_t)} r(\tau) \right]
+\end{align}
+\]</span></p>
+<p>So, the gradient of the objective function become:</p>
+<p><span class="math display">\[
+\nabla_{\theta}J(\theta) = \mathbb{E}_{\tau \sim \tilde{p}(\tau)} \left[ \prod_{t=1}^T \frac{\pi_\theta(a_t|s_t)}{\pi_\tilde{\theta}(a_t|s_t)}  \nabla_{\theta} \log \pi_\theta(a_t|s_t) r(\tau) \right]
+\]</span></p>
+<p>As we can see, if <span class="math inline">\(\theta = \tilde{\theta}\)</span>, then the importance sampling ratio becomes 1, and we recover the standard policy gradient.</p>
+<p>If the importance sampling ratio is very different from 1, it can lead to high variance in the gradient estimate. This is known as the “importance sampling problem” and is a key challenge in off-policy reinforcement learning. One way it to apply causality:</p>
+<p><span class="math display">\[
+\begin{align}
+\nabla J(\theta)
+&amp;= \mathbb{E}_{\tau \sim p_\theta(\tau)} \Bigg[
+\left( \prod_{t=1}^T \frac{\pi_{\theta'}(a_t \mid s_t)}{\pi_\theta(a_t \mid s_t)} \right)
+\left( \sum_{t=1}^T \nabla_{\theta'} \log \pi_{\theta'}(a_t \mid s_t) \right)
+\left( \sum_{t=1}^T r(s_t, a_t) \right)
+\Bigg] \\
+&amp;= \mathbb{E}_{\tau \sim p_\theta(\tau)}
+\Bigg[
+\left( \sum_{t=1}^T \nabla_{\theta'} \log \pi_{\theta'}(a_t \mid s_t) \right)
+\left( \prod_{t=1}^T \frac{\pi_{\theta'}(a_t \mid s_t)}{\pi_\theta(a_t \mid s_t)} \right)
+\left( \sum_{t=1}^T r(s_t, a_t) \right)
+\Bigg]
+\end{align}
+\]</span></p>
+</section>
+</section>
+</section>
+<section id="lecture-06-actor-critic-methods" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Lecture 06: Actor-Critic Methods</h1>
+</section>
+<section id="assignments" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Assignments</h1>
 <p>There are total of 5 <u>assignments</u> in this course, from imitation learning to deep Q-Learning. The assignments are designed to help you understand the concepts and algorithms in reinforcement learning, and to implement them in code.</p>
-<section id="assignment-01-imitation-learning" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="assignment-01-imitation-learning"><span class="header-section-number">3.1</span> Assignment 01: Imitation Learning</h2>
+<section id="assignment-01-imitation-learning" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="assignment-01-imitation-learning"><span class="header-section-number">7.1</span> Assignment 01: Imitation Learning</h2>
 </section>
-<section id="assignment-02-policy-gradients" class="level2" data-number="3.2">
+<section id="assignment-02-policy-gradients" class="level2" data-number="7.2">
 
 
 
@@ -821,7 +1023,7 @@ Figure&nbsp;1: DAgger Algorithm
 </section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">3.2 Assignment 02: Policy Gradients</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">7.2 Assignment 02: Policy Gradients</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-RT2VisionLanguageActionModels2023brohan" class="csl-entry" role="listitem">
 Brohan, Anthony, Noah Brown, Justice Carbajal, Yevgen Chebotar, Xi Chen, Krzysztof Choromanski, Tianli Ding, et al. 2023. <span>“<span>RT-2</span>: <span>Vision-Language-Action Models Transfer Web Knowledge</span> to <span>Robotic Control</span>.”</span> July 28, 2023. <a href="https://doi.org/10.48550/arXiv.2307.15818">https://doi.org/10.48550/arXiv.2307.15818</a>.
 </div>
